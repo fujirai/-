@@ -1,4 +1,5 @@
 hujihuhu
 hosokawa
 kobayashi
-yamashitga
+yamashit
+
