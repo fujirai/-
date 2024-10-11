@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css\randamu.css">
+    </head>
+<body>
+    <div id="popup" class="popup">
+        <h2>ステータス</h2>
+        <!-- ここにDBからステータスを追加 -->
+    </div>
+    <div class="footer-box">
+        <!-- ここにDBからのイベントテキストを追加 -->
+         <p>イベントテキスト</p>
+    </div>
+
+    <script>
+        var popup = document.getElementById("popup");
+        popup.addEventListener("click",function(){
+            popup.classList.toggle("show");
+        })
+    </script>
+</body>
+</html>
+</html>
