@@ -17,7 +17,6 @@ body {
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transition: left 0.3s ease; /* スライドするアニメーション */
 }
 
 /* ポップアップが表示される時のスタイル */
