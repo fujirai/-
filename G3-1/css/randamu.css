@@ -28,3 +28,13 @@ body {
     border: 1px solid #ccc;
     cursor: default;
 }
+
+.footer-box{
+    position: fixed;
+    bottom: 0;
+    width: 99%;
+    height: 250px;
+    background-color: rgb(211, 209, 209, 0.5);
+    border: 2px solid rgb(85, 84, 84);
+    box-sizing: border-box;
+}
