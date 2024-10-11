@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* ポップアップの基本スタイル */
+.popup {
+    position: fixed;
+    top: 40%;
+    left: -300px; /* 最初は画面の外に隠れる */
+    transform: translateY(-50%);
+    width: 300px;
+    padding: 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease; /* スライドするアニメーション */
+}
+
+/* ポップアップが表示される時のスタイル */
+.popup.show {
+    left: 0; /* 画面の左側に表示 */
+    background-color: #f1f1f1;
+    color: #000;
+    border: 1px solid #ccc;
+    cursor: default;
+}
+
+.footer-box{
+    position: fixed;
+    bottom: 0;
+    width: 99%;
+    height: 250px;
+    background-color: rgb(211, 209, 209, 0.5);
+    border: 2px solid rgb(85, 84, 84);
+    box-sizing: border-box;
+}
