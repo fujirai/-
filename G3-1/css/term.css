@@ -1,0 +1,40 @@
+body, html{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.center-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;/*画面の高さを全体に設定*/
+    background-color: #f0f0f0;
+}
+
+.content{
+    text-align: center;
+    padding: 50px;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.round-button{
+    width: 200px; /*ボタンの幅*/
+    height: 50px; /*ボタンの高さ*/
+    background-color: #00bfff;/*ボタンの背景色*/
+    color: white;/*テキストの色*/
+    border: none;/*ボーダーを非表示*/
+    border-radius: 50%;/*左右を丸くするためにボタンの高さの半分に設定*/
+    padding: 10px 20px;/*パディング*/
+    font-size: 16px;/*フォントサイズ*/
+    cursor: pointer;/*カーソルをポインターに変更*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.round-button:hover{
+    background-color: blue;
+}
