@@ -3,23 +3,21 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="Style/register.css" />
-        <title>登録画面</title>
+        <link rel="stylesheet" href="Style/login.css" />
+        <title>ログイン画面</title>
     </head>
     <body>
-        <div class="register">
-            <p class="register-text">このキャラクターに名前をつけてください</p>
-            <form action="../G1-1-1/opening.html" method="post">
+        <div class="login">
+            <p class="login-text">名前を入力してください</p>
+            <form action="../G2-1/home.html" method="post">
                 <p class="name">名前<br>
                     <input class="name-input" type="text" placeholder="名前を入力してください(10文字以内)" name="name">
                 </p>
                 <p class="number">社畜番号<br>
                     <input class="number-input" type="password" placeholder="社畜番号を入力してください(6桁)" name="number">
                 </p>
-                <p class="numberconfirm">確認<br>
-                    <input class="numberconfirm-input" type="password" placeholder="社畜番号を入力してください(6桁)" name="numberconfirm">
-                </p>
-                <button class="register-ok" type="submit">決定</button>
+                <a href="../G1-1/register.html">ログインできない方はこちら</a>
+                <button class="login-ok" type="submit">決定</button>
             </form>
             <button onclick="location.href='../G1-0/gametitle.html'">戻る</button>
         </div>
