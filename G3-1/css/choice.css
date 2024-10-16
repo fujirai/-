@@ -1,3 +1,4 @@
+/**/
 body {
     font-family: Arial, sans-serif;
 }
@@ -27,7 +28,8 @@ body {
     border: 1px solid #ccc;
     cursor: default;
 }
-
+ 
+/*テキストを表示する場所*/
 .footer-box{
     position: fixed;
     bottom: 0;
@@ -38,6 +40,7 @@ body {
     box-sizing: border-box;
 }
 
+/*ステータスの文字*/
 .rotate-text{
     writing-mode: vertical-lr;
     text-orientation: upright;
