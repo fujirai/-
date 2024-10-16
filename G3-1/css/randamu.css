@@ -38,3 +38,12 @@ body {
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
 }
+
+.rotate-text{
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    position: absolute;
+    right: 0;
+    top: auto;
+    padding-right: 5px;
+}
