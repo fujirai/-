@@ -29,6 +29,7 @@ body {
     cursor: default;
 }
 
+/*テキストを表示させる場所*/
 .footer-box{
     position: fixed;
     bottom: 0;
@@ -39,6 +40,7 @@ body {
     box-sizing: border-box;
 }
 
+/*ステータスの文字を縦に表示させる*/
 .rotate-text{
     writing-mode: vertical-lr;
     text-orientation: upright;
