@@ -1,6 +1,16 @@
+html{
+    height: 100%;
+    width: 100%;
+}
 body {
     font-family: Arial, sans-serif;
+    height: 100%;
+    width: 100%;
+    background-image: url(../../Image/office.jpg);
+    background-size: cover;
+    overflow: hidden;
 }
+
 
 /* ポップアップの基本スタイル */
 .popup {
@@ -17,6 +27,7 @@ body {
     border-radius: 5px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease; /* スライドするアニメーション */
 }
 
 /* ポップアップが表示される時のスタイル */
@@ -27,7 +38,8 @@ body {
     border: 1px solid #ccc;
     cursor: default;
 }
-
+ 
+/*テキストを表示する場所*/
 .footer-box{
     position: fixed;
     bottom: 0;
@@ -36,4 +48,14 @@ body {
     background-color: rgb(211, 209, 209, 0.5);
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
+}
+
+/*ステータスの文字*/
+.rotate-text{
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    position: absolute;
+    right: 0;
+    top: auto;
+    padding-right: 5px;
 }

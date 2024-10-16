@@ -1,0 +1,39 @@
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レーダーチャート</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="radarChart" width="400" height="400"></canvas>
+
+    <script>
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        const radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['信頼度', '技術力', '交渉力', '容姿', '好感度'],
+                datasets: [{
+                    label: 'ステータス',
+                    data: [20, 40, 60, 50, 70],  // 仮の値
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scale: {
+                    ticks: { beginAtZero: true, max: 100 },
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

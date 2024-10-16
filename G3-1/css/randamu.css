@@ -1,5 +1,14 @@
+html{
+    height: 100%;
+    width: 100%;
+}
 body {
     font-family: Arial, sans-serif;
+    height: 100%;
+    width: 100%;
+    background-image: url(../../Image/office.jpg);
+    background-size: cover;
+    overflow: hidden;
 }
 
 /* ポップアップの基本スタイル */
@@ -29,6 +38,7 @@ body {
     cursor: default;
 }
 
+/*テキストを表示させる場所*/
 .footer-box{
     position: fixed;
     bottom: 0;
@@ -37,4 +47,14 @@ body {
     background-color: rgb(211, 209, 209, 0.5);
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
+}
+
+/*ステータスの文字を縦に表示させる*/
+.rotate-text{
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    position: absolute;
+    right: 0;
+    top: auto;
+    padding-right: 5px;
 }
