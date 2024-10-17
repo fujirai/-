@@ -20,14 +20,49 @@
         </h3></p>
     </div>
     <div class="footer-box">
-        <!-- ここにコンテンツを追加 -->
-        <h2></h2>    </div>
+        <h2>あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</h2>
+   </div>
+
+   <div class="options">
+    <button class="option-button" onclick="navigateToHome()">選択肢1</button>
+    <button class="option-button" onclick="navigateToHome()">選択肢2</button>
+    <button class="option-button" onclick="navigateToHome()">選択肢3</button>
+    <button class="option-button" onclick="navigateToHome()">選択肢4</button>
+</div>
 
     <script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
             popup.classList.toggle("show");
         })
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const textElement = document.querySelector(".footer-box h2");
+            const optionsElement = document.querySelector(".options");
+            const text = textElement.textContent;
+            textElement.textContent = "";
+            let i = 0;
+
+            function type() {
+                if (i < text.length) {
+                    textElement.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, 100); // 100msごとに1文字ずつ表示
+                } else {
+                    showOptions(); // テキストが全て表示されたら選択肢を表示
+                }
+            }
+
+            function showOptions() {
+                optionsElement.style.opacity = "1"; // フェードイン表示
+            }
+
+            type();
+        });
+
+        function navigateToHome() {
+            window.location.href = '../G2-1/home.html'; // home.htmlに遷移
+        }
     </script>
 </body>
 </html>
