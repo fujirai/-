@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Style/gametitle.css" />
+        <title>オープニング画面</title>
+    </head>
+    <body>
+        <h1 class="ranking-title">社長ランキング</h1>
+        <div class="ranking">
+            <table class="ranking-table">
+                <tr>
+                    <th>順位</th>
+                    <th>名前</th>
+                    <th>スコア</th>
+                </tr>
+                <!-- if(自分がランキング圏内のばあい){ -->
+                    <div class="my-ranking">
+                        <tr>
+                            <td class="rank">5</td>
+                            <td class="user_name">自分</td>
+                            <td class="ranking-total_score">112p</td>
+                        </tr>
+                    </div>
+                <!-- } -->
+                <div class="ranking-user">
+                    <tr>
+                        <td class="rank">1</td>
+                        <td class="ranking-user_name">らいや</td>
+                        <td class="ranking-total_score">157p</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">2</td>
+                        <td class="ranking-user_name">やいら</td>
+                        <td class="ranking-total_score">132p</td>
+                    </tr>
+                </div>
+            </table>
+        </div>
+        <button onclick="location.href='../G1-0/gametitle.html'">タイトル</button>
+    </body>
+</html>
