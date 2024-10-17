@@ -3,12 +3,14 @@ html{
     width: 100%;
 }
 body {
-    font-family: Arial, sans-serif;
-    height: 100%;
-    width: 100%;
-    background-image: url(../../Image/office.jpg);
-    background-size: cover;
-    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    overflow: hidden; /* スクロールを防止 */
 }
 
 
@@ -20,8 +22,8 @@ body {
     transform: translateY(-50%);
     width: 300px;
     padding: 20px;
-    background-color: #007BFF;
-    color: #fff;
+    background-color: #e0f7fa;
+    color: #000;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -59,3 +61,60 @@ body {
     top: auto;
     padding-right: 5px;
 }
+
+.footer-box h2 {
+    overflow: hidden;
+    display: inline-block;
+    animation: blink 0.5s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.options {
+    position: fixed; /* 画面に固定し、最前面に配置 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0; /* 初期は非表示 */
+    transition: opacity 1s; /* フェードイン */
+    z-index: 9999; /* 最前面に表示 */}
+
+.options button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* ボタン間の間隔 */
+    width: 200px; /* ボタンの幅を調整 */
+    margin: 50px auto; /* 中央に配置 */
+  }
+
+  .option-button {
+    background-color: #e0f7fa; /* 薄い水色 */
+    color: #000; /* 文字色は黒 */
+    border: none; /* 枠線なし */
+    padding: 10px; /* 余白を設定 */
+    text-align: center; /* 文字を中央揃え（横方向） */
+    font-size: 16px; /* 文字サイズ */
+    border-radius: 5px; /* 角を丸める */
+    cursor: pointer; /* マウスホバー時のポインター変更 */
+    transition: background-color 0.3s; /* 背景色の変化を滑らかに */
+  }
+
+  .option-button:hover {
+    background-color: #b2ebf2; /* ホバー時の色 */
+  }
