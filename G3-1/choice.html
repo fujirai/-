@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css\choice.css">
+        <title>選択イベント</title>
     </head>
 <body>
     <div id="popup" class="popup">
@@ -21,20 +22,16 @@
     </div>
     <!--テキスト-->
     <div class="footer-box">
-        <h2>あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
-            いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお
-            あああああああああああああああああああああああああああああああああああああああああああああああああああああああ
-            あああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+        <h2>DBからテキスト表示
         </h2>
    </div>
    <!--選択肢-->
-   <div class="options">
-    <button class="option-button" onclick="navigateToHome()">選択肢1</button>
-    <button class="option-button" onclick="navigateToHome()">選択肢2</button>
-    <button class="option-button" onclick="navigateToHome()">選択肢3</button>
-    <button class="option-button" onclick="navigateToHome()">選択肢4</button>
-</div>
-
+    <div class="options">
+        <button class="option-button" onclick="updateFooter(1)">選択肢1</button>
+        <button class="option-button" onclick="updateFooter(2)">選択肢2</button>
+        <button class="option-button" onclick="updateFooter(3)">選択肢3</button>
+        <button class="option-button" onclick="updateFooter(4)">選択肢4</button>
+    </div>
     <script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
@@ -65,8 +62,29 @@
             type();
         });
 
-        function navigateToHome() {
-            window.location.href = '../G2-1/home.html'; // home.htmlに遷移
+        function updateFooter(option) {
+            const footerBox = document.querySelector('.footer-box h2');
+            switch (option) {
+                case 1:
+                    footerBox.textContent = '選択肢1が選ばれました。';
+                    break;
+                case 2:
+                    footerBox.textContent = '選択肢2が選ばれました。';
+                    break;
+                case 3:
+                    footerBox.textContent = '選択肢3が選ばれました。';
+                    break;
+                case 4:
+                    footerBox.textContent = '選択肢4が選ばれました。';
+                    break;
+            }
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(button => button.style.display = 'none');
+
+            // 5秒後にhome.htmlに遷移
+            setTimeout(() => {
+                window.location.href = '../G2-1/home.html';
+            }, 5000);
         }
     </script>
 </body>

@@ -45,11 +45,23 @@ body {
 .footer-box{
     position: fixed;
     bottom: 0;
-    width: 99%;
-    height: 200px;
+    /* width: 99%;
+    height: 230px; */
     background-color: rgb(211, 209, 209, 0.5);
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
+}
+
+.footer-box {
+    width: 100%; /* ボックスの幅を親要素いっぱいに設定 */
+    height: 200px; /* 高さを固定 */
+    overflow: auto; /* 内容がボックスを超えた場合にスクロールを表示 */
+    border: 1px solid #ccc; /* ボックスの外枠 */
+    padding: 10px;
+    box-sizing: border-box; /* パディングを含めて幅を計算 */
+}
+.footer-box h2 {
+    margin: 0; /* デフォルトのマージンを削除 */
 }
 
 /*ステータスの文字*/
