@@ -3,12 +3,13 @@ html{
     width: 100%;
 }
 body {
-    font-family: Arial, sans-serif;
-    height: 100%;
-    width: 100%;
-    background-image: url(../../Image/office.jpg);
-    background-size: cover;
-    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
 }
 
 /* ポップアップの基本スタイル */
@@ -19,8 +20,8 @@ body {
     transform: translateY(-50%);
     width: 300px;
     padding: 20px;
-    background-color: #007BFF;
-    color: #fff;
+    background-color: #e0f7fa;
+    color: #000;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -43,7 +44,7 @@ body {
     position: fixed;
     bottom: 0;
     width: 99%;
-    height: 250px;
+    height: 200px;
     background-color: rgb(211, 209, 209, 0.5);
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
@@ -58,3 +59,25 @@ body {
     top: auto;
     padding-right: 5px;
 }
+
+.footer-box h2 {
+    overflow: hidden;
+    display: inline-block;
+    animation: typing 5s steps(50, end), blink 0.5s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+

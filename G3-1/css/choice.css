@@ -10,7 +10,7 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #f0f0f0;
-    overflow: hidden; /* スクロールを防止 */
+    /* overflow: hidden; スクロールを防止 */
 }
 
 
@@ -46,7 +46,7 @@ body {
     position: fixed;
     bottom: 0;
     width: 99%;
-    height: 250px;
+    height: 200px;
     background-color: rgb(211, 209, 209, 0.5);
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
