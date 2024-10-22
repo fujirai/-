@@ -4,9 +4,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>レーダーチャート</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+         body {
+            display: flex;
+            justify-content: center;  /* 水平方向に中央揃え */
+            align-items: center;      /* 垂直方向に中央揃え */
+            height: 100vh;            /* ビューポート全体の高さを使う */
+            margin: 0;
+        }
+        canvas {
+            max-width: 550px;  /* キャンバスの最大幅を設定してコンパクトに */
+            max-height: 550px; /* キャンバスの最大高さを設定 */
+        }
+    </style>
 </head>
 <body>
-    <canvas id="radarChart" width="400" height="400"></canvas>
+    <canvas id="radarChart"></canvas>
 
     <script>
         const ctx = document.getElementById('radarChart').getContext('2d');
@@ -19,21 +32,37 @@
                     data: [20, 40, 60, 50, 70],  // 仮の値
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false, // キャンバスを指定のサイズにフィットさせる
+                aspectRatio: 1, // グラフが正方形に近くなるよう調整
                 scale: {
-                    ticks: { beginAtZero: true, max: 100 },
+                    ticks: {
+                        beginAtZero: true,
+                        max: 100,
+                        stepSize: 20,
+                        showLabelBackdrop: false
+                    },
+                    angleLines: {
+                        color: 'rgba(0, 0, 0, 0.2)'
+                    },
+                    gridLines: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    pointLabels: {
+                        fontSize: 12,
+                        fontColor: '#333'
+                    }
                 }
             }
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
