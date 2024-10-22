@@ -29,7 +29,6 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transition: left 0.3s ease; /* スライドするアニメーション */
 }
-
 /* ポップアップが表示される時のスタイル */
 .popup.show {
     left: 0; /* 画面の左側に表示 */
@@ -49,7 +48,6 @@ body {
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
 }
-
 .footer-box {
     width: 100%; /* ボックスの幅を親要素いっぱいに設定 */
     height: 200px; /* 高さを固定 */
@@ -61,17 +59,6 @@ body {
 .footer-box h2 {
     margin: 0; /* デフォルトのマージンを削除 */
 }
-
-/*ステータスの文字を縦に表示させる*/
-.rotate-text{
-    writing-mode: vertical-lr;
-    text-orientation: upright;
-    position: absolute;
-    right: 0;
-    top: auto;
-    padding-right: 5px;
-}
-
 .footer-box h2 {
     overflow: hidden;
     display: inline-block;
@@ -93,3 +80,12 @@ body {
     }
 }
 
+/*ステータスの文字を縦に表示させる*/
+.rotate-text{
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    position: absolute;
+    right: 0;
+    top: auto;
+    padding-right: 5px;
+}

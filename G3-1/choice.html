@@ -32,8 +32,7 @@
         <button class="option-button" onclick="updateFooter(3)">選択肢3</button>
         <button class="option-button" onclick="updateFooter(4)">選択肢4</button>
     </div>
-    <script>
-        
+<script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
             popup.classList.toggle("show");
@@ -50,7 +49,7 @@
                 if (i < text.length) {
                     textElement.textContent += text.charAt(i);
                     i++;
-                    setTimeout(type, 30); // 30msごとに1文字ずつ表示
+                    setTimeout(type, 25); // 25msごとに1文字ずつ表示
                 } else {
                     showOptions(); // テキストが全て表示されたら選択肢を表示
                 }
@@ -67,16 +66,16 @@
             const footerBox = document.querySelector('.footer-box h2');
             switch (option) {
                 case 1:
-                    footerBox.textContent = '選択肢1が選ばれました。';
+                    footerBox.textContent = '選択肢1が選ばれました。あ～あ';
                     break;
                 case 2:
-                    footerBox.textContent = '選択肢2が選ばれました。';
+                    footerBox.textContent = '選択肢2が選ばれました。あ～あ';
                     break;
                 case 3:
-                    footerBox.textContent = '選択肢3が選ばれました。';
+                    footerBox.textContent = '選択肢3が選ばれました。あ～あ';
                     break;
                 case 4:
-                    footerBox.textContent = '選択肢4が選ばれました。';
+                    footerBox.textContent = '選択肢4が選ばれました。あ～あ';
                     break;
             }
             const buttons = document.querySelectorAll('.option-button');
@@ -85,8 +84,8 @@
             // 5秒後にhome.htmlに遷移
             setTimeout(() => {
                 window.location.href = '../G2-1/home.html';
-            }, 5000);
+            }, 7000);
         }
-    </script>
+</script>
 </body>
 </html>
