@@ -5,29 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ゲーム画面</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="top-section">
+            <div id="openModal" class="status-icon">
+                <img src="stats-icon.png" alt="ステータスアイコン">
+            </div>
+
             <div class="year">1年目の5月</div>
             <div class="name">らいや</div>
             <hr class="divider">
             <div class="role">平社員</div>
         </div>
-        
+
         <div class="stats-character">
             <div class="stats">
-                <div class="stat">信頼度：20</div>
-                <div class="stat">技術力：10</div>
-                <div class="stat">交渉力：10</div>
-                <div class="stat">容　姿：50</div>
-                <div class="stat">好感度：50</div>
+                <div class="stat" data-stat="trust">信頼度：<span>21</span></div>
+                <div class="stat" data-stat="tech">技術力：<span>70</span></div>
+                <div class="stat" data-stat="negotiation">交渉力：<span>90</span></div>
+                <div class="stat" data-stat="appearance">容　姿：<span>50</span></div>
+                <div class="stat" data-stat="likability">好感度：<span>50</span></div>
             </div>
-            
+
             <div class="character">
                 <img src="character.png" alt="キャラクター">
             </div>
         </div>
+
         <div class="buttons">
             <div class="button-wrapper">
                 <button>タイトルへ</button>
@@ -36,5 +42,114 @@
             </div>
         </div>
     </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <canvas id="radarChart" style="width:500px; height: 500px;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('myModal');
+        const btn = document.getElementById('openModal');
+        const span = document.getElementsByClassName('close')[0];
+
+        btn.onclick = function () {
+            modal.style.display = 'block';
+            loadRadarChart();
+        };
+
+        span.onclick = function () {
+            modal.style.display = 'none';
+        };
+
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        function getStatusValues() {
+            const stats = document.querySelectorAll('.stat span');
+            return Array.from(stats).map(stat => parseInt(stat.textContent, 10));
+        }
+
+        function loadRadarChart() {
+            const dataValues = getStatusValues();
+
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            if (radarChart) {
+                radarChart.destroy();
+            }
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['信頼度', '技術力', '交渉力', '容姿', '好感度'],
+                    datasets: [{
+                        label: 'ステータス',
+                        data: dataValues,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                        pointBorderColor: '#fff',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 10,
+                                backdropColor: 'transparent',
+                                font: { 
+                                    size: 14, 
+                                    weight: 'bold' 
+                                },
+                                color: '#333'
+                            },
+                            grid: {
+                                circular: false,
+                                lineWidth: 2,
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            angleLines: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.2)',
+                                lineWidth: 1.5
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 17,
+                                    weight: 'bold'
+                                },
+                                color: '#000'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 15,
+                                    weight: 'bold'
+                                },
+                                color: '#333'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        let radarChart;
+    </script>
 </body>
 </html>
