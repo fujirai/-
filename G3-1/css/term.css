@@ -20,7 +20,7 @@ body, html{
     border: 1px solid #ccc;
 }
 
-.round-button{
+.roundbutton{
     width: 200px; /*ボタンの幅*/
     height: 50px; /*ボタンの高さ*/
     background-color: #00bfff;/*ボタンの背景色*/
@@ -35,6 +35,6 @@ body, html{
     align-items: center;
 }
 
-.round-button:hover{
+.roundbutton:hover{
     background-color: blue;
 }
