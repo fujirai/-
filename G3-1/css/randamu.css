@@ -80,6 +80,7 @@ body {
     }
 }
 
+
 /*ステータスの文字を縦に表示させる*/
 .rotate-text{
     writing-mode: vertical-lr;
