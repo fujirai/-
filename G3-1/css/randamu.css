@@ -80,6 +80,23 @@ body {
     }
 }
 
+/* ノベルゲーム風ボックス */
+.footer-box {
+    background: rgba(0, 0, 0, 0.7); /* 半透明の黒 */
+    border: 2px solid #fff; /* 白い枠線 */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* テキストのスタイル */
+.footer-box h2 {
+    font-size: 1.2em;
+    color: #fff; /* 白文字 */
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px #000; /* 軽い影 */
+}
 
 /*ステータスの文字を縦に表示させる*/
 .rotate-text{
