@@ -1,0 +1,147 @@
+/* ベーススタイル */
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #74ebd5, #9face6);
+}
+
+/* パーティクル背景 */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* ランキングのコンテナ */
+.ranking-wrapper {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    width: 80%;  /* 幅を80%に調整（全体の80%を占める） */
+    max-width: 800px;  /* 最大幅を800pxに制限 */
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    padding: 30px;  /* パディングを広げて見た目を調整 */
+    position: relative;
+    border: 10px solid transparent;
+    background-image: linear-gradient(white, white), 
+                      linear-gradient(to right, #74ebd5, #9face6);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
+
+/* ヘッダー */
+.ranking-header {
+    background-color: #5dd6d2;
+    padding: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom: 5px solid #3ba6a3;
+}
+
+.crown-icon {
+    font-size: 40px;
+    color: gold;
+    margin-right: 10px;
+}
+
+/* テーブル */
+.ranking-table {
+    width: 100%;  /* テーブルをコンテナいっぱいに広げる */
+    margin-top: 10px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 3px solid #4db6ac;
+}
+
+th, td {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #4db6ac;
+    color: white;
+    padding: 20px;
+    font-size: 1.4rem;
+}
+
+td {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.2rem;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.highlight-row {
+    background: linear-gradient(to right, #ffeb3b, #ffc107);
+    font-weight: bold;
+}
+
+.avatar {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+/* ボタン */
+.buttons-container {
+    margin-top: 15px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-ranking {
+    background-color: #3ba6a3;
+    color: white;
+}
+
+.btn-ranking:hover {
+    background-color: #2e8e8a;
+}
+
+/* クラッカーのエフェクト */
+.confetti {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    animation: fall 5s linear infinite;
+}
+
+/* クラッカーのアニメーション */
+@keyframes fall {
+    0% { transform: translateY(-100vh) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+.ranking-wrapper.show {
+    transform: translateY(0);
+    opacity: 1;
+}
