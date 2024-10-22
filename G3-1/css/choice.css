@@ -1,7 +1,9 @@
+/*全体*/
 html{
     height: 100%;
     width: 100%;
 }
+/*画面全体*/
 body {
     margin: 0;
     padding: 0;
@@ -51,7 +53,6 @@ body {
     border: 2px solid rgb(85, 84, 84);
     box-sizing: border-box;
 }
-
 .footer-box {
     width: 100%; /* ボックスの幅を親要素いっぱいに設定 */
     height: 200px; /* 高さを固定 */
@@ -63,17 +64,6 @@ body {
 .footer-box h2 {
     margin: 0; /* デフォルトのマージンを削除 */
 }
-
-/*ステータスの文字*/
-.rotate-text{
-    writing-mode: vertical-lr;
-    text-orientation: upright;
-    position: absolute;
-    right: 0;
-    top: auto;
-    padding-right: 5px;
-}
-
 .footer-box h2 {
     overflow: hidden;
     display: inline-block;
@@ -86,6 +76,17 @@ body {
     }
 }
 
+/*ステータスの文字*/
+.rotate-text{
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    position: absolute;
+    right: 0;
+    top: auto;
+    padding-right: 5px;
+}
+
+/*選択肢全体*/
 .options {
     position: fixed; /* 画面に固定し、最前面に配置 */
     top: 50%;
@@ -98,6 +99,7 @@ body {
     transition: opacity 1s; /* フェードイン */
     z-index: 9999; /* 最前面に表示 */}
 
+/*ボタン*/
 .options button {
     width: 200px;
     margin: 10px 0;
@@ -106,7 +108,6 @@ body {
     cursor: pointer;    
     text-align: center;
 }
-
 .button-container {
     display: flex;
     flex-direction: column;
@@ -114,10 +115,9 @@ body {
     width: 200px; /* ボタンの幅を調整 */
     margin: 50px auto; /* 中央に配置 */
   }
-
   .option-button {
-    background-color: #e0f7fa; /* 薄い水色 */
-    color: #000; /* 文字色は黒 */
+    background-color: #000; /* 薄い水色 */
+    color: white; /* 文字色は黒 */
     border: none; /* 枠線なし */
     padding: 10px; /* 余白を設定 */
     text-align: center; /* 文字を中央揃え（横方向） */
@@ -126,7 +126,7 @@ body {
     cursor: pointer; /* マウスホバー時のポインター変更 */
     transition: background-color 0.3s; /* 背景色の変化を滑らかに */
   }
-
   .option-button:hover {
     background-color: #b2ebf2; /* ホバー時の色 */
+    color: #000;
   }
