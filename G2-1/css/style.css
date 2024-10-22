@@ -9,6 +9,10 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-image: url('../Hell.png');
+    background-size: cover; /* 画像が全体にフィットする */
+    background-position: center; /* 画像の中央を表示 */
+    background-repeat: no-repeat; /* 画像を繰り返さない */
 }
 
 .container {
@@ -109,9 +113,10 @@ button:hover {
 
         .modal-content {
             background-color: #fefefe;
-            margin: 75px auto;
+            margin: 70px auto;
             border: 1px solid #888;
             max-width: 600px;
+            max-height:600px;
             position: relative;
         }
 
