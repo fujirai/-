@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 700px;
+    text-align: left;
+    padding: 20px;
+}
+
+.top-section {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.year {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.name {
+    font-size: 25px;
+    font-weight:bold;
+}
+
+.divider {
+    margin: 10px auto;
+    width: 50%;
+    border: 0;
+    border-bottom: 1px solid black;
+}
+
+.role {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.stats-character {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.stat {
+    font-size: 18px;           /* 文字サイズを少し大きくして見やすく */
+    margin: 5px 0;
+    padding: 5px;              /* 文字周りに余白を追加 */
+    width: 150px;              /* 固定幅を設定して、文字が横にそろうようにする */
+}
+
+.character {
+    flex: 0 0 150px;                 /* キャラクターの幅を固定（150px） */
+}
+
+.character img {
+    width: 145%;                     /* キャラクター画像をコンテナ内でフル表示 */
+    height: 215px;
+}
+
+.buttons {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.button-wrapper {
+    display: inline-block;
+}
+
+.button-divider {
+    margin: 10px 0;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+button {
+    background-color: #fff;
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
