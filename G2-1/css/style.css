@@ -4,20 +4,13 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #fff;
+    background-color: #f5f7fa;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-image: url('../Hell.png');
     background-size: cover; /* 画像が全体にフィットする */
-    background-position: center; /* 画像の中央を表示 */
-    background-repeat: no-repeat; /* 画像を繰り返さない */
-}
-
-.container {
-    width: 700px;
-    text-align: left;
 }
 
 .top-section {
@@ -26,26 +19,33 @@ body {
     position: relative;
 }
 
-.year {
-    font-size: 25px;
+.year, .name, .role {
+    font-size: 30px;
     font-weight: bold;
-}
-
-.name {
-    font-size: 25px;
-    font-weight:bold;
+    color: #ccc8c8;
+    margin-bottom: 7px;
+    text-shadow:
+		0 0.01em 0 #999,
+		0 0.02em 0 #888,
+		0 0.03em 0 #777,
+		0 0.04em 0 #666,
+		0 0.05em 0 #555,
+		0 0.06em 0 #444,
+		0 0.08em 0 #000;
 }
 
 .divider {
     margin: 10px auto;
-    width: 50%;
+    width: 55%;
     border: 0;
     border-bottom: 1px solid black;
 }
 
-.role {
-    font-size: 36px;
-    font-weight: bold;
+.stats-character {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
 .stats-character {
@@ -59,7 +59,10 @@ body {
     font-size: 18px;           /* 文字サイズを少し大きくして見やすく */
     margin: 5px 0;
     padding: 5px;              /* 文字周りに余白を追加 */
-    width: 150px;              /* 固定幅を設定して、文字が横にそろうようにする */
+    width: 150px;  
+    border-radius: 8px;
+    background-color: #e9eff5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* ちょっとした浮き上がり感 */            /* 固定幅を設定して、文字が横にそろうようにする */
 }
 
 .character {
