@@ -116,7 +116,8 @@ body {
     align-items: center;
     opacity: 0; /* 初期は非表示 */
     transition: opacity 1s; /* フェードイン */
-    z-index: 9999; /* 最前面に表示 */}
+    z-index: 9999; /* 最前面に表示 */
+}
 
 /*ボタン*/
 .options button {
