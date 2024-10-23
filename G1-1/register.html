@@ -25,3 +25,78 @@
         </div>
     </body>
 </html>
+
+<!--
+<?php
+session_start();
+require_once 'db.php';  // DB接続ファイルをインクルード
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $conn = connectDB();
+
+        // トランザクションの開始
+        $conn->beginTransaction();
+
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        // ユーザー名とパスワードが入力されているか確認
+        if (!empty($username) && !empty($password)) {
+            // 1. Statusテーブルに新しいレコードを追加
+            $status_query = "INSERT INTO Status (trust_level, technical_skill, negotiation_skill, apparance, popularity, total_score) 
+                             VALUES (5, 5, 5, 5, 5, 25)";
+            $conn->query($status_query);
+
+            // 2. 挿入された status_id を取得
+            $status_id = $conn->lastInsertId();
+
+            // 3. Userテーブルにレコードを追加
+            $user_query = "INSERT INTO User (user_name, password, status_id, role_id, login, game_situation) 
+                           VALUES (:username, :password, :status_id, 1, 'yes', 'started')";
+            $stmt = $conn->prepare($user_query);
+            $stmt->execute([
+                ':username' => $username,
+                ':password' => $password,
+                ':status_id' => $status_id
+            ]);
+
+            // 4. 挿入された user_id を取得し、セッションに保存
+            $user_id = $conn->lastInsertId();
+            $_SESSION['user_id'] = $user_id;
+
+            // トランザクションをコミット（確定）
+            $conn->commit();
+
+            // home.php にリダイレクト
+            header("Location: home.php");
+            exit;
+        } else {
+            $error = "ユーザー名とパスワードを入力してください。";
+        }
+    } catch (PDOException $e) {
+        // エラー発生時はロールバックして元に戻す
+        $conn->rollBack();
+        echo "データベースエラー: " . $e->getMessage();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>新規登録</title>
+</head>
+<body>
+    <h1>新規登録</h1>
+    <form action="index.php" method="POST">
+        <input type="text" name="username" placeholder="ユーザー名" required><br>
+        <input type="password" name="password" placeholder="パスワード" required><br>
+        <button type="submit">登録</button>
+    </form>
+    <?php if (isset($error)) echo "<p>$error</p>"; ?>
+</body>
+</html>
+
+-->
