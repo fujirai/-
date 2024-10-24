@@ -121,7 +121,7 @@ body {
 
 /*ボタン*/
 .options button {
-    width: 200px;
+    width: 200px auto;
     margin: 10px 0;
     padding: 10px 20px;
     font-size: 18px;
