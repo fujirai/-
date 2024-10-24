@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';  // DB接続ファイルをインクルード
+require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
