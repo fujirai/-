@@ -167,7 +167,7 @@ try {
             type();
         });
         setTimeout(() => {
-                window.location.href = '../G2-1/home.html';
+                window.location.href = '../G2-1/home.php';
             }, 5000);
     </script>
 </body>
