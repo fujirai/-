@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';  // DB接続ファイルをインクルード
+require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
@@ -127,7 +127,7 @@ try {
     <h1>イベント: <?php echo htmlspecialchars($event['event_name']); ?></h1>
     <p><?php echo htmlspecialchars($event['event_description']); ?></p>
 
-    <form action="home.php" method="POST">
+    <form action="../G2-1/home.php" method="POST">
         <button type="submit">ホーム画面に戻る</button>
     </form>
 </body>

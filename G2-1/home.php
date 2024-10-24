@@ -115,9 +115,9 @@ try {
 
         <div class="buttons">
             <div class="button-wrapper">
-                <button onclick="location.href='index.php'">タイトルへ</button>
+                <button onclick="location.href='../G1-0/index.html'">タイトルへ</button>
                 <hr class="button-divider">
-                <form action="event.php" method="POST">
+                <form action="../G3-1/event.php" method="POST">
                     <button type="submit" name="start_event">イベント開始</button>
                 </form>
             </div>
