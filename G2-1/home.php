@@ -1,3 +1,80 @@
+<?php
+session_start();
+require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+try {
+    $conn = connectDB();
+    $user_id = $_SESSION['user_id'];
+
+    // ユーザーデータとステータスを取得
+    $query = "SELECT User.user_name, Status.trust_level, Status.technical_skill, 
+                     Status.negotiation_skill, Status.apparance, Status.popularity, 
+                     Status.total_score, User.role_id 
+              FROM User 
+              JOIN Status ON User.status_id = Status.status_id 
+              WHERE User.user_id = :user_id";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([':user_id' => $user_id]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        echo "ユーザー情報が見つかりません。";
+        exit;
+    }
+
+    // Roleテーブルから全役職を取得
+    $role_query = "SELECT * FROM Role ORDER BY repuired_status DESC";
+    $role_stmt = $conn->query($role_query);
+    $roles = $role_stmt->fetchAll();
+
+    $new_role_id = $user['role_id'];  // 役職の初期化（デフォルトは現在の役職）
+
+    foreach ($roles as $role) {
+        if ($user['total_score'] >= $role['repuired_status'] &&
+            $user['trust_level'] >= $role['repuired_trust'] &&
+            $user['technical_skill'] >= $role['repuired_technical'] &&
+            $user['negotiation_skill'] >= $role['repuired_negotiation'] &&
+            $user['apparance'] >= $role['repuired_apparance'] &&
+            $user['popularity'] >= $role['repuired_popularity']
+        ) {
+            $new_role_id = $role['role_id'];
+            break;
+        }
+    }
+
+    // Careerテーブルからcurrent_termとcurrent_monthsを取得
+    $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
+    $career_stmt = $conn->prepare($career_query);
+    $career_stmt->execute([':user_id' => $user_id]);
+    $career = $career_stmt->fetch();
+
+    // ユーザーの役職を更新（必要な場合）
+    if ($new_role_id != $user['role_id']) {
+        $update_role_query = "UPDATE User SET role_id = :new_role_id WHERE user_id = :user_id";
+        $update_role_stmt = $conn->prepare($update_role_query);
+        $update_role_stmt->execute([
+            ':new_role_id' => $new_role_id,
+            ':user_id' => $user_id
+        ]);
+    }
+
+    // 現在の役職を取得
+    $current_role_query = "SELECT role_name, role_explanation FROM Role WHERE role_id = :role_id";
+    $current_role_stmt = $conn->prepare($current_role_query);
+    $current_role_stmt->execute([':role_id' => $new_role_id]);
+    $current_role = $current_role_stmt->fetch();
+
+} catch (PDOException $e) {
+    echo "データベースエラー: " . $e->getMessage();
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -8,25 +85,27 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
+<div class="container">
         <div class="top-section">
             <div id="openModal" class="status-icon">
                 <img src="grapt.jpg" alt="ステータスアイコン">
             </div>
 
-            <div class="year">1年目の5月</div>
-            <div class="name">らいや</div>
+            <div class="year">
+                <?php echo $career['current_term']; ?>年目の<?php echo $career['current_months']; ?>月
+            </div>
+            <div class="name"><?php echo htmlspecialchars($user['user_name']); ?></div>
             <hr class="divider">
-            <div class="role">平社員</div>
+            <div class="role"><?php echo htmlspecialchars($current_role['role_name']); ?></div>
         </div>
 
         <div class="stats-character">
             <div class="stats">
-                <div class="stat" data-stat="trust">信頼度：<span>21</span></div>
-                <div class="stat" data-stat="tech">技術力：<span>70</span></div>
-                <div class="stat" data-stat="negotiation">交渉力：<span>90</span></div>
-                <div class="stat" data-stat="appearance">容　姿：<span>50</span></div>
-                <div class="stat" data-stat="likability">好感度：<span>50</span></div>
+                <div class="stat" data-stat="trust">信頼度：<span><?php echo $user['trust_level']; ?></span></div>
+                <div class="stat" data-stat="tech">技術力：<span><?php echo $user['technical_skill']; ?></span></div>
+                <div class="stat" data-stat="negotiation">交渉力：<span><?php echo $user['negotiation_skill']; ?></span></div>
+                <div class="stat" data-stat="appearance">容　姿：<span><?php echo $user['apparance']; ?></span></div>
+                <div class="stat" data-stat="likability">好感度：<span><?php echo $user['popularity']; ?></span></div>
             </div>
 
             <div class="character">
@@ -36,9 +115,11 @@
 
         <div class="buttons">
             <div class="button-wrapper">
-                <button>タイトルへ</button>
+                <button onclick="location.href='index.php'">タイトルへ</button>
                 <hr class="button-divider">
-                <button>つづける</button>
+                <form action="event.php" method="POST">
+                    <button type="submit" name="start_event">イベント開始</button>
+                </form>
             </div>
         </div>
     </div>
