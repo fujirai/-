@@ -1,0 +1,45 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #74ebd5, #9face6);
+}
+.clear-status{
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    width: 80%;
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    margin: 20px;
+}
+.nobr{
+    display: flex;
+}
+.user_name{
+    margin: 0;
+    font-size: 40px;
+}
+.status{
+    text-align: center;
+}
+
+.ranking-button {
+    margin: 5px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: #3ba6a3;
+    color: white;
+    border: none;
+}
+
+.ranking-button:hover {
+    background-color: #2e8e8a;
+}
+.title-button{
+    background-color: transparent;
+    border: none;
+}
