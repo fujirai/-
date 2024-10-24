@@ -1,32 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="Style/register.css" />
-        <title>登録画面</title>
-    </head>
-    <body>
-        <div class="register">
-            <p class="register-text">このキャラクターに名前をつけてください</p>
-            <form action="../G1-1-1/opening.html" method="post">
-                <p class="name">名前<br>
-                    <input class="name-input" type="text" placeholder="名前を入力してください(10文字以内)" name="name">
-                </p>
-                <p class="number">社畜番号<br>
-                    <input class="number-input" type="password" placeholder="社畜番号を入力してください(6桁)" name="number">
-                </p>
-                <p class="numberconfirm">確認<br>
-                    <input class="numberconfirm-input" type="password" placeholder="社畜番号を確認してください(6桁)" name="numberconfirm">
-                </p>
-                <button class="register-ok" type="submit">決定</button>
-            </form>
-            <button onclick="location.href='../G1-0/gametitle.html'">戻る</button>
-        </div>
-    </body>
-</html>
-
-<!--
 <?php
 session_start();
 require_once 'db.php';  // DB接続ファイルをインクルード
@@ -65,6 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user_id = $conn->lastInsertId();
             $_SESSION['user_id'] = $user_id;
 
+            // 5. Careerテーブルに初期データを挿入（4月スタート）
+            $career_query = "INSERT INTO Career (user_id, current_term, current_months) 
+                             VALUES (:user_id, 1, 4)";
+            $career_stmt = $conn->prepare($career_query);
+            $career_stmt->execute([':user_id' => $user_id]);
+
             // トランザクションをコミット（確定）
             $conn->commit();
 
@@ -84,19 +61,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>新規登録</title>
-</head>
-<body>
-    <h1>新規登録</h1>
-    <form action="index.php" method="POST">
-        <input type="text" name="username" placeholder="ユーザー名" required><br>
-        <input type="password" name="password" placeholder="パスワード" required><br>
-        <button type="submit">登録</button>
-    </form>
-    <?php if (isset($error)) echo "<p>$error</p>"; ?>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Style/register.css" />
+        <title>登録画面</title>
+    </head>
+    <body>
+        <div class="register">
+            <p class="register-text">このキャラクターに名前をつけてください</p>
+            <form action="../G1-1-1/opening.html" method="post">
+                <p class="name">名前<br>
+                    <input class="name-input" type="text" placeholder="名前を入力してください(10文字以内)" name="name">
+                </p>
+                <p class="number">社畜番号<br>
+                    <input class="number-input" type="password" placeholder="社畜番号を入力してください(6桁)" name="number">
+                </p>
+                <p class="numberconfirm">確認<br>
+                    <input class="numberconfirm-input" type="password" placeholder="社畜番号を確認してください(6桁)" name="numberconfirm">
+                </p>
+                <button class="register-ok" type="submit">決定</button>
+            </form>
+            <button onclick="location.href='../G1-0/gametitle.html'">戻る</button>
+        </div>
+    </body>
 </html>
-
--->
