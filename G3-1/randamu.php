@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';  // DB接続ファイルをインクルード
+require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
@@ -100,8 +100,8 @@ try {
         ]);
 
         // home.php にリダイレクト
-        header("Location: event.php");
-        exit;
+        //header("Location: event.php");
+        //exit;
 
     } elseif (isset($_SESSION['event'])) {
         // セッションからイベントを取得して表示
