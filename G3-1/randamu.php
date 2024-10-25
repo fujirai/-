@@ -150,6 +150,10 @@ try {
     </div>
 
     <script>
+        var popup = document.getElementById("popup");
+        popup.addEventListener("click",function(){
+            popup.classList.toggle("show");
+        })
         document.addEventListener("DOMContentLoaded", function () {
             const textElement = document.querySelector(".footer-box h2");
             const text = textElement.textContent;
@@ -162,11 +166,11 @@ try {
                     i++;
                     setTimeout(type, 25); // 25msごとに1文字ずつ表示
                 } else {
-                    // 文字が全て表示された後、3秒後に「戻る」ボタンを表示
+                    // 文字が全て表示された後、5秒後に「戻る」ボタンを表示
                     setTimeout(() => {
                         const modo = document.getElementById("modo");
                         modo.style.display = "block";
-                    }, 3000);
+                    }, 5000);
                 }
             }
 
