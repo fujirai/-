@@ -51,12 +51,12 @@
 
             // 入力が正しい場合のみ home.html に遷移
             if (isValid) {
-                window.location.href = '../G2-1/home.html';
+                window.location.href = '../G2-1/home.php';
             }
         });
         // 戻るボタンのクリックイベント処理
         function goBack() {
-            window.location.href = '../G1-0/index.html';
+            window.location.href = '../G1-0/index.php';
         }
     </script>
 </body>

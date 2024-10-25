@@ -1,3 +1,22 @@
+<?php
+require_once '../db.php'; // 上記のコードをdb_config.phpとして保存したと仮定
+
+try {
+    // データベースに接続
+    $conn = connectDB();
+
+    // SQLクエリでユーザー名とスコアを取得
+    $sql = "SELECT User.user_name, Status.total_score 
+            FROM User 
+            INNER JOIN Status ON User.status_id = Status.status_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $results = $stmt->fetchAll();
+} catch (PDOException $e) {
+    echo "接続エラー: " . $e->getMessage();
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -27,34 +46,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="highlight-row">
-                    <td>1</td>
-                    <td><i class="fas fa-user avatar"></i> らいや</td>
-                    <td>491</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><i class="fas fa-user avatar"></i> じらいや</td>
-                    <td>467</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><i class="fas fa-user avatar"></i> らいあ</td>
-                    <td>458</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><i class="fas fa-user avatar"></i> やらい</td>
-                    <td>450</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><i class="fas fa-user avatar"></i> らーや</td>
-                    <td>448</td>
-                </tr>
+            <?php
+                $rank = 1; // 順位カウンタ
+                foreach ($results as $row) {
+                    echo "<tr class='highlight-row'>";
+                    echo "<td>" . $rank++ . "</td>";
+                    echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($row['user_name']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['total_score']) . "</td>";
+                    echo "</tr>";
+                }
+                ?>
             </tbody>
         </table>
-
+?>
         <div class="buttons-container">
             <button class="btn-ranking" onclick="goToHomePage()">会社HPへ</button>
         </div>        
