@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: index.php");
+    header("Location: ../G1-0.index.html");
     exit;
 }
 
@@ -117,7 +117,7 @@ try {
             <div class="button-wrapper">
                 <button onclick="location.href='../G1-0/index.html'">タイトルへ</button>
                 <hr class="button-divider">
-                <form action="../G3-1/event.php" method="POST">
+                <form action="../G3-1/randamu.php" method="POST">
                     <button type="submit" name="start_event">イベント開始</button>
                 </form>
             </div>

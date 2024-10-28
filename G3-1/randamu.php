@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';  // DB接続ファイルをインクルード
+require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
@@ -100,8 +100,8 @@ try {
         ]);
 
         // home.php にリダイレクト
-        header("Location: event.php");
-        exit;
+        //header("Location: event.php");
+        //exit;
 
     } elseif (isset($_SESSION['event'])) {
         // セッションからイベントを取得して表示
@@ -145,6 +145,10 @@ try {
     <div class="footer-box">
         <h2><?php echo htmlspecialchars($event['event_description']); ?></h2>
     </div>
+    <div id="modo" class="modo" style="display: none;">
+        <button id="backButton">戻る</button>
+    </div>
+
     <script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
@@ -161,14 +165,23 @@ try {
                     textElement.textContent += text.charAt(i);
                     i++;
                     setTimeout(type, 25); // 25msごとに1文字ずつ表示
+                } else {
+                    // 文字が全て表示された後、5秒後に「戻る」ボタンを表示
+                    setTimeout(() => {
+                        const modo = document.getElementById("modo");
+                        modo.style.display = "block";
+                    }, 5000);
                 }
             }
 
             type();
-        });
-        setTimeout(() => {
+
+            // 戻るボタンのクリックイベント
+            const backButton = document.getElementById("backButton");
+            backButton.addEventListener("click", function () {
                 window.location.href = '../G2-1/home.php';
-            }, 5000);
+            });
+        });
     </script>
 </body>
 </html>
