@@ -114,17 +114,3 @@ body {
     left: 0;
     margin: 10px;
 }
-.modo {
-    bottom: 20px;  /* 画面の下からの距離 */
-    right: 20px;   /* 画面の右からの距離 */
-    background-color: rgba(173, 216, 230, 0.7); /* 薄い水色 */
-    border: none;  /* ボーダーなし */
-    padding: 10px 20px; /* パディング */
-    border-radius: 5px; /* 角を丸くする */
-    cursor: pointer; /* マウスカーソルをポインターにする */
-    font-size: 16px; /* フォントサイズ */
-}
-
-#modo:hover {
-    background-color: rgba(173, 216, 230, 1); /* ホバー時の色 */
-}
