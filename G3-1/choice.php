@@ -21,6 +21,8 @@
         </h3></p>
     </div>
     <!--テキスト-->
+    <div class="fixed-title">
+    </div>
     <div class="footer-box">
         <h2>選択イベントです。なにか選択してください。</h2>
     </div>
@@ -30,6 +32,9 @@
         <button class="option-button" onclick="updateFooter(2)">2：選択肢2</button>
         <button class="option-button" onclick="updateFooter(3)">3：選択肢3</button>
         <button class="option-button" onclick="updateFooter(4)">4：選択肢4</button>
+    </div>
+    <div id="modo" class="modo" style="display: none;">
+        <button id="backButton">戻る</button>
     </div>
 <script>
         var popup = document.getElementById("popup");
@@ -82,8 +87,16 @@
 
             // 7秒後にhome.htmlに遷移
             setTimeout(() => {
+                        const modo = document.getElementById("modo");
+                        modo.style.display = "block";
+                    }, 5000);
+
+            // 戻るボタンのクリックイベント
+            const backButton = document.getElementById("backButton");
+            backButton.addEventListener("click", function () {
                 window.location.href = '../G2-1/home.php';
-            }, 7000);
+            });
+
         }
 </script>
 </body>
