@@ -1,14 +1,16 @@
 <?php
-require_once '../db.php'; // 上記のコードをdb_config.phpとして保存したと仮定
+require_once '../db.php'; // DB情報を格納している
 
 try {
     // データベースに接続
     $conn = connectDB();
 
-    // SQLクエリでユーザー名とスコアを取得
+    // SQLクエリでユーザー名とスコアを降順で取得し、上位10位までを制限
     $sql = "SELECT User.user_name, Status.total_score 
             FROM User 
-            INNER JOIN Status ON User.status_id = Status.status_id";
+            INNER JOIN Status ON User.status_id = Status.status_id
+            ORDER BY total_score DESC
+            LIMIT 10"; // 上位10件まで取得
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $results = $stmt->fetchAll();
@@ -58,7 +60,7 @@ try {
                 ?>
             </tbody>
         </table>
-?>
+
         <div class="buttons-container">
             <button class="btn-ranking" onclick="goToHomePage()">会社HPへ</button>
         </div>        

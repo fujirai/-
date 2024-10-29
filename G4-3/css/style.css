@@ -5,8 +5,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    overflow: auto;
     background: linear-gradient(to bottom right, #74ebd5, #9face6);
 }
 
@@ -46,8 +45,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
     border-bottom: 5px solid #3ba6a3;
 }
 
