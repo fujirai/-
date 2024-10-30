@@ -1,12 +1,24 @@
 /* ベーススタイル */
-body {
+/* body {
     margin: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: auto;
+    height: 100vh;
+    overflow: hidden;
     background: linear-gradient(to bottom right, #74ebd5, #9face6);
+} */
+
+/* ベーススタイル */
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: block; /* flexを解除 */
+    overflow-x: hidden; /* 横スクロールを防ぐ */
+    overflow-y: auto; /* 縦スクロールを有効にする */
+    background: linear-gradient(to bottom right, #74ebd5, #9face6);
+    min-height: 100vh; /* ビューポートの高さを満たす */
 }
 
 /* パーティクル背景 */
@@ -18,24 +30,43 @@ body {
 }
 
 /* ランキングのコンテナ */
-.ranking-wrapper {
+/* .ranking-wrapper {
     transform: translateY(100%);
     opacity: 0;
     transition: transform 0.8s ease-out, opacity 0.8s ease-out;
-    width: 80%;  /* 幅を80%に調整（全体の80%を占める） */
-    max-width: 800px;  /* 最大幅を800pxに制限 */
+    width: 80%;
+    max-width: 800px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 30px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     text-align: center;
-    padding: 30px;  /* パディングを広げて見た目を調整 */
+    padding: 30px;
     position: relative;
     border: 10px solid transparent;
     background-image: linear-gradient(white, white), 
                       linear-gradient(to right, #74ebd5, #9face6);
     background-origin: border-box;
     background-clip: content-box, border-box;
+} */
+
+/* ランキングのコンテナ */
+.ranking-wrapper {
+    margin: 50px auto; /* 上下のマージンを追加し、中央寄せ */
+    width: 80%;  
+    max-width: 800px;  
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    padding: 30px;
+    position: relative;
+    border: 10px solid transparent;
+    background-image: linear-gradient(white, white),
+                      linear-gradient(to right, #74ebd5, #9face6);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
 }
+
 
 /* ヘッダー */
 .ranking-header {
@@ -45,6 +76,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
     border-bottom: 5px solid #3ba6a3;
 }
 
@@ -116,12 +149,24 @@ button {
 }
 
 /* クラッカーのエフェクト */
-.confetti {
+/* .confetti {
     position: fixed;
     width: 100%;
     height: 100%;
     pointer-events: none;
     z-index: 1;
+} */
+
+/* クラッカーのエフェクト */
+.confetti {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw; 
+    height: 100vh;
+    pointer-events: none; 
+    z-index: 2; 
+    overflow: hidden;
 }
 
 .confetti-piece {
