@@ -76,8 +76,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
     border-bottom: 5px solid #3ba6a3;
 }
 
