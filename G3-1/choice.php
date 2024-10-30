@@ -85,11 +85,11 @@
             const buttons = document.querySelectorAll('.option-button');
             buttons.forEach(button => button.style.display = 'none');
 
-            // 7秒後にhome.htmlに遷移
+            // 1秒後にhome.htmlに遷移
             setTimeout(() => {
                         const modo = document.getElementById("modo");
                         modo.style.display = "block";
-                    }, 5000);
+                    }, 1000);
 
             // 戻るボタンのクリックイベント
             const backButton = document.getElementById("backButton");
