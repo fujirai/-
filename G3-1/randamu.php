@@ -38,15 +38,16 @@ try {
             $new_term = $current_term;
         }
 
-        // 4ターム目の3月でゲーム終了
-        if ($new_term > 4 && $new_month == 4) {
-            $update_query = "UPDATE User SET game_situation = 'end' WHERE user_id = :user_id";
-            $update_stmt = $conn->prepare($update_query);
-            $update_stmt->execute([':user_id' => $user_id]);
-            echo "<h1>ゲーム終了！お疲れ様でした。</h1>";
-            exit;
-        }
+        // 4ターム目の3月でゲーム終了処理
+if ($new_term > 4 && $new_month == 4) {
+    $update_query = "UPDATE User SET game_situation = 'end' WHERE user_id = :user_id";
+    $update_stmt = $conn->prepare($update_query);
+    $update_stmt->execute([':user_id' => $user_id]);
 
+    echo '<div class="footer-box"><h2>ゲーム終了！お疲れ様でした。</h2></div>';
+    echo '<button id="modo" style="display:none;" onclick="location.href=\'term.php\'">次へ</button>';
+    exit;
+}
         // Careerテーブルのcurrent_termとcurrent_monthsに対応するイベントを取得し、セッションに保存
         $event_query = "SELECT * FROM Event 
                         WHERE event_term = :current_term AND event_months = :current_month 
@@ -99,9 +100,10 @@ try {
             ':user_id' => $user_id
         ]);
 
-        // home.php にリダイレクト
-        //header("Location: event.php");
-        //exit;
+
+        // // home.php にリダイレクト
+        // header("Location: event.php");
+        // exit;
 
     } elseif (isset($_SESSION['event'])) {
         // セッションからイベントを取得して表示
@@ -132,11 +134,11 @@ try {
          <p><h2>平社員</h2></p>
          <p><h1>名前</h1></p>
         <p><h3>
-            信頼度：<br>
-            技術力：<br>
-            交渉力：<br>
-            容　姿：<br>
-            好感度：<br>
+            信頼度：20<br>
+            技術力：10<br>
+            交渉力：50<br>
+            容　姿：50<br>
+            好感度：50<br>
         </h3></p>
     </div>
     <div class="fixed-title">
@@ -148,33 +150,57 @@ try {
     <div id="modo" class="modo" style="display: none;">
         <button id="backButton">戻る</button>
     </div>
-
+    <div id="nextTermButton" class="nextTermButton" style="display: none;">
+        <button id="next-term">次のタームへ</button>
+      </div>
     <script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
             popup.classList.toggle("show");
         })
         document.addEventListener("DOMContentLoaded", function () {
-            const textElement = document.querySelector(".footer-box h2");
-            const text = textElement.textContent;
-            textElement.textContent = "";
-            let i = 0;
+        const textElement = document.querySelector(".footer-box h2");
+        const text = textElement.textContent;
+        textElement.textContent = "";
+        let i = 0;
 
-            function type() {
-                if (i < text.length) {
-                    textElement.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(type, 25); // 25msごとに1文字ずつ表示
-                } else {
-                    // 文字が全て表示された後、5秒後に「戻る」ボタンを表示
-                    setTimeout(() => {
-                        const modo = document.getElementById("modo");
-                        modo.style.display = "block";
-                    }, 5000);
-                }
+        function type() {
+            if (i < text.length) {
+                textElement.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, 25); // 25msごとに1文字ずつ表示
+            } else {
+                // 文字が全て表示された後、次のタームが4月かどうか確認
+                checkNextTerm();
             }
+        }
+        function checkNextTerm() {
+            // PHPから取得した新しいタームと月の値を使用して確認
+            const newMonth = <?php echo $new_month; ?>;
+            const newTerm = <?php echo $new_term; ?>;
 
-            type();
+            if (newMonth == 4 && newTerm > <?php echo $current_term; ?>) {
+                 // 4月で次のタームに移行した場合、「次のタームへ」ボタンを表示
+                 setTimeout(() => {
+                    const nextTermButton = document.getElementById("nextTermButton");
+                    if (nextTermButton) {
+                        nextTermButton.style.display = "block";
+                        const nextTerm = document.getElementById("next-term");
+                        nextTerm.addEventListener("click", () => {
+                            window.location.href = 'term.php';
+                        });
+                    }
+                }, 1000);
+            } else {
+                // それ以外の場合、「戻る」ボタンを表示
+                setTimeout(() => {
+                    const modo = document.getElementById("modo");
+                    if (modo) modo.style.display = "block";
+                }, 1000);
+            }
+        }
+
+        if (textElement) type();
 
             // 戻るボタンのクリックイベント
             const backButton = document.getElementById("backButton");
