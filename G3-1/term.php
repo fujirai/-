@@ -24,7 +24,7 @@
     </div>
     <script>
         document.getElementById('nextButton').addEventListener('click', function () {
-            window.location.href = '../G2-1/home.html';
+            window.location.href = '../G2-1/home.php';
         });
     </script>
 </body>

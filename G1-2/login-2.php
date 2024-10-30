@@ -56,7 +56,7 @@
         });
         // 戻るボタンのクリックイベント処理
         function goBack() {
-            window.location.href = '../G1-0/index.php';
+            window.location.href = '../G1-0/index.html';
         }
     </script>
 </body>
