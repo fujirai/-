@@ -7,7 +7,7 @@
     <title>ログイン画面</title>
 </head>
 <body>
-    <div class="login-box">
+<div class="login-box">
         <h2>ログイン</h2>
         <form id="loginForm">
             <input type="text" id="name" placeholder="名前 (10文字以内)" max="10" required>
@@ -21,8 +21,8 @@
                 <button type="button" class="confirm-button" id="confirmButton">決定</button>
                 <button type="button" class="back-button" onclick="goBack()">戻る</button>
             </div>
-        </form>
-    </div>
+    </form>
+</div>
 
     <script>
         document.getElementById('confirmButton').addEventListener('click', function () {
@@ -49,10 +49,10 @@
                 isValid = false;
             }
 
-            // 入力が正しい場合のみ home.html に遷移
             if (isValid) {
                 window.location.href = '../G2-1/home.php';
             }
+
         });
         // 戻るボタンのクリックイベント処理
         function goBack() {
