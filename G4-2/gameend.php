@@ -75,7 +75,7 @@ try {
                 <p class="popularity">好感度：<?= htmlspecialchars($status['popularity']) ?></p>
             </div>
         </div>
-        <button class="ranking-button" onclick="location.href='../G4-3/ranking.html'">ランキング</button>
+        <button class="ranking-button" onclick="location.href='../G4-3/ranking.php?from=gameend'">ランキング</button>
         <button class="title-button" onclick="location.href='../G1-0/index.html'">タイトル</button>
     </body>
 </html>
