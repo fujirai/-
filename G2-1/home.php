@@ -69,6 +69,40 @@ try {
     $current_role_stmt->execute([':role_id' => $new_role_id]);
     $current_role = $current_role_stmt->fetch();
 
+    // イベント開始ボタンが押された場合のみイベント判定を実行
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
+        // Eventテーブルから該当するイベントを取得
+        $event_query = "SELECT * FROM Event 
+                        WHERE event_term = :current_term AND event_months = :current_month 
+                        ORDER BY RAND() LIMIT 1";
+        $event_stmt = $conn->prepare($event_query);
+        $event_stmt->execute([
+            ':current_term' => $career['current_term'],
+            ':current_month' => $career['current_months']
+        ]);
+        $event = $event_stmt->fetch();
+
+        if (!$event) {
+            echo "該当するイベントが見つかりません。";
+            exit;
+        }
+
+        // イベント情報をセッションに保存
+        $_SESSION['event'] = $event;
+
+        // イベントタイプに応じたページにリダイレクト
+        if ($event['choice'] == 1 && is_null($event['border'])) {
+            header("Location: ../G3-1/choice.php");
+            exit;
+        } elseif (is_null($event['choice']) && $event['border'] == 1) {
+            header("Location: ../G3-1/border.php");
+            exit;
+        } else {
+            header("Location: ../G3-1/randamu.php");
+            exit;
+        }
+    }
+
 } catch (PDOException $e) {
     echo "データベースエラー: " . $e->getMessage();
     exit;
