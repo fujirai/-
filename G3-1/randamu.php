@@ -124,7 +124,7 @@ if ($new_term > 4 && $new_month == 4) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css\randamu.css">
+        <link rel="stylesheet" href="css/randamu2.css">
         <title>ランダムイベント</title>
     </head>
 <body>
@@ -148,11 +148,11 @@ if ($new_term > 4 && $new_month == 4) {
         <h2><?php echo htmlspecialchars($event['event_description']); ?></h2>
     </div>
     <div id="modo" class="modo" style="display: none;">
-        <button id="backButton">戻る</button>
+        <button id="backButton" class="game-button">戻る</button>
     </div>
     <div id="nextTermButton" class="nextTermButton" style="display: none;">
-        <button id="next-term">次のタームへ</button>
-      </div>
+        <button id="next-term" class="game-button">次のタームへ</button>
+    </div>
     <script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
@@ -179,7 +179,7 @@ if ($new_term > 4 && $new_month == 4) {
             const newMonth = <?php echo $new_month; ?>;
             const newTerm = <?php echo $new_term; ?>;
 
-            if (newMonth == 4 && newTerm > <?php echo $current_term; ?>) {
+            if (newMonth === 4 && newTerm > <?php echo $current_term; ?>) {
                  // 4月で次のタームに移行した場合、「次のタームへ」ボタンを表示
                  setTimeout(() => {
                     const nextTermButton = document.getElementById("nextTermButton");
