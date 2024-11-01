@@ -72,8 +72,8 @@ try {
                 <tr>
                     <th>順位</th>
                     <th>名前</th>
-                    <th>スコア</th>
                     <th>役職</th>
+                    <th>スコア</th>
                 </tr>
             </thead>
             <tbody>
@@ -84,8 +84,8 @@ try {
                     echo "<tr class='{$highlightClass}'>";
                     echo "<td>" . $rank++ . "</td>";
                     echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($row['user_name']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['total_score']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['role_name'] ?? '役職なし') . "</td>";
+                    echo "<td>" . htmlspecialchars($row['total_score']) . "</td>";
                     echo "</tr>";
                 }
                 ?>
@@ -112,8 +112,8 @@ try {
                         echo "<tr class='{$highlightClass}'>";
                         echo "<td>" . $actualRank . "</td>";
                         echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($row['user_name']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['total_score']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['role_name'] ?? '役職なし') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['total_score']) . "</td>";
                         echo "</tr>";
                     }
                     ?>
@@ -145,7 +145,23 @@ try {
                 toggleButton.textContent = '11位以降を表示';
             }
         }
+ // クラッカーのエフェクトを生成
+const confettiContainer = document.querySelector('.confetti');
+const numberOfPieces = 100; // クラッカーの数
+
+for (let i = 0; i < numberOfPieces; i++) {
+    const confettiPiece = document.createElement('div');
+    confettiPiece.classList.add('confetti-piece');
+    confettiPiece.style.left = `${Math.random() * 100}vw`; // 修正: バッククォートを使用
+    confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`; // 修正: バッククォートを使用
+    confettiPiece.style.animationDelay = `${Math.random() * 5}s`; // 修正: バッククォートを使用
+    confettiContainer.appendChild(confettiPiece);
+}
     </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="./js/animation.js"></script>
 </body>
 </html>
