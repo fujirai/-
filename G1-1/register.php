@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // ユーザー名とパスワードが空でないか確認
         if (!empty($username) && !empty($password)) {
             // 1. Statusテーブルに新しいレコードを追加
-            $status_query = "INSERT INTO Status (trust_level, technical_skill, negotiation_skill, apparance, popularity, total_score) 
+            $status_query = "INSERT INTO Status (trust_level, technical_skill, negotiation_skill, appearance, popularity, total_score) 
                              VALUES (5, 5, 5, 5, 5, 25)";
             $conn->query($status_query);
 
