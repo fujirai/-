@@ -100,11 +100,6 @@ if ($new_term > 4 && $new_month == 4) {
             ':user_id' => $user_id
         ]);
 
-
-        // // home.php にリダイレクト
-        // header("Location: event.php");
-        // exit;
-
     } elseif (isset($_SESSION['event'])) {
         // セッションからイベントを取得して表示
         $event = $_SESSION['event'];

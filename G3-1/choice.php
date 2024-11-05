@@ -28,7 +28,7 @@
     </div>
    <!--選択肢-->
     <div class="options">
-        <button class="option-button" onclick="updateFooter(1)">1：選択肢1</button>
+        <button class="option-button" onclick="updateFooter(1)">1：ああああああああああああああああああ</button>
         <button class="option-button" onclick="updateFooter(2)">2：選択肢2</button>
         <button class="option-button" onclick="updateFooter(3)">3：選択肢3</button>
         <button class="option-button" onclick="updateFooter(4)">4：選択肢4</button>
@@ -36,6 +36,11 @@
     <div id="modo" class="modo" style="display: none;">
         <button id="backButton">戻る</button>
     </div>
+
+    <!-- <div id="nextTermButton" class="nextTermButton" style="display: none;">
+        <button id="next-term" class="game-button">次のタームへ</button>
+    </div> -->
+
 <script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
@@ -90,6 +95,33 @@
                         const modo = document.getElementById("modo");
                         modo.style.display = "block";
                     }, 1000);
+
+        //     function checkNextTerm() {
+        //     // PHPから取得した新しいタームと月の値を使用して確認
+        //     const newMonth = <?php echo $new_month; ?>;
+        //     const newTerm = <?php echo $new_term; ?>;
+        //     if (newMonth === 4 && newTerm > <?php echo $current_term; ?>) {
+        //          // 4月で次のタームに移行した場合、「次のタームへ」ボタンを表示
+        //          setTimeout(() => {
+        //             const nextTermButton = document.getElementById("nextTermButton");
+        //             if (nextTermButton) {
+        //                 nextTermButton.style.display = "block";
+        //                 const nextTerm = document.getElementById("next-term");
+        //                 nextTerm.addEventListener("click", () => {
+        //                     window.location.href = 'term.php';
+        //                 });
+        //             }
+        //         }, 1000);
+        //      }else {
+        //         // それ以外の場合、「戻る」ボタンを表示
+        //         setTimeout(() => {
+        //             const modo = document.getElementById("modo");
+        //             if (modo) modo.style.display = "block";
+        //         }, 1000);
+        //      }
+        //     }
+
+        // if (textElement) type();
 
             // 戻るボタンのクリックイベント
             const backButton = document.getElementById("backButton");
