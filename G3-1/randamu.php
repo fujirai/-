@@ -71,7 +71,7 @@ if ($new_term > 4 && $new_month == 4) {
                           trust_level = trust_level + :event_trust, 
                           technical_skill = technical_skill + :event_technical, 
                           negotiation_skill = negotiation_skill + :event_negotiation, 
-                          apparance = apparance + :event_appearance, 
+                          appearance = appearance + :event_appearance, 
                           popularity = popularity + :event_popularity 
                           WHERE status_id = (SELECT status_id FROM User WHERE user_id = :user_id)";
         $status_stmt = $conn->prepare($status_update);
