@@ -16,6 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("パスワードが一致しません。");
         }
 
+        // **PHP側での文字数チェック**
+        if (mb_strlen($username) > 10) {
+            throw new Exception("ユーザー名は10文字以内で入力してください。");
+        }
+        if (strlen($password) !== 6) {
+            throw new Exception("パスワードは6文字で入力してください。");
+        }
+
         // ユーザー名とパスワードが空でないか確認
         if (!empty($username) && !empty($password)) {
             // 1. Statusテーブルに新しいレコードを追加
@@ -75,17 +83,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="register-text">このキャラクターに名前をつけてください</p>
         <form action="register.php" method="post">
             <p class="name">名前<br>
-                <input class="name-input" type="text" placeholder="名前を入力してください(10文字以内)" name="name" required>
+                <input 
+                    class="name-input" 
+                    type="text" 
+                    placeholder="名前を入力してください(10文字以内)" 
+                    name="name" 
+                    maxlength="10" 
+                    required>
             </p>
             <p class="number">社畜番号<br>
-                <input class="number-input" type="password" placeholder="社畜番号を入力してください(6桁)" name="number" required>
+                <input 
+                    class="number-input" 
+                    type="password" 
+                    placeholder="社畜番号を入力してください(6桁)" 
+                    name="number" 
+                    pattern="\d{6}" 
+                    required>
             </p>
             <p class="numberconfirm">確認<br>
-                <input class="numberconfirm-input" type="password" placeholder="社畜番号を確認してください(6桁)" name="numberconfirm" required>
+                <input 
+                    class="numberconfirm-input" 
+                    type="password" 
+                    placeholder="社畜番号を確認してください(6桁)" 
+                    name="numberconfirm" 
+                    pattern="\d{6}" 
+                    required>
             </p>
             <button class="register-ok" type="submit">決定</button>
         </form>
         <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+        <a href="../G1-2/login.html">ログインされている方はこちら</a>
         <button onclick="location.href='../G1-0/index.html'">戻る</button>
     </div>
 </body>
