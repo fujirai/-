@@ -13,7 +13,7 @@ try {
 
     // ユーザーデータとステータスを取得
     $query = "SELECT User.user_name, Status.trust_level, Status.technical_skill, 
-                     Status.negotiation_skill, Status.apparance, Status.popularity, 
+                     Status.negotiation_skill, Status.appearance, Status.popularity, 
                      Status.total_score, User.role_id 
               FROM User 
               JOIN Status ON User.status_id = Status.status_id 
@@ -39,7 +39,7 @@ try {
             $user['trust_level'] >= $role['repuired_trust'] &&
             $user['technical_skill'] >= $role['repuired_technical'] &&
             $user['negotiation_skill'] >= $role['repuired_negotiation'] &&
-            $user['apparance'] >= $role['repuired_apparance'] &&
+            $user['appearance'] >= $role['repuired_appearance'] &&
             $user['popularity'] >= $role['repuired_popularity']
         ) {
             $new_role_id = $role['role_id'];
@@ -138,7 +138,7 @@ try {
                 <div class="stat" data-stat="trust">信頼度：<span><?php echo $user['trust_level']; ?></span></div>
                 <div class="stat" data-stat="tech">技術力：<span><?php echo $user['technical_skill']; ?></span></div>
                 <div class="stat" data-stat="negotiation">交渉力：<span><?php echo $user['negotiation_skill']; ?></span></div>
-                <div class="stat" data-stat="appearance">容　姿：<span><?php echo $user['apparance']; ?></span></div>
+                <div class="stat" data-stat="appearance">容　姿：<span><?php echo $user['appearance']; ?></span></div>
                 <div class="stat" data-stat="likability">好感度：<span><?php echo $user['popularity']; ?></span></div>
             </div>
 
