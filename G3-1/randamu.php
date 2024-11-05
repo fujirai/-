@@ -86,7 +86,7 @@ if ($new_term > 4 && $new_month == 4) {
 
         // total_scoreの更新
         $score_update = "UPDATE Status 
-                         SET total_score = trust_level + technical_skill + negotiation_skill + apparance + popularity 
+                         SET total_score = trust_level + technical_skill + negotiation_skill + appearance + popularity 
                          WHERE status_id = (SELECT status_id FROM User WHERE user_id = :user_id)";
         $score_stmt = $conn->prepare($score_update);
         $score_stmt->execute([':user_id' => $user_id]);
