@@ -16,7 +16,7 @@ try {
         $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
         $career_stmt = $conn->prepare($career_query);
         $career_stmt->execute([':user_id' => $user_id]);
-        $career = $career_stmt->fetch();
+        $career = $career_stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$career) {
             throw new Exception("Careerデータが見つかりません。");
@@ -39,25 +39,29 @@ try {
         }
 
         // 4ターム目の3月でゲーム終了処理
-if ($new_term > 4 && $new_month == 4) {
-    $update_query = "UPDATE User SET game_situation = 'end' WHERE user_id = :user_id";
-    $update_stmt = $conn->prepare($update_query);
-    $update_stmt->execute([':user_id' => $user_id]);
+        if ($new_term > 4 && $new_month == 4) {
+            $update_query = "UPDATE User SET game_situation = 'end' WHERE user_id = :user_id";
+            $update_stmt = $conn->prepare($update_query);
+            $update_stmt->execute([':user_id' => $user_id]);
 
-    echo '<div class="footer-box"><h2>ゲーム終了！お疲れ様でした。</h2></div>';
-    echo '<button id="modo" style="display:none;" onclick="location.href=\'term.php\'">次へ</button>';
-    exit;
-}
-        // Careerテーブルのcurrent_termとcurrent_monthsに対応するイベントを取得し、セッションに保存
-        $event_query = "SELECT * FROM Event 
-                        WHERE event_term = :current_term AND event_months = :current_month 
+            echo '<div class="footer-box"><h2>ゲーム終了！お疲れ様でした。</h2></div>';
+            echo '<button id="modo" style="display:none;" onclick="location.href=\'term.php\'">次へ</button>';
+            exit;
+        }
+
+        // Eventテーブルから該当するイベントとPoint情報を取得し、セッションに保存
+        $event_query = "SELECT e.*, p.event_trust, p.event_technical, p.event_negotiation, 
+                               p.event_appearance, p.event_popularity
+                        FROM Event e
+                        JOIN Point p ON e.event_id = p.event_id
+                        WHERE e.event_term = :current_term AND e.event_months = :current_month
                         ORDER BY RAND() LIMIT 1";
         $event_stmt = $conn->prepare($event_query);
         $event_stmt->execute([
             ':current_term' => $current_term,
             ':current_month' => $current_month
         ]);
-        $event = $event_stmt->fetch();
+        $event = $event_stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$event) {
             throw new Exception("該当するイベントが見つかりません。");
@@ -108,11 +112,12 @@ if ($new_term > 4 && $new_month == 4) {
     }
 
 } catch (PDOException $e) {
-    echo "データベースエラー: " . $e->getMessage();
+    echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
 } catch (Exception $e) {
-    echo "エラー: " . $e->getMessage();
+    echo "エラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
