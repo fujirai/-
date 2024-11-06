@@ -20,7 +20,7 @@ try {
               WHERE User.user_id = :user_id";
     $stmt = $conn->prepare($query);
     $stmt->execute([':user_id' => $user_id]);
-    $user = $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
         echo "ユーザー情報が見つかりません。";
