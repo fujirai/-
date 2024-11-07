@@ -6,15 +6,15 @@ require_once '../db.php';
 $source = isset($_GET['from']) ? $_GET['from'] : null;
 
 // セッションが必要な処理（gameend.phpからのアクセス）と不要な処理（index.htmlからのアクセス）で分岐
-if ($source === 'gameend') {
-    if (!isset($_SESSION['user_id'])) {
-        echo "エラー: ユーザー情報がありません。ログインしてから再度アクセスしてください。";
-        exit;
-    }
-    $userID = $_SESSION['user_id'];
-} else {
-    // セッションが不要な場合
-    $userID = null;
+$userHighlight = null; // 現在のユーザー情報を保持する変数
+if ($source === 'gameend' && isset($_SESSION['user_id'])) {
+    $userHighlight = [
+        'user_name' => $_SESSION['user_name'],
+        'role_name' => $_SESSION['role_name'] ?? '役職なし',
+        'total_score' => $_SESSION['trust_level'] + $_SESSION['technical_skill'] +
+                         $_SESSION['negotiation_skill'] + $_SESSION['appearance'] +
+                         $_SESSION['popularity'],
+    ];
 }
 
 try {
@@ -78,10 +78,20 @@ try {
             </thead>
             <tbody>
                 <?php
+                // ユーザー情報を最上位に表示
+                if ($userHighlight) {
+                    echo "<tr class='highlight-user'>";
+                    echo "<td>-</td>";
+                    echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($userHighlight['user_name']) . "</td>";
+                    echo "<td>" . htmlspecialchars($userHighlight['role_name']) . "</td>";
+                    echo "<td>" . htmlspecialchars($userHighlight['total_score']) . "</td>";
+                    echo "</tr>";
+                }
+
+                // 通常のランキングを表示
                 $rank = 1; // 順位カウンタ
                 foreach ($top10Results as $row) {
-                    $highlightClass = ($userID && $userID === $row['user_id']) ? 'highlight-user' : 'highlight-row';
-                    echo "<tr class='{$highlightClass}'>";
+                    echo "<tr class='highlight-row'>";
                     echo "<td>" . $rank++ . "</td>";
                     echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($row['user_name']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['role_name'] ?? '役職なし') . "</td>";
@@ -100,16 +110,15 @@ try {
                     <tr>
                         <th>順位</th>
                         <th>名前</th>
-                        <th>スコア</th>
                         <th>役職</th>
+                        <th>スコア</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     foreach ($remainingResults as $index => $row) {
                         $actualRank = $index + 11; // 11位からの順位
-                        $highlightClass = ($userID && $userID === $row['user_id']) ? 'highlight-user' : 'highlight-row';
-                        echo "<tr class='{$highlightClass}'>";
+                        echo "<tr class='highlight-row'>";
                         echo "<td>" . $actualRank . "</td>";
                         echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($row['user_name']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['role_name'] ?? '役職なし') . "</td>";
@@ -145,23 +154,19 @@ try {
                 toggleButton.textContent = '11位以降を表示';
             }
         }
- // クラッカーのエフェクトを生成
-const confettiContainer = document.querySelector('.confetti');
-const numberOfPieces = 100; // クラッカーの数
 
-for (let i = 0; i < numberOfPieces; i++) {
-    const confettiPiece = document.createElement('div');
-    confettiPiece.classList.add('confetti-piece');
-    confettiPiece.style.left = `${Math.random() * 100}vw`; // 修正: バッククォートを使用
-    confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`; // 修正: バッククォートを使用
-    confettiPiece.style.animationDelay = `${Math.random() * 5}s`; // 修正: バッククォートを使用
-    confettiContainer.appendChild(confettiPiece);
-}
+        // クラッカーのエフェクトを生成
+        const confettiContainer = document.querySelector('.confetti');
+        const numberOfPieces = 100;
+
+        for (let i = 0; i < numberOfPieces; i++) {
+            const confettiPiece = document.createElement('div');
+            confettiPiece.classList.add('confetti-piece');
+            confettiPiece.style.left = `${Math.random() * 100}vw`;
+            confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
+            confettiPiece.style.animationDelay = `${Math.random() * 5}s`;
+            confettiContainer.appendChild(confettiPiece);
+        }
     </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="./js/animation.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../G1-0.index.html");
+    header("Location: ../G1-0/index.html");
     exit;
 }
 
@@ -51,7 +51,11 @@ try {
     $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
     $career_stmt = $conn->prepare($career_query);
     $career_stmt->execute([':user_id' => $user_id]);
-    $career = $career_stmt->fetch();
+    $career = $career_stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$career) {
+        throw new Exception("Career情報が見つかりません。");
+    }
 
     // ユーザーの役職を更新（必要な場合）
     if ($new_role_id != $user['role_id']) {
@@ -67,20 +71,23 @@ try {
     $current_role_query = "SELECT role_name, role_explanation FROM Role WHERE role_id = :role_id";
     $current_role_stmt = $conn->prepare($current_role_query);
     $current_role_stmt->execute([':role_id' => $new_role_id]);
-    $current_role = $current_role_stmt->fetch();
+    $current_role = $current_role_stmt->fetch(PDO::FETCH_ASSOC);
 
     // イベント開始ボタンが押された場合のみイベント判定を実行
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
+        $current_term = $career['current_term'];
+        $current_month = $career['current_months'];
+
         // Eventテーブルから該当するイベントを取得
         $event_query = "SELECT * FROM Event 
                         WHERE event_term = :current_term AND event_months = :current_month 
                         ORDER BY RAND() LIMIT 1";
         $event_stmt = $conn->prepare($event_query);
         $event_stmt->execute([
-            ':current_term' => $career['current_term'],
-            ':current_month' => $career['current_months']
+            ':current_term' => $current_term,
+            ':current_month' => $current_month
         ]);
-        $event = $event_stmt->fetch();
+        $event = $event_stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$event) {
             echo "該当するイベントが見つかりません。";
@@ -89,6 +96,13 @@ try {
 
         // イベント情報をセッションに保存
         $_SESSION['event'] = $event;
+
+        // イベント処理後、ゲーム終了条件のチェック
+        // if ($current_term == 4 && $current_month == 3) {
+        //     // ゲーム終了へ遷移
+        //     header("Location: ../G4-1/ending.php");
+        //     exit;
+        // }
 
         // イベントタイプに応じたページにリダイレクト
         if ($event['choice'] == 1 && is_null($event['border'])) {
@@ -102,12 +116,15 @@ try {
             exit;
         }
     }
-
 } catch (PDOException $e) {
-    echo "データベースエラー: " . $e->getMessage();
+    echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+    exit;
+} catch (Exception $e) {
+    echo "エラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">

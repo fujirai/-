@@ -20,81 +20,84 @@ try {
               WHERE User.user_id = :user_id";
     $stmt = $conn->prepare($query);
     $stmt->execute([':user_id' => $user_id]);
-    $user = $stmt->fetch();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-        echo "ユーザー情報が見つかりません。";
-        exit;
+        throw new Exception("ユーザー情報が見つかりません。");
     }
 
-     // Roleテーブルから全役職を取得
-     $role_query = "SELECT * FROM Role ORDER BY repuired_status DESC";
-     $role_stmt = $conn->query($role_query);
-     $roles = $role_stmt->fetchAll();
- 
-     $new_role_id = $user['role_id'];  // 役職の初期化（デフォルトは現在の役職）
- 
-     foreach ($roles as $role) {
-         if ($user['total_score'] >= $role['repuired_status'] &&
-             $user['trust_level'] >= $role['repuired_trust'] &&
-             $user['technical_skill'] >= $role['repuired_technical'] &&
-             $user['negotiation_skill'] >= $role['repuired_negotiation'] &&
-             $user['appearance'] >= $role['repuired_appearance'] &&
-             $user['popularity'] >= $role['repuired_popularity']
-         ) {
-             $new_role_id = $role['role_id'];
-             break;
-         }
-     }
+    // 現在の役職を取得
+    $current_role_query = "SELECT role_name FROM Role WHERE role_id = :role_id";
+    $current_role_stmt = $conn->prepare($current_role_query);
+    $current_role_stmt->execute([':role_id' => $user['role_id']]);
+    $current_role = $current_role_stmt->fetch(PDO::FETCH_ASSOC);
 
+    if (!$current_role) {
+        throw new Exception("役職情報が見つかりません。");
+    }
 
-    // Careerテーブルからcurrent_termとcurrent_monthsを取得
+    // Careerテーブルから現在のタームと月を取得
     $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
     $career_stmt = $conn->prepare($career_query);
     $career_stmt->execute([':user_id' => $user_id]);
-    $career = $career_stmt->fetch();
+    $career = $career_stmt->fetch(PDO::FETCH_ASSOC);
 
-    // 現在の役職を取得
-    $current_role_query = "SELECT role_name, role_explanation FROM Role WHERE role_id = :role_id";
-    $current_role_stmt = $conn->prepare($current_role_query);
-    $current_role_stmt->execute([':role_id' => $new_role_id]);
-    $current_role = $current_role_stmt->fetch();
-    
+    if (!$career) {
+        throw new Exception("Career情報が見つかりません。");
+    }
 
+    $current_term = $career['current_term'];
+    $current_month = $career['current_months'];
+
+    // ターム終了のフラグ
+    $isFinalMonth = ($current_month === 3);
+    $nextTerm = $current_term + 1;
 
 } catch (PDOException $e) {
-    echo "データベースエラー: " . $e->getMessage();
+    echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+    exit;
+} catch (Exception $e) {
+    echo "エラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/term.css">
-        <title>ターム</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/term.css">
+    <title>ターム</title>
+</head>
 <body>
     <div class="center-container">
         <div class="content">
-            <!-- ここにDBからのそれぞれのテキストを追加 -->
-            <h1><?php echo $career['current_term']; ?>年目終了</h1>
-            <p>1ターム目</p>
-            <h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2>
-            <h3>信頼度：<span><?php echo $user['trust_level']; ?></span><br>
-                技術力：<span><?php echo $user['technical_skill']; ?></span><br>
-                交渉力：<span><?php echo $user['negotiation_skill']; ?></span><br>
-                容　姿：<span><?php echo $user['appearance']; ?></span><br>
-                好感度：<span><?php echo $user['popularity']; ?></span><br>
+            <h2>
+                <?php 
+                    // ターム結果表示用
+                    $previous_term = $current_term - 1; // 現在のタームから-1
+                    echo htmlspecialchars($previous_term) . "年目の結果"; 
+                ?>
+            </h2>
+            <!-- ユーザー情報を表示 -->
+            <h1><?php echo htmlspecialchars($user['user_name']); ?> のステータス</h1>
+            <p>役職: <strong><?php echo htmlspecialchars($current_role['role_name']); ?></strong></p>
+            <h3>
+                信頼度: <?php echo $user['trust_level']; ?><br>
+                技術力: <?php echo $user['technical_skill']; ?><br>
+                交渉力: <?php echo $user['negotiation_skill']; ?><br>
+                容姿: <?php echo $user['appearance']; ?><br>
+                好感度: <?php echo $user['popularity']; ?><br>
             </h3>
 
-            <button class="roundbutton" id="nextButton">つぎへ</button>
+            <!-- 条件に応じたボタン表示 -->
+            <?php if ($isFinalMonth): ?>
+                <button class="roundbutton" onclick="location.href='../G4-1/ending.php'">エンディングへ</button>
+            <?php else: ?>
+                <button class="roundbutton" onclick="location.href='../G2-1/home.php'">次のタームへ</button>
+            <?php endif; ?>
+        </div>
     </div>
-    <script>
-        document.getElementById('nextButton').addEventListener('click', function () {
-            window.location.href = '../G2-1/home.php';
-        });
-    </script>
 </body>
 </html>
