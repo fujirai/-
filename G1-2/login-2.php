@@ -10,17 +10,19 @@
 <div class="login-box">
         <h2>ログイン</h2>
         <form id="loginForm">
+            <p>名前</p>
             <input type="text" id="name" placeholder="名前 (10文字以内)" max="10" required>
             <span id="nameError" class="error-message"></span>
 
+            <p>社畜番号</p>
             <input type="number" id="number" placeholder="社畜番号 (6桁)" min="100000" max="999999" required>
             <span id="numberError" class="error-message"></span>
 
-            <a href="../G1-1/register.php">ログインできない方はこちら</a>
             <div class="button-group">
                 <button type="button" class="confirm-button" id="confirmButton">決定</button>
                 <button type="button" class="back-button" onclick="goBack()">戻る</button>
             </div>
+            <a href="../G1-1/register.php">ログインできない方はこちら</a>
     </form>
 </div>
 

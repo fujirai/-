@@ -12,7 +12,7 @@ body{
     background-repeat: no-repeat;
 }
 .register{
-    width: 70%;
+    width: 80vh;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -35,8 +35,9 @@ body{
     }
 }
 .register-text {
-    font-weight: bold; /* 太文字 */
-    margin: 10px 0;
+    margin-bottom: 20px;
+    color: #333;
+    white-space: nowrap;
 }
 p{
     margin: 0;
@@ -61,12 +62,16 @@ input[type="password"]:focus {
     justify-content: center;
 }
 button {
-    background-color: transparent; /* 背景を透過 */
-    border: none; /* 枠線をなくす */
-    padding: 10px 20px;
-    margin: 10px;
+    width: 30%;
+    margin: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 1em;
-    text-align: center;
-    transition: color 0.3s;
+    background-color: #4CAF50;
+    color: white;
+}
+button:hover{
+    background-color: #45a049;
 }
