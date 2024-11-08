@@ -1,3 +1,50 @@
+<?php
+session_start();
+require_once __DIR__ . '/../db.php';  // DB接続ファイルをインクルード
+
+$errorMessage = ""; // エラーメッセージを初期化
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $conn = connectDB();
+
+    // フォームから送信された名前とパスワードを取得
+    $inputName = $_POST['name'] ?? '';
+    $inputPassword = $_POST['password'] ?? '';
+
+    if ($inputName && $inputPassword) {
+        try {
+            // SQL準備と実行
+            $sql = $conn->prepare('SELECT * FROM User WHERE user_name = :user_name');
+            $sql->execute([':user_name' => $inputName]);
+            $row = $sql->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                // パスワード検証
+                if (password_verify($inputPassword, $row['password'])) {
+                    // セッションの再生成
+                    session_regenerate_id(true);
+                    $_SESSION['user'] = ['user_id' => $row['user_id'], 'user_name' => $row['user_name']];
+
+                    // ログイン成功時のリダイレクト
+                    header('Location: ../G2-1/home.php');
+                    exit;
+                } else {
+                    $_SESSION['login_error'] = "パスワードが一致しません";
+                }
+            } else {
+                $_SESSION['login_error'] = "ユーザー名が見つかりません";
+            }
+        } catch (PDOException $e) {
+            // データベースエラーのログ記録とエラー表示
+            error_log("データベース接続エラー: " . $e->getMessage());
+            $_SESSION['login_error'] = "システムエラーが発生しました。後ほど再試行してください。";
+        }
+    } else {
+        $_SESSION['login_error'] = "名前とパスワードを入力してください";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -22,58 +69,20 @@
         </ul>
     </div>
 <div class="login-box">
-        <h2>ログイン</h2>
-        <form id="loginForm">
-            <p>名前</p>
-            <input type="text" id="name" placeholder="名前 (10文字以内)" max="10" required>
-            <span id="nameError" class="error-message"></span>
-
-            <p>社畜番号</p>
-            <input type="number" id="number" placeholder="社畜番号 (6桁)" min="100000" max="999999" required>
-            <span id="numberError" class="error-message"></span>
-
-            <div class="button-group">
-                <button type="button" class="confirm-button" id="confirmButton">決定</button>
-                <button type="button" class="back-button" onclick="goBack()">戻る</button>
-            </div>
-            <a href="../G1-1/register.php">ログインできない方はこちら</a>
+    <h2>ログイン</h2>
+    <form method="POST" action="">
+        <p>名前</p>
+        <input type="text" name="name" id="name" placeholder="名前 (10文字以内)" maxlength="10" value="<?php echo htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
+        <span class="error-message"><?php echo $errorMessage && strpos($errorMessage, '名前') !== false ? $errorMessage : ''; ?></span>
+        <p>社畜番号</p>
+        <input type="password" name="password" id="password" placeholder="パスワード (6文字以内)" minlength="6" required>
+        <span class="error-message"><?php echo $errorMessage && strpos($errorMessage, 'パスワード') !== false ? $errorMessage : ''; ?></span>
+        <div class="button-group">
+            <button type="submit" class="confirm-button">決定</button>
+            <button type="button" class="back-button" onclick="window.location.href='../G1-0/index.html';">戻る</button>
+        </div>
+        <a href="../G1-1/register.php">ログインできない方はこちら</a>
     </form>
 </div>
-
-    <script>
-        document.getElementById('confirmButton').addEventListener('click', function () {
-            const name = document.getElementById('name').value.trim();
-            const number = document.getElementById('number').value.trim();
-            const nameError = document.getElementById('nameError');
-            const numberError = document.getElementById('numberError');
-
-            // エラーメッセージを初期化
-            nameError.textContent = '';
-            numberError.textContent = '';
-
-            let isValid = true;
-
-            // 名前が10文字以内かのチェック
-            if (name === '' || name.length > 10) {
-                nameError.textContent = '名前は10文字以内で入力してください。';
-                isValid = false;
-            }
-
-            // 番号が6桁かのチェック
-            if (number === '' || number.length !== 6) {
-                numberError.textContent = '番号は6桁で入力してください。';
-                isValid = false;
-            }
-
-            if (isValid) {
-                window.location.href = '../G2-1/home.php';
-            }
-
-        });
-        // 戻るボタンのクリックイベント処理
-        function goBack() {
-            window.location.href = '../G1-0/index.html';
-        }
-    </script>
 </body>
 </html>

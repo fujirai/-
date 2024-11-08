@@ -1,3 +1,72 @@
+<?php
+session_start();
+require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../G1-0/index.html");
+    exit;
+}
+
+try {
+    $conn = connectDB();
+    $user_id = $_SESSION['user_id'];
+
+    // ユーザーデータとステータスを取得
+    $query = "SELECT User.user_name, Status.trust_level, Status.technical_skill, 
+                     Status.negotiation_skill, Status.appearance, Status.popularity, 
+                     Status.total_score, User.role_id 
+              FROM User 
+              JOIN Status ON User.status_id = Status.status_id 
+              WHERE User.user_id = :user_id";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([':user_id' => $user_id]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        echo "ユーザー情報が見つかりません。";
+        exit;
+    }
+
+     // Roleテーブルから全役職を取得
+     $role_query = "SELECT * FROM Role ORDER BY repuired_status DESC";
+     $role_stmt = $conn->query($role_query);
+     $roles = $role_stmt->fetchAll();
+ 
+     $new_role_id = $user['role_id'];  // 役職の初期化（デフォルトは現在の役職）
+ 
+     foreach ($roles as $role) {
+         if ($user['total_score'] >= $role['repuired_status'] &&
+             $user['trust_level'] >= $role['repuired_trust'] &&
+             $user['technical_skill'] >= $role['repuired_technical'] &&
+             $user['negotiation_skill'] >= $role['repuired_negotiation'] &&
+             $user['appearance'] >= $role['repuired_appearance'] &&
+             $user['popularity'] >= $role['repuired_popularity']
+         ) {
+             $new_role_id = $role['role_id'];
+             break;
+         }
+     }
+
+
+    // Careerテーブルからcurrent_termとcurrent_monthsを取得
+    $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
+    $career_stmt = $conn->prepare($career_query);
+    $career_stmt->execute([':user_id' => $user_id]);
+    $career = $career_stmt->fetch();
+
+    // 現在の役職を取得
+    $current_role_query = "SELECT role_name, role_explanation FROM Role WHERE role_id = :role_id";
+    $current_role_stmt = $conn->prepare($current_role_query);
+    $current_role_stmt->execute([':role_id' => $new_role_id]);
+    $current_role = $current_role_stmt->fetch();
+    
+
+
+} catch (PDOException $e) {
+    echo "データベースエラー: " . $e->getMessage();
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -10,8 +79,8 @@
     <div id="popup" class="popup">
         <h2><p><span class="rotate-text">ステータス</span></p></h2>
         <!-- ここにDBからステータスを追加 -->
-        <p><h2>平社員</h2></p>
-        <p><h1>名前</h1></p>
+        <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
+        <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
         <p><h3>
             信頼度：<br>
             技術力：<br>
@@ -95,33 +164,6 @@
                         const modo = document.getElementById("modo");
                         modo.style.display = "block";
                     }, 1000);
-
-        //     function checkNextTerm() {
-        //     // PHPから取得した新しいタームと月の値を使用して確認
-        //     const newMonth = <?php echo $new_month; ?>;
-        //     const newTerm = <?php echo $new_term; ?>;
-        //     if (newMonth === 4 && newTerm > <?php echo $current_term; ?>) {
-        //          // 4月で次のタームに移行した場合、「次のタームへ」ボタンを表示
-        //          setTimeout(() => {
-        //             const nextTermButton = document.getElementById("nextTermButton");
-        //             if (nextTermButton) {
-        //                 nextTermButton.style.display = "block";
-        //                 const nextTerm = document.getElementById("next-term");
-        //                 nextTerm.addEventListener("click", () => {
-        //                     window.location.href = 'term.php';
-        //                 });
-        //             }
-        //         }, 1000);
-        //      }else {
-        //         // それ以外の場合、「戻る」ボタンを表示
-        //         setTimeout(() => {
-        //             const modo = document.getElementById("modo");
-        //             if (modo) modo.style.display = "block";
-        //         }, 1000);
-        //      }
-        //     }
-
-        // if (textElement) type();
 
             // 戻るボタンのクリックイベント
             const backButton = document.getElementById("backButton");
