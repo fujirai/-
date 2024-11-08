@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="Style/register.css">
     <title>登録画面</title>
 </head>
 <body>
@@ -126,12 +126,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </p>
                 </div>
                 <div class="button">
-                    <button class="register-ok" type="submit">決定</button>
+                    <button class="register-ok" type="submit">入社</button>
                     <button onclick="location.href='../G1-0/index.html'">戻る</button>
                 </div>
             </form>
             <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-            <a href="../G1-2/login.html">ログインされている方はこちら</a>
+            <a href="../G1-2/login-2.php">ログインされている方はこちら</a>
         </div>
 </body>
 </html>
