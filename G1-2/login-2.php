@@ -7,6 +7,20 @@
     <title>ログイン画面</title>
 </head>
 <body>
+<div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
 <div class="login-box">
         <h2>ログイン</h2>
         <form id="loginForm">

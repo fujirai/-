@@ -75,12 +75,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Style/register.css">
+    <link rel="stylesheet" href="css/register.css">
     <title>登録画面</title>
 </head>
 <body>
+    <div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
     <div class="register">
-        <h2 class="register-text">このキャラクターに名前をつけてください</h2>
+        <h3 class="register-text">このキャラクターに名前をつけてください</h3>
         <form action="register.php" method="post">
             <div class="inputform">
                 <p class="name">名前<br>
