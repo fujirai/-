@@ -36,6 +36,11 @@ try {
     $_SESSION['appearance'] = $user['appearance'];
     $_SESSION['popularity'] = $user['popularity'];
 
+
+    // ゲーム終了時に game_situation を 'end' に更新
+    $updateQuery = "UPDATE User SET game_situation = 'end' WHERE user_id = :user_id";
+    $updateStmt = $pdo->prepare($updateQuery);
+    $updateStmt->execute([':user_id' => $user_id]);
 } catch (PDOException $e) {
     echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
