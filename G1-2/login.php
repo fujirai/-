@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>ログイン</h2>
         <form id="loginForm" method="POST">
             <input type="text" id="name" name="user_name" placeholder="名前 (10文字以内)" max="10" required>
-            <input type="number" id="number" name="user_password" placeholder="社畜番号 (6桁)"  min="000000" max="999999" required>
+            <input type="password" id="number" name="user_password" placeholder="社畜番号 (6桁)"  min="000000" max="999999" required>
 
             <a href="../G1-1/register.php">ログインできない方はこちら</a>
             <div class="button-group">
