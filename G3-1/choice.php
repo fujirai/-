@@ -82,15 +82,16 @@ try {
         <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
         <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
         <p><h3>
-            信頼度：<br>
-            技術力：<br>
-            交渉力：<br>
-            容　姿：<br>
-            好感度：<br>
+            信頼度：<span><?php echo $user['trust_level']; ?></span><br>
+            技術力：<span><?php echo $user['technical_skill']; ?></span><br>
+            交渉力：<span><?php echo $user['negotiation_skill']; ?></span><br>
+            容　姿：<span><?php echo $user['appearance']; ?></span><br>
+            好感度：<span><?php echo $user['popularity']; ?><br>
         </h3></p>
     </div>
     <!--テキスト-->
     <div class="fixed-title">
+        <h2>イベント名</h2>
     </div>
     <div class="footer-box">
         <h2>選択イベントです。なにか選択してください。</h2>
@@ -103,13 +104,8 @@ try {
         <button class="option-button" onclick="updateFooter(4)">4：選択肢4</button>
     </div>
     <div id="modo" class="modo" style="display: none;">
-        <button id="backButton">戻る</button>
+        <button id="backButton" class="game-button">戻る</button>
     </div>
-
-    <!-- <div id="nextTermButton" class="nextTermButton" style="display: none;">
-        <button id="next-term" class="game-button">次のタームへ</button>
-    </div> -->
-
 <script>
         var popup = document.getElementById("popup");
         popup.addEventListener("click",function(){
@@ -132,11 +128,9 @@ try {
                     showOptions(); // テキストが全て表示されたら選択肢を表示
                 }
             }
-
             function showOptions() {
                 optionsElement.style.opacity = "1"; // フェードイン表示
             }
-
             type();
         });
 
