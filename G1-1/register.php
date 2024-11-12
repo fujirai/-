@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             name="name" 
                             maxlength="10" 
                             required
-                            oninput="validateName()">
+                            >
                     </p>
                     <p class="number">社畜番号<br>
                         <input 
@@ -117,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             name="number" 
                             pattern="\d{6}" 
                             required
-                            oninput="validatePassword()"
                         >
                     </p>
                     <p class="numberconfirm">確認<br>
@@ -129,7 +128,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             name="numberconfirm" 
                             pattern="\d{6}" 
                             required
-                            oninput="validatePassword()"
                         >
                     </p>
                 </div>
@@ -139,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form>
             <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-            <a href="../G1-2/login-2.php">ログインされている方はこちら</a>
+            <a href="../G1-2/login.php">ログインされている方はこちら</a>
         </div>
         <script>
     // 入力中の制約（リアルタイム）
