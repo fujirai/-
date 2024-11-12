@@ -140,8 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="../G1-2/login.php">ログインされている方はこちら</a>
         </div>
         <script>
-    // 入力中の制約（リアルタイム）
-    document.getElementById('name-input').addEventListener('input', function() {
+        // 入力中の制約（リアルタイム）
+        document.getElementById('name-input').addEventListener('input', function() {
             if (this.value.length > 10) {
                 this.value = this.value.slice(0, 10); // 10文字以上を切り捨て
             }
