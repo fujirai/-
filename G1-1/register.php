@@ -98,31 +98,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="register.php" method="post">
             <div class="inputform">
                 <p class="name">名前<br>
-                        <input 
+                        <input
+                            id="name-input" 
                             class="name-input" 
                             type="text" 
                             placeholder="名前を入力してください(10文字以内)" 
                             name="name" 
                             maxlength="10" 
-                            required>
+                            required
+                            >
                     </p>
                     <p class="number">社畜番号<br>
                         <input 
+                            id="number-input" 
                             class="number-input" 
                             type="password" 
                             placeholder="６桁の社畜番号を入力してください" 
                             name="number" 
                             pattern="\d{6}" 
-                            required>
+                            required
+                        >
                     </p>
                     <p class="numberconfirm">確認<br>
                         <input 
+                            id="numberconfirm-input"
                             class="numberconfirm-input" 
                             type="password" 
                             placeholder="社畜番号を確認してください(6桁)" 
                             name="numberconfirm" 
                             pattern="\d{6}" 
-                            required>
+                            required
+                        >
                     </p>
                 </div>
                 <div class="button">
@@ -131,7 +137,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form>
             <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-            <a href="../G1-2/login-2.php">ログインされている方はこちら</a>
+            <a href="../G1-2/login.php">ログインされている方はこちら</a>
         </div>
+        <script>
+        // 入力中の制約（リアルタイム）
+        document.getElementById('name-input').addEventListener('input', function() {
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10); // 10文字以上を切り捨て
+            }
+        });
+
+        document.getElementById('number-input').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6); // 数字以外を削除し6桁まで制限
+        });
+
+        document.getElementById('numberconfirm-input').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6); // 数字以外を削除し6桁まで制限
+        });
+    </script>
 </body>
 </html>

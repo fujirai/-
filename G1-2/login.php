@@ -54,8 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="login-box">
         <h2>ログイン</h2>
         <form id="loginForm" method="POST">
-            <input type="text" id="name" name="user_name" placeholder="名前 (10文字以内)" max="10" required>
-            <input type="password" id="number" name="user_password" placeholder="社畜番号 (6桁)"  min="000000" max="999999" required>
+            <input type="text" id="name" name="user_name" placeholder="名前 (10文字以内)" maxlength="10" required oninput="validateName()">
+            <input type="password" id="number" name="user_password" placeholder="社畜番号 (6桁)"  required oninput="validatePassword()">
 
             <a href="../G1-1/register.php">ログインできない方はこちら</a>
             <div class="button-group">
@@ -72,6 +72,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 戻るボタンのクリックイベント処理
     function goBack() {
         window.location.href = '../G1-0/index.html';
+    }
+
+    function validateName() {
+        const nameField = document.getElementById('name');
+        // 名前は10文字以内、全ての文字が有効
+        if (nameField.value.length > 10) {
+            nameField.value = nameField.value.slice(0, 10); // 11文字目以降を削除
+        }
+    }
+
+    // パスワードフィールドのリアルタイムバリデーション
+    function validatePassword() {
+        const passwordField = document.getElementById('number');
+        // 入力値をフィルタリングして数字のみ保持
+        passwordField.value = passwordField.value.replace(/[^0-9]/g, '');
+        // 6桁を超えた場合は切り捨て
+        if (passwordField.value.length > 6) {
+            passwordField.value = passwordField.value.slice(0, 6);
+        }
     }
 </script>
 </body>

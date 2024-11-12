@@ -1,29 +1,141 @@
-body{
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700');
+
+body {
+    width: 100%;
+    background-size: cover;
+    background: linear-gradient(to bottom, #dba2ff, #ffffff);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #111;
+    text-align: center;
+    font-weight: 700;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(to bottom right, #74ebd5, #9face6);
 }
+p{
+    margin: 5px;
+}
+
+#fly-in {
+    position: fixed;
+    top: 0;
+    font-size: 4em;
+    text-transform: uppercase;
+    animation: appear 1.5s forwards; /* 一度だけ実行されるアニメーション */
+}
+
+#fly-in div {
+    margin: 2vh 0;
+    opacity: 0;
+    left: 10vw;
+    width: 80vw;
+    animation: switch 32s forwards;
+}
+
+#fly-in span {
+    display: block;
+    font-size: 0.4em;
+    opacity: 0.8;
+}
+
+/* アニメーション: フェードイン＋スケールアップ */
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes switch {
+    0% { opacity: 0;filter: blur(20px); transform:scale(12)}
+    3% { opacity: 1;filter: blur(0); transform:scale(1)}
+    100% { opacity: 1;filter: blur(0); transform:scale(1)}
+}
+
+
 .clear-status{
-    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+    position: fixed;
+    transition: none;
     width: 80%;
     max-width: 800px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 30px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     margin: 20px;
-}
-.nobr{
-    display: flex;
+    padding: 10px;
 }
 .user_name{
     margin: 0;
     font-size: 40px;
 }
+.role_name{
+    margin: 0;
+}
 .status{
     text-align: center;
+    margin: 15px;
+}
+
+.status p {
+    opacity: 0; /* 初期状態は非表示 */
+    transform: translateY(20px); /* 下にずらしておく */
+    animation: fadeInUp 1s ease-out forwards; /* フェードインと上への移動 */
+}
+
+.status p:nth-child(1) {
+    animation-delay: 0.2s; /* 最初の要素 */
+}
+
+.status p:nth-child(2) {
+    animation-delay: 0.4s; /* 0.4秒後に実行 */
+}
+
+.status p:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.status p:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+.status p:nth-child(5) {
+    animation-delay: 1s;
+}
+
+.status p:nth-child(6) {
+    animation-delay: 1.2s;
+}
+
+/* フェードイン＋上に移動するアニメーション */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0; /* 完全に透明 */
+        transform: translateY(20px); /* 下にずれている状態 */
+    }
+    100% {
+        opacity: 1; /* 完全に表示 */
+        transform: translateY(0); /* 元の位置に戻る */
+    }
+}
+
+img{
+    position: fixed;
+    right: 10%;
+    bottom: 0;
+}
+
+.buttons{
+    position: fixed;
+    bottom: 5%;
 }
 
 .ranking-button {
@@ -31,13 +143,13 @@ body{
     padding: 10px 20px;
     border-radius: 15px;
     cursor: pointer;
-    background-color: #3ba6a3;
+    background-color: #b872e3;
     color: white;
     border: none;
 }
 
 .ranking-button:hover {
-    background-color: #2e8e8a;
+    background-color: #955bb9;
 }
 .title-button{
     background-color: transparent;
