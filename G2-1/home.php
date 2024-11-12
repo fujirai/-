@@ -96,6 +96,7 @@ try {
 
         // イベント情報をセッションに保存
         $_SESSION['event'] = $event;
+        $_SESSION['point'] = $point;
 
         // イベント処理後、ゲーム終了条件のチェック
         // if ($current_term == 4 && $current_month == 3) {
@@ -105,10 +106,10 @@ try {
         // }
 
         // イベントタイプに応じたページにリダイレクト
-        if ($event['choice'] == '1' && is_null($event['border'])) {
+        if ($point['choice'] == '1' && is_null($point['border'])) {
             header("Location: ../G3-1/choice.php");
             exit;
-        } elseif (is_null($event['choice']) && $event['border'] == '1') {
+        } elseif (is_null($point['choice']) && $point['border'] == '1') {
             header("Location: ../G3-1/border.php");
             exit;
         } else {
