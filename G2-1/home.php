@@ -73,49 +73,87 @@ try {
     $current_role_stmt->execute([':role_id' => $new_role_id]);
     $current_role = $current_role_stmt->fetch(PDO::FETCH_ASSOC);
 
-    // イベント開始ボタンが押された場合のみイベント判定を実行
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
-        $current_term = $career['current_term'];
-        $current_month = $career['current_months'];
+    // // イベント開始ボタンが押された場合のみイベント判定を実行
+    // if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
+    //     $current_term = $career['current_term'];
+    //     $current_month = $career['current_months'];
 
-        // Eventテーブルから該当するイベントを取得
-        $event_query = "SELECT * FROM Event 
-                        WHERE event_term = :current_term AND event_months = :current_month 
-                        ORDER BY RAND() LIMIT 1";
-        $event_stmt = $conn->prepare($event_query);
-        $event_stmt->execute([
-            ':current_term' => $current_term,
-            ':current_month' => $current_month
-        ]);
-        $event = $event_stmt->fetch(PDO::FETCH_ASSOC);
+    //     // Eventテーブルから該当するイベントを取得
+    //     $event_query = "SELECT * FROM Event 
+    //                     WHERE event_term = :current_term AND event_months = :current_month 
+    //                     ORDER BY RAND() LIMIT 1";
+    //     $event_stmt = $conn->prepare($event_query);
+    //     $event_stmt->execute([
+    //         ':current_term' => $current_term,
+    //         ':current_month' => $current_month
+    //     ]);
+    //     $event = $event_stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$event) {
-            echo "該当するイベントが見つかりません。";
-            exit;
-        }
+    //     if (!$event) {
+    //         echo "該当するイベントが見つかりません。";
+    //         exit;
+    //     }
 
-        // イベント情報をセッションに保存
-        $_SESSION['event'] = $event;
+    //     // イベント情報をセッションに保存
+    //     $_SESSION['event'] = $event;
 
-        // イベント処理後、ゲーム終了条件のチェック
-        // if ($current_term == 4 && $current_month == 3) {
-        //     // ゲーム終了へ遷移
-        //     header("Location: ../G4-1/ending.php");
-        //     exit;
-        // }
+    //     // イベントタイプに応じたページにリダイレクト
+    //     if ($event['choice'] == 1 && is_null($event['border'])) {
+    //         header("Location: ../G3-1/choice.php");
+    //         exit;
+    //     } elseif (is_null($event['choice']) && $event['border'] == 1) {
+    //         header("Location: ../G3-1/border.php");
+    //         exit;
+    //     } else {
+    //         header("Location: ../G3-1/randamu.php");
+    //         exit;
+    //     }
+    // }
 
-        // イベントタイプに応じたページにリダイレクト
-        if ($event['choice'] == 1 && is_null($event['border'])) {
-            header("Location: ../G3-1/choice.php");
-            exit;
-        } elseif (is_null($event['choice']) && $event['border'] == 1) {
-            header("Location: ../G3-1/border.php");
-            exit;
-        } else {
-            header("Location: ../G3-1/randamu.php");
-            exit;
-        }
+    // デフォルト値を設定
+$redirect_url = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
+    $current_term = $career['current_term'];
+    $current_month = $career['current_months'];
+
+    // EventテーブルとPointテーブルを結合してイベントを取得
+    $event_query = "SELECT e.*, p.choice, p.border 
+        FROM Event e
+        LEFT JOIN Point p ON e.event_id = p.event_id
+        WHERE e.event_term = :current_term AND e.event_months = :current_month
+        ORDER BY RAND() LIMIT 1";
+    $event_stmt = $conn->prepare($event_query);
+    $event_stmt->execute([
+        ':current_term' => $current_term,
+        ':current_month' => $current_month
+    ]);
+    $event = $event_stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$event) {
+        echo "該当するイベントが見つかりません。";
+        exit;
     }
+
+    // イベント情報をセッションに保存
+    $_SESSION['event'] = $event;
+
+    // 適切なリダイレクト先を決定
+    if (isset($event['choice']) && $event['choice'] == 1) {
+        $redirect_url = "../G3-1/choice.php";
+    } elseif (isset($event['border']) && $event['border'] == 1) {
+        $redirect_url = "../G3-1/border.php";
+    } else {
+        $redirect_url = "../G3-1/randamu.php";
+    }
+}
+
+// デバッグ用: 値の確認
+echo "<pre>";
+var_dump($redirect_url);
+echo "</pre>";
+    
+    
 } catch (PDOException $e) {
     echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
@@ -168,7 +206,7 @@ try {
             <div class="button-wrapper">
                 <button onclick="location.href='../G1-0/index.html'">タイトルへ</button>
                 <hr class="button-divider">
-                <form action="../G3-1/randamu.php" method="POST">
+                <form action="start_event.php" method="POST">
                     <button type="submit" name="start_event">イベント開始</button>
                 </form>
             </div>
