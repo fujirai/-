@@ -89,13 +89,13 @@ button {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #e67be1a3;
+    background-color: #aa69d5;
     color: white;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #ce53c8;
+    background-color: #8653a8;
 }
 
 /* アニメーション背景 */
@@ -123,7 +123,7 @@ button:hover {
     list-style: none;
     width: 20px;
     height: 20px;
-    background: #ce53c8;
+    background: #9a5fc0;
     animation: animate 25s linear infinite;
     bottom: -150px;
 }

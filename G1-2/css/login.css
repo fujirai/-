@@ -94,24 +94,16 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
-.confirm-button {
-    background-color: #e67be1a3;
-    color: white;
-}
-
+.confirm-button,
 .back-button {
-    background-color: #e67be1a3;
+    background-color: #aa69d5;
     color: white;
 }
 
-.confirm-button:hover {
-    background-color: #ce53c8;
-}
-
+.confirm-button:hover,
 .back-button:hover {
-    background-color: #ce53c8;
+    background-color: #8653a8;
 }
-
 .error-message {
     color: red;
     font-size: 0.9em;
@@ -142,7 +134,7 @@ input[type="number"]::-webkit-outer-spin-button {
     list-style: none;
     width: 20px;
     height: 20px;
-    background: #ce53c8;
+    background: #9a5fc0;
     animation: animate 25s linear infinite;
     bottom: -150px;
 }
