@@ -80,7 +80,10 @@ try {
 
         // Eventテーブルから該当するイベントを取得
         $event_query = "SELECT * FROM Event, , Point.choice, Point.border 
-                        WHERE event_term = :current_term AND event_months = :current_month 
+                        FROM Event 
+                    LEFT JOIN Point ON Event.event_id = Point.event_id 
+                    WHERE Event.event_term = :current_term 
+                    AND Event.event_months = :current_month 
                         ORDER BY RAND() LIMIT 1";
         $event_stmt = $conn->prepare($event_query);
         $event_stmt->execute([
@@ -105,10 +108,10 @@ try {
         // }
 
         // イベントタイプに応じたページにリダイレクト
-        if ($event['choice'] == '1' && is_null($event['border'])) {
+        if ($event['choice'] === '1' && is_null($event['border'])) {
             header("Location: ../G3-1/choice.php");
             exit;
-        } elseif (is_null($event['choice']) && $event['border'] == '1') {
+        } elseif (is_null($event['choice']) && $event['border'] === '1') {
             header("Location: ../G3-1/border.php");
             exit;
         } else {
