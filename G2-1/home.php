@@ -79,7 +79,7 @@ try {
         $current_month = $career['current_months'];
 
         // Eventテーブルから該当するイベントを取得
-        $event_query = "SELECT * FROM Event, , Point.choice, Point.border 
+        $event_query = "SELECT Event.*, Point.choice, Point.border 
                         FROM Event 
                     LEFT JOIN Point ON Event.event_id = Point.event_id 
                     WHERE Event.event_term = :current_term 
@@ -91,6 +91,9 @@ try {
             ':current_month' => $current_month
         ]);
         $event = $event_stmt->fetch(PDO::FETCH_ASSOC);
+
+        print_r($event);
+        exit;
 
         if (!$event) {
             echo "該当するイベントが見つかりません。";
