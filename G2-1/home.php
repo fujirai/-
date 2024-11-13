@@ -174,7 +174,7 @@ try {
             <div class="button-wrapper">
                 <button onclick="location.href='../G1-0/index.html'">タイトルへ</button>
                 <hr class="button-divider">
-                <form action="../G3-1/randamu.php" method="POST">
+                <form action="" method="POST">
                     <button type="submit" name="start_event">イベント開始</button>
                 </form>
             </div>
