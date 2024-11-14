@@ -26,6 +26,35 @@ try {
         throw new Exception("ユーザー情報が見つかりません。");
     }
 
+    // Current stats from the database
+$current_stats = [
+    'trust' => $user['trust_level'],
+    'technical' => $user['technical_skill'],
+    'negotiation' => $user['negotiation_skill'],
+    'appearance' => $user['appearance'],
+    'popularity' => $user['popularity']
+];
+
+// Retrieve previous stats from session (initialize with current stats if not available)
+$previous_stats = $_SESSION['previous_stats'] ?? $current_stats;
+
+// Calculate stat changes
+$stat_changes = [];
+foreach ($current_stats as $key => $value) {
+    $change = $value - $previous_stats[$key];
+    if ($change > 0) {
+        $stat_changes[$key] = "<span class='stat-up'>▲{$change}</span>";
+    } elseif ($change < 0) {
+        $stat_changes[$key] = "<span class='stat-down'>▼" . abs($change) . "</span>";
+    } else {
+        $stat_changes[$key] = ""; // No change
+    }
+}
+
+// Update session with current stats for future reference
+$_SESSION['previous_stats'] = $current_stats;
+
+
     // 現在の役職を取得
     $current_role_query = "SELECT role_name FROM Role WHERE role_id = :role_id";
     $current_role_stmt = $conn->prepare($current_role_query);
@@ -150,18 +179,19 @@ try {
         <title>ランダムイベント</title>
     </head>
 <body>
-    <div id="popup" class="popup">
-        <h2><p><span class="rotate-text">ステータス</span></p></h2>
-        <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
-        <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
-        <p><h3>
-            信頼度：<span><?php echo $user['trust_level']; ?></span><br>
-            技術力：<span><?php echo $user['technical_skill']; ?></span><br>
-            交渉力：<span><?php echo $user['negotiation_skill']; ?></span><br>
-            容姿：<span><?php echo $user['appearance']; ?></span><br>
-            好感度：<span><?php echo $user['popularity']; ?></span><br>
-        </h3></p>
-    </div>
+<div id="popup" class="popup">
+    <h2><p><span class="rotate-text">ステータス</span></p></h2>
+    <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
+    <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
+    <p><h3>
+        信頼度：<span><?php echo $user['trust_level']; ?></span> <?php echo $stat_changes['trust']; ?><br>
+        技術力：<span><?php echo $user['technical_skill']; ?></span> <?php echo $stat_changes['technical']; ?><br>
+        交渉力：<span><?php echo $user['negotiation_skill']; ?></span> <?php echo $stat_changes['negotiation']; ?><br>
+        容姿：<span><?php echo $user['appearance']; ?></span> <?php echo $stat_changes['appearance']; ?><br>
+        好感度：<span><?php echo $user['popularity']; ?></span> <?php echo $stat_changes['popularity']; ?><br>
+    </h3></p>
+</div>
+
     <div class="fixed-title">
         <h1>イベント: <?php echo htmlspecialchars($event['event_name']); ?></h1>
     </div>
