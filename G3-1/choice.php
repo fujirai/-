@@ -7,6 +7,9 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+$choice_detail = isset($_SESSION['choice_detail']) ? $_SESSION['choice_detail'] : null;
+unset($_SESSION['choice_detail']); // 1度だけ表示するために削除
+
 try {
     $conn = connectDB();
     $user_id = $_SESSION['user_id'];
@@ -75,23 +78,36 @@ try {
             容姿：<?php echo $user['appearance']; ?><br>
             好感度：<?php echo $user['popularity']; ?><br>
         </h3></p>
-    </div>
-
-    <div class="fixed-title">
-        <h1>イベント:<?php echo htmlspecialchars($event['event_name'], ENT_QUOTES, 'UTF-8'); ?></h1>
-    </div>
-    <div class="footer-box">
-        <h2><?php echo htmlspecialchars($event['event_description'], ENT_QUOTES, 'UTF-8'); ?></h2>
-    </div>
-    <form method="POST" action="process_choice.php">
-        <div class="options">
-            <?php foreach ($choices as $choice): ?>
-                <button class="option-button" type="submit" name="choice_key" value="<?php echo htmlspecialchars($choice['choice_key'], ENT_QUOTES, 'UTF-8'); ?>">
-                    <?php echo htmlspecialchars($choice['choice_script'], ENT_QUOTES, 'UTF-8'); ?>
-                </button>
-            <?php endforeach; ?>
         </div>
-    </form>
+        <div class="fixed-title">
+            <h1>イベント:<?php echo htmlspecialchars($event['event_name'], ENT_QUOTES, 'UTF-8'); ?></h1>
+        </div>
+        <div class="footer-box">
+        <!-- イベント説明 -->
+        <h2 id="description" style="display: <?php echo isset($choice_detail) ? 'none' : 'block'; ?>;">
+            <?php echo htmlspecialchars($event['event_description'], ENT_QUOTES, 'UTF-8'); ?>
+        </h2>
+
+        <!-- 選択肢詳細 -->
+        <h2 id="choice-detail" style="display: <?php echo isset($choice_detail) ? 'block' : 'none'; ?>;">
+            <?php echo htmlspecialchars($choice_detail ?? '', ENT_QUOTES, 'UTF-8'); ?>
+        </h2>
+
+        <!-- 選択肢ボタン -->
+        <form method="POST" action="process_choice.php" style="display: <?php echo isset($choice_detail) ? 'none' : 'block'; ?>;">
+            <div class="options">
+                <?php foreach ($choices as $choice): ?>
+                    <button class="option-button" type="submit" name="choice_key" value="<?php echo htmlspecialchars($choice['choice_key'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <?php echo htmlspecialchars($choice['choice_script'], ENT_QUOTES, 'UTF-8'); ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+        </form>
+    </div>
+    <!-- 戻るボタン -->
+    <div id="modo" class="modo" style="display: <?php echo isset($choice_detail) ? 'block' : 'none'; ?>;">
+        <button id="backButton" class="game-button" onclick="window.location.href='../G2-1/home.php';">戻る</button>
+    </div>
 
     <script>
         var popup = document.getElementById("popup");
@@ -100,53 +116,89 @@ try {
         })
 
         document.addEventListener("DOMContentLoaded", function () {
-            const textElement = document.querySelector(".footer-box h2");
+            const detailElement = document.querySelector("#choice-detail");
+            const modoElement = document.querySelector("#modo");
             const optionsElement = document.querySelector(".options");
-            const text = textElement.textContent;
-            textElement.textContent = "";
-            let i = 0;
+            const descriptionElement = document.querySelector("#description");
+            const backButton = document.querySelector("#backButton");
 
-            function type() {
-                if (i < text.length) {
-                    textElement.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(type, 25); // 25msごとに1文字ずつ表示
-                } else {
-                    showOptions(); // テキストが全て表示されたら選択肢を表示
+            const choiceDescriptionText = descriptionElement.textContent.trim();
+            const choiceDetailText = detailElement.textContent.trim();
+
+            // 初期状態では戻るボタンを非表示
+            modoElement.style.display = "none";
+
+            // イベント説明を1文字ずつ表示
+            function typeText(element, text, callback) {
+                element.textContent = "";
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, 25); // 25msごとに文字を追加
+                    } else if (callback) {
+                        callback(); // テキストが全て表示されたらコールバックを呼び出す
+                    }
                 }
-            }
-            function showOptions() {
-                optionsElement.style.opacity = "1"; // フェードイン表示
-            }
-            type();
-        });
-
-        function updateFooter(option) {
-            const footerBox = document.querySelector('.footer-box h2');
-
-            // サーバーから渡されたchoiceDetailsを利用
-            const detail = choiceDetails.find(choice => choice.choice_key == option);
-
-            if (detail) {
-                footerBox.textContent = detail.choice_detail; // 選択肢の詳細を表示
-            } else {
-                footerBox.textContent = "不明な選択肢が選ばれました。";
+                type();
             }
 
-            // ボタン非表示や戻るボタン表示は同じ
-            const buttons = document.querySelectorAll('.option-button');
-            buttons.forEach(button => button.style.display = 'none');
+            // choice_descriptionを表示
+            if (choiceDescriptionText && !choiceDetailText) {
+                typeText(descriptionElement, choiceDescriptionText, () => {
+                    document.querySelector(".options").style.opacity = "1"; // 選択肢を表示
+                });
+            }
 
-            setTimeout(() => {
-                const modo = document.getElementById("modo");
-                modo.style.display = "block";
-            }, 1000);
+            // choice_detailを表示
+            if (choiceDetailText) {
+                typeText(detailElement, choiceDetailText, () => {
+                    modoElement.style.display = "flex"; // 戻るボタンを表示
+                });
+            }
 
-            const backButton = document.getElementById("backButton");
+            // リダイレクト後の処理
+            if (choiceDetailText) {
+                descriptionElement.style.display = "none"; // イベント説明を非表示
+                optionsElement.style.display = "none"; // 選択肢を非表示
+                typeText(detailElement, choiceDetailText, () => {
+                    modoElement.style.display = "block"; // 戻るボタンを表示
+                });
+            }
+
+            // 戻るボタンのクリックイベント
             backButton.addEventListener("click", function () {
-                window.location.href = '../G2-1/home.php';
+                window.location.href = "../G2-1/home.php";
             });
-        }
+
+            // 選択肢ボタンのクリックイベント
+            const buttons = document.querySelectorAll(".option-button");
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const choiceKey = this.getAttribute("data-choice-key");
+
+                    // 選択肢を非表示
+                    optionsElement.style.display = "none";
+                    descriptionElement.style.display = "none";
+
+                    // 選択した選択肢の処理をサーバー側に送信
+                    const form = document.createElement("form");
+                    form.method = "POST";
+                    form.action = "process_choice.php";
+
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "choice_key";
+                    input.value = choiceKey;
+
+                    form.appendChild(input);
+                    document.body.appendChild(form);
+
+                    form.submit(); // サーバーへ送信
+                });
+            });
+        });
     </script>
 </body>
 </html>
