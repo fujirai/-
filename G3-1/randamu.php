@@ -180,18 +180,28 @@ $_SESSION['previous_stats'] = $current_stats;
     </head>
 <body>
     <!-- ステイタス表示と変動 -->
-<div id="popup" class="popup">
+    <div id="popup" class="popup">
     <h2><p><span class="rotate-text">ステータス</span></p></h2>
     <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
     <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
     <p><h3>
-        信頼度：<span><?php echo $user['trust_level']; ?></span> <span class="<?php echo ($stat_changes['trust'] > 0) ? 'stat-up' : (($stat_changes['trust'] < 0) ? 'stat-down' : ''); ?>"><?php echo $stat_changes['trust']; ?></span><br>
-        技術力：<span><?php echo $user['technical_skill']; ?></span> <span class="<?php echo ($stat_changes['technical'] > 0) ? 'stat-up' : (($stat_changes['technical'] < 0) ? 'stat-down' : ''); ?>"><?php echo $stat_changes['technical']; ?></span><br>
-        交渉力：<span><?php echo $user['negotiation_skill']; ?></span> <span class="<?php echo ($stat_changes['negotiation'] > 0) ? 'stat-up' : (($stat_changes['negotiation'] < 0) ? 'stat-down' : ''); ?>"><?php echo $stat_changes['negotiation']; ?></span><br>
-        容姿：<span><?php echo $user['appearance']; ?></span> <span class="<?php echo ($stat_changes['appearance'] > 0) ? 'stat-up' : (($stat_changes['appearance'] < 0) ? 'stat-down' : ''); ?>"><?php echo $stat_changes['appearance']; ?></span><br>
-        好感度：<span><?php echo $user['popularity']; ?></span> <span class="<?php echo ($stat_changes['popularity'] > 0) ? 'stat-up' : (($stat_changes['popularity'] < 0) ? 'stat-down' : ''); ?>"><?php echo $stat_changes['popularity']; ?></span><br>
+        信頼度：<span><?php echo $user['trust_level']; ?></span> 
+        <span class="stat-up"><?php echo $stat_changes['trust']; ?></span><br>
+        
+        技術力：<span><?php echo $user['technical_skill']; ?></span> 
+        <span class="stat-down"><?php echo $stat_changes['technical']; ?></span><br>
+        
+        交渉力：<span><?php echo $user['negotiation_skill']; ?></span> 
+        <span class="stat-up"><?php echo $stat_changes['negotiation']; ?></span><br>
+        
+        容姿：<span><?php echo $user['appearance']; ?></span> 
+        <span class="stat-up"><?php echo $stat_changes['appearance']; ?></span><br>
+        
+        好感度：<span><?php echo $user['popularity']; ?></span> 
+        <span class="stat-down"><?php echo $stat_changes['popularity']; ?></span><br>
     </h3></p>
 </div>
+
 
 
     <div class="fixed-title">
