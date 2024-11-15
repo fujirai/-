@@ -35,10 +35,10 @@ $current_stats = [
     'popularity' => $user['popularity']
 ];
 
-// Retrieve previous stats from session (initialize with current stats if not available)
+// セッションから以前のステータスを取得（利用可能でない場合は現在のステータスで初期化）
 $previous_stats = $_SESSION['previous_stats'] ?? $current_stats;
 
-// Calculate stat changes
+// ステイタス変動の計算
 $stat_changes = [];
 foreach ($current_stats as $key => $value) {
     $change = $value - $previous_stats[$key];

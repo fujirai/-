@@ -160,3 +160,16 @@ body {
 #modo, #nextTermButton {
     animation: fadeIn 1s ease-in-out;
 }
+
+/*ステイタス変動の矢印*/
+.stat-up {
+    color: green;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.stat-down {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
+}
