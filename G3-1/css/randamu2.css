@@ -162,6 +162,17 @@ body {
 }
 
 /*ステイタス変動の矢印*/
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.stat-up, .stat-down {
+    animation: blink 1s ease-in-out 3; /* Blink 3 times */
+    font-weight: bold;
+}
+
 .stat-up {
     color: green;
     font-weight: bold;
