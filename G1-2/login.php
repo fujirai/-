@@ -51,12 +51,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>ログイン画面</title>
 </head>
 <body>
+<div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
 <div class="login-box">
         <h2>ログイン</h2>
         <form id="loginForm" method="POST">
-            <input type="text" id="name" name="user_name" placeholder="名前 (10文字以内)" maxlength="10" required oninput="validateName()">
-            <input type="password" id="number" name="user_password" placeholder="社畜番号 (6桁)"  required oninput="validatePassword()">
-
+            <p class="name">名前<br>
+                <input type="text" id="name" name="user_name" placeholder="名前 (10文字以内)" maxlength="10" required oninput="validateName()">
+            </p>
+            <p class="number">社畜番号<br>
+                <input type="password" id="number" name="user_password" placeholder="社畜番号 (6桁)"  required oninput="validatePassword()">
+            </p>
             <a href="../G1-1/register.php">ログインできない方はこちら</a>
             <div class="button-group">
                 <button type="submit" class="confirm-button">決定</button>
