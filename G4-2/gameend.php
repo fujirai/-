@@ -4,7 +4,7 @@ require_once '../db.php';
 
 try {
     $pdo = connectDB();
-    $user_id = 136;
+    $user_id = $_SESSION['user_id'];
 
     // ユーザーのステータス情報を取得
     $stmt = $pdo->prepare(
