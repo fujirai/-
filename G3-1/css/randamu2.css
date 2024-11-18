@@ -170,7 +170,7 @@ body {
 
 .stat-up, .stat-down {
     animation: blink 1s ease-in-out 3; /* Blink 3 times */
-    /*font-weight: bold;*/
+    font-weight: bold;
     display: inline-block;
 }
 
@@ -184,4 +184,9 @@ body {
     color: red;
     font-weight: bold;
     margin-left: 5px;
+}
+
+.footer-text{
+    animation: none;
+    color: black;
 }
