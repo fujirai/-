@@ -2,69 +2,116 @@
 session_start();
 require_once __DIR__ . '/../db.php';   // DB接続ファイルをインクルード
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../G1-0/index.html");
-    exit;
+$conn = connectDB();
+$user_id = 136; // 仮のユーザーID（本番ではセッションから取得）
+
+// ユーザーデータを取得
+$query = "SELECT 
+                    User.user_name, 
+                    Status.trust_level, 
+                    Status.technical_skill, 
+                    Status.negotiation_skill, 
+                    Status.appearance, 
+                    Status.popularity, 
+                    Status.total_score, 
+                    Role.role_name 
+            FROM User 
+            JOIN Status ON User.status_id = Status.status_id 
+            JOIN Role ON User.role_id = Role.role_id
+            WHERE User.user_id = :user_id";
+$stmt = $conn->prepare($query);
+$stmt->execute([':user_id' => $user_id]);
+$user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user_data) {
+    throw new Exception("ユーザー情報が見つかりません。");
 }
 
-try {
-    $conn = connectDB();
-    $user_id = $_SESSION['user_id'];
+// Careerテーブルから現在のタームと月を取得
+$query = "SELECT current_term, current_months 
+            FROM Career 
+            WHERE user_id = :user_id";
+$stmt = $conn->prepare($query);
+$stmt->execute([':user_id' => $user_id]);
+$career_data = $stmt->fetch(PDO::FETCH_ASSOC);
+$current_term = 1;
+$current_month = 5;
 
-    // ユーザーデータとステータスを取得
-    $query = "SELECT User.user_name, Status.trust_level, Status.technical_skill, 
-                     Status.negotiation_skill, Status.appearance, Status.popularity, 
-                     Status.total_score, User.role_id 
-              FROM User 
-              JOIN Status ON User.status_id = Status.status_id 
-              WHERE User.user_id = :user_id";
-    $stmt = $conn->prepare($query);
-    $stmt->execute([':user_id' => $user_id]);
-    $user = $stmt->fetch();
+if (!$career_data) {
+    throw new Exception("Career情報が見つかりません。");
+}
 
-    if (!$user) {
-        echo "ユーザー情報が見つかりません。";
-        exit;
+// イベントを取得
+$event_query = "SELECT e.*, p.event_trust, p.event_technical, p.event_negotiation, 
+                           p.event_appearance, p.event_popularity, p.border
+                    FROM Event e
+                    JOIN Point p ON e.event_id = p.event_id
+                    WHERE e.event_term = :current_term AND e.event_months = :current_month
+                    ORDER BY RAND() LIMIT 1";
+$event_stmt = $conn->prepare($event_query);
+$event_stmt->execute([
+    ':current_term' => $current_term,
+    ':current_month' => $current_term
+]);
+$event = $event_stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$event) {
+    throw new Exception("該当するイベントが見つかりません。");
+}
+
+// `border`が1の場合に`border_key = 1`のイベントを取得
+if ($event['border'] == 1) {
+    $border_key_query = "SELECT * FROM Point 
+                         WHERE event_id = :event_id AND border = 1 AND border_key = 1";
+    $border_key_stmt = $conn->prepare($border_key_query);
+    $border_key_stmt->execute([':event_id' => 2 ]);
+    $border_key_event = $border_key_stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($border_key_event) {
+        // ユーザーのステータスがイベントのステータスを上回っているか確認
+        $is_user_superior = (
+            $user_data['technical_skill'] > $border_key_event['event_technical'] &&
+            $user_data['negotiation_skill'] > $border_key_event['event_negotiation'] &&
+            $user_data['appearance'] > $border_key_event['event_appearance'] &&
+            $user_data['popularity'] > $border_key_event['event_popularity']
+        );
+
+        if ($is_user_superior) {
+            // border_key = 2 のイベントを取得
+            $border_key_2_query = "SELECT * FROM Point 
+                                   WHERE event_id = :event_id AND border = 1 AND border_key = 2
+                                   ORDER BY RAND() LIMIT 1";
+            $border_key_2_stmt = $conn->prepare($border_key_2_query);
+            $border_key_2_stmt->execute([':event_id' => $event['event_id']]);
+            $border_key_2_event = $border_key_2_stmt->fetch(PDO::FETCH_ASSOC);
+
+            $event_to_use = $border_key_2_event;
+            $status_update_query = "UPDATE Status 
+                                    SET trust_level = LEAST(trust_level + :event_trust + :current_trust, 100),
+                                        technical_skill = LEAST(technical_skill + :event_technical + :current_technical, 100),
+                                        negotiation_skill = LEAST(negotiation_skill + :event_negotiation + :current_negotiation, 100),
+                                        appearance = LEAST(appearance + :event_appearance + :current_appearance, 100),
+                                        popularity = LEAST(popularity + :event_popularity + :current_popularity, 100),
+                                        total_score = trust_level + technical_skill + negotiation_skill + appearance + popularity
+                                    WHERE status_id = :status_id";
+    $status_update_stmt = $conn->prepare($status_update_query);
+    $status_update_stmt->execute([
+                                    ':event_trust' => $event_to_use['event_trust'],
+                                    ':event_technical' => $event_to_use['event_technical'],
+                                    ':event_negotiation' => $event_to_use['event_negotiation'],
+                                    ':event_appearance' => $event_to_use['event_appearance'],
+                                    ':event_popularity' => $event_to_use['event_popularity'],
+                                    ':current_trust' => $user_data['trust_level'],
+                                    ':current_technical' => $user_data['technical_skill'],
+                                    ':current_negotiation' => $user_data['negotiation_skill'],
+                                    ':current_appearance' => $user_data['appearance'],
+                                    ':current_popularity' => $user_data['popularity'],
+                                    ':status_id' => $user_data['status_id']
+                                ]);
+}
     }
-
-     // Roleテーブルから全役職を取得
-     $role_query = "SELECT * FROM Role ORDER BY repuired_status DESC";
-     $role_stmt = $conn->query($role_query);
-     $roles = $role_stmt->fetchAll();
- 
-     $new_role_id = $user['role_id'];  // 役職の初期化（デフォルトは現在の役職）
- 
-     foreach ($roles as $role) {
-         if ($user['total_score'] >= $role['repuired_status'] &&
-             $user['trust_level'] >= $role['repuired_trust'] &&
-             $user['technical_skill'] >= $role['repuired_technical'] &&
-             $user['negotiation_skill'] >= $role['repuired_negotiation'] &&
-             $user['appearance'] >= $role['repuired_appearance'] &&
-             $user['popularity'] >= $role['repuired_popularity']
-         ) {
-             $new_role_id = $role['role_id'];
-             break;
-         }
-     }
-
-
-    // Careerテーブルからcurrent_termとcurrent_monthsを取得
-    $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
-    $career_stmt = $conn->prepare($career_query);
-    $career_stmt->execute([':user_id' => $user_id]);
-    $career = $career_stmt->fetch();
-
-    // 現在の役職を取得
-    $current_role_query = "SELECT role_name, role_explanation FROM Role WHERE role_id = :role_id";
-    $current_role_stmt = $conn->prepare($current_role_query);
-    $current_role_stmt->execute([':role_id' => $new_role_id]);
-    $current_role = $current_role_stmt->fetch();
-    
-
-
-} catch (PDOException $e) {
-    echo "データベースエラー: " . $e->getMessage();
-    exit;
+} else {
+    echo 'ランダムイベントに遷移';
 }
 ?>
 <!DOCTYPE html>
@@ -72,53 +119,58 @@ try {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css\choice.css">
-        <title>閾値イベント</title>
+        <link rel="stylesheet" href="css/border.css">
+        <title>ランダムイベント</title>
     </head>
 <body>
     <div id="popup" class="popup">
         <h2><p><span class="rotate-text">ステータス</span></p></h2>
-        <!-- ここにDBからステータスを追加 -->
-        <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
-        <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
+        <p><h2><?php echo htmlspecialchars($user_data['role_name']); ?></h2></p>
+        <p><h1><?php echo htmlspecialchars($user_data['user_name']); ?></h1></p>
         <p><h3>
-            信頼度：<span><?php echo $user['trust_level']; ?></span><br>
-            技術力：<span><?php echo $user['technical_skill']; ?></span><br>
-            交渉力：<span><?php echo $user['negotiation_skill']; ?></span><br>
-            容　姿：<span><?php echo $user['appearance']; ?></span><br>
-            好感度：<span><?php echo $user['popularity']; ?><br>
+            信頼度：<span><?php echo $user_data['trust_level']; ?></span><br>
+            技術力：<span><?php echo $user_data['technical_skill']; ?></span><br>
+            交渉力：<span><?php echo $user_data['negotiation_skill']; ?></span><br>
+            容姿：<span><?php echo $user_data['appearance']; ?></span><br>
+            好感度：<span><?php echo $user_data['popularity']; ?></span><br>
         </h3></p>
     </div>
-    <!--テキスト-->
     <div class="fixed-title">
+        <h1>イベント: <?php echo htmlspecialchars($event['event_name']); ?></h1>
     </div>
     <div class="footer-box">
-        <h2>選択イベントです。なにか選択してください。</h2>
+        <h2><?php echo htmlspecialchars($event['event_description']); ?></h2>
     </div>
-   <!--選択肢-->
-    <div class="options">
-        <button class="option-button" onclick="updateFooter(1)">1：ああああああああああああああああああ</button>
-        <button class="option-button" onclick="updateFooter(2)">2：選択肢2</button>
-        <button class="option-button" onclick="updateFooter(3)">3：選択肢3</button>
-        <button class="option-button" onclick="updateFooter(4)">4：選択肢4</button>
-    </div>
-    <div id="modo" class="modo" style="display: none;">
-        <button id="backButton">戻る</button>
-    </div>
+    <!-- 通常時の戻るボタン -->
+    <?php if (!($current_term == 4 && $current_month == 3)): ?>
+        <div id="modo" class="modo" style="display: none;">
+            <button id="backButton" class="game-button">戻る</button>
+        </div>
+    <?php endif; ?>
 
-    <!-- <div id="nextTermButton" class="nextTermButton" style="display: none;">
-        <button id="next-term" class="game-button">次のタームへ</button>
-    </div> -->
+    <!-- 4ターム目の3月用エンディングボタン -->
+    <?php if ($current_term == 4 && $current_month == 3): ?>
+        <div id="endingButton" class="endingButton" style="display: none;">
+            <button id="endButton" class="game-button">エンディングへ</button>
+        </div>
+    <?php endif; ?>
 
-<script>
-        var popup = document.getElementById("popup");
-        popup.addEventListener("click",function(){
-            popup.classList.toggle("show");
-        })
+    <!-- 次のタームへ進むボタン -->
+    <?php if ($current_month == 3 && $current_term != 4): ?>
+        <div id="nextTermButton" class="nextTermButton" style="display: none;">
+            <button id="next-term" class="game-button">1年を終える</button>
+        </div>
+    <?php endif; ?>
 
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // ポップアップ表示/非表示機能
+            const popup = document.getElementById("popup");
+            popup.addEventListener("click", function () {
+                popup.classList.toggle("show");
+            });
+
             const textElement = document.querySelector(".footer-box h2");
-            const optionsElement = document.querySelector(".options");
             const text = textElement.textContent;
             textElement.textContent = "";
             let i = 0;
@@ -127,51 +179,44 @@ try {
                 if (i < text.length) {
                     textElement.textContent += text.charAt(i);
                     i++;
-                    setTimeout(type, 25); // 25msごとに1文字ずつ表示
+                    setTimeout(type, 25);
                 } else {
-                    showOptions(); // テキストが全て表示されたら選択肢を表示
+                    if (<?php echo $current_term; ?> == 4 && <?php echo $current_month; ?> == 3) {
+                        document.getElementById("endingButton").style.display = "block";
+                    } else if (<?php echo $current_month; ?> == 3 && <?php echo $current_term; ?> != 4) {
+                        document.getElementById("nextTermButton").style.display = "block";
+                    } else {
+                        document.getElementById("modo").style.display = "block";
+                    }
                 }
             }
 
-            function showOptions() {
-                optionsElement.style.opacity = "1"; // フェードイン表示
-            }
-
             type();
-        });
 
-        function updateFooter(option) {
-            const footerBox = document.querySelector('.footer-box h2');
-            switch (option) {
-                case 1:
-                    footerBox.textContent = '選択肢1が選ばれました。あ～あ';
-                    break;
-                case 2:
-                    footerBox.textContent = '選択肢2が選ばれました。あ～あ';
-                    break;
-                case 3:
-                    footerBox.textContent = '選択肢3が選ばれました。あ～あ';
-                    break;
-                case 4:
-                    footerBox.textContent = '選択肢4が選ばれました。あ～あ';
-                    break;
-            }
-            const buttons = document.querySelectorAll('.option-button');
-            buttons.forEach(button => button.style.display = 'none');
-
-            // 1秒後にhome.htmlに遷移
-            setTimeout(() => {
-                        const modo = document.getElementById("modo");
-                        modo.style.display = "block";
-                    }, 1000);
-
-            // 戻るボタンのクリックイベント
+            // 戻るボタンの動作
             const backButton = document.getElementById("backButton");
-            backButton.addEventListener("click", function () {
-                window.location.href = '../G2-1/home.php';
-            });
+            if (backButton) {
+                backButton.addEventListener("click", function () {
+                    window.location.href = '../G2-1/home.php';
+                });
+            }
 
-        }
-</script>
+            // エンディングボタンの動作
+            const endButton = document.getElementById("endButton");
+            if (endButton) {
+                endButton.addEventListener("click", function () {
+                    window.location.href = '../G4-1/ending.php';
+                });
+            }
+
+            // 次のタームへ進むボタンの動作
+            const nextTermButton = document.getElementById("next-term");
+            if (nextTermButton) {
+                nextTermButton.addEventListener("click", function () {
+                    window.location.href = 'term.php';
+                });
+            }
+        });
+    </script>
 </body>
 </html>
