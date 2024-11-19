@@ -169,7 +169,7 @@ body {
 }
 
 .stat-up, .stat-down {
-    /*animation: blink 1s ease-in-out 3; /* Blink 3 times */
+    animation: blink 1s ease-in-out 3; /* Blink 3 times */
     font-weight: bold;
     display: inline-block;
 }
