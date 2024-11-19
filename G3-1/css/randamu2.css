@@ -90,12 +90,12 @@ body {
 }
 
 /* テキストのスタイル */
-/*.footer-box h2 {
+.footer-box h2 {
     font-size: 1.2em;
     color: #fff; /* 白文字 */
-    /*line-height: 1.6;
+    line-height: 1.6;
     text-shadow: 1px 1px 2px #000; /* 軽い影 */
-/*}*/
+}
 
 /*ステータスの文字を縦に表示させる*/
 .rotate-text{
@@ -184,10 +184,10 @@ body {
     margin-left: 5px;
 }
 
-.footer-text{
+/*.footer-text{
     animation: none;
     font-size: 1.2em;
     color: #fff; /* 白文字 */
-    line-height: 1.6;
+    /*line-height: 1.6;
     text-shadow: 1px 1px 2px #000; /* 軽い影 */
-}
+/*}*/

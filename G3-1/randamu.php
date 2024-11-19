@@ -208,7 +208,7 @@ $_SESSION['previous_stats'] = $current_stats;
         <h1>イベント: <?php echo htmlspecialchars($event['event_name']); ?></h1>
     </div>
     <div class="footer-box">
-        <h2 class="footer-text"><?php echo htmlspecialchars($event['event_description']); ?></h2>
+        <h2><?php echo htmlspecialchars($event['event_description']); ?></h2>
     </div>
 
     <!-- 通常時の戻るボタン -->
