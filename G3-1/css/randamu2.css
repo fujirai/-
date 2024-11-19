@@ -90,12 +90,12 @@ body {
 }
 
 /* テキストのスタイル */
-.footer-box h2 {
+/*.footer-box h2 {
     font-size: 1.2em;
     color: #fff; /* 白文字 */
-    line-height: 1.6;
+    /*line-height: 1.6;
     text-shadow: 1px 1px 2px #000; /* 軽い影 */
-}
+/*}*/
 
 /*ステータスの文字を縦に表示させる*/
 .rotate-text{
@@ -169,24 +169,25 @@ body {
 }
 
 .stat-up, .stat-down {
-    animation: blink 1s ease-in-out 3; /* Blink 3 times */
+    animation: blink 2s ease-in-out 3; /* Blink 3 times */
     font-weight: bold;
     display: inline-block;
 }
 
 .stat-up {
     color: green;
-    font-weight: bold;
     margin-left: 5px;
 }
 
 .stat-down {
     color: red;
-    font-weight: bold;
     margin-left: 5px;
 }
 
 .footer-text{
     animation: none;
-    color: black;
+    font-size: 1.2em;
+    color: #fff; /* 白文字 */
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px #000; /* 軽い影 */
 }
