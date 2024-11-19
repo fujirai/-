@@ -186,19 +186,19 @@ $_SESSION['previous_stats'] = $current_stats;
     <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
     <p><h3>
         信頼度：<span><?php echo $user['trust_level']; ?></span> 
-        <span class="stat-up"><?php echo $stat_changes['trust']; ?></span><br>
+        <span><?php echo $stat_changes['trust']; ?></span><br>
         
         技術力：<span><?php echo $user['technical_skill']; ?></span> 
-        <span class="stat-down"><?php echo $stat_changes['technical']; ?></span><br>
+        <span><?php echo $stat_changes['technical']; ?></span><br>
         
         交渉力：<span><?php echo $user['negotiation_skill']; ?></span> 
-        <span class="stat-up"><?php echo $stat_changes['negotiation']; ?></span><br>
+        <span><?php echo $stat_changes['negotiation']; ?></span><br>
         
         容姿：<span><?php echo $user['appearance']; ?></span> 
-        <span class="stat-up"><?php echo $stat_changes['appearance']; ?></span><br>
+        <span><?php echo $stat_changes['appearance']; ?></span><br>
         
         好感度：<span><?php echo $user['popularity']; ?></span> 
-        <span class="stat-down"><?php echo $stat_changes['popularity']; ?></span><br>
+        <span><?php echo $stat_changes['popularity']; ?></span><br>
     </h3></p>
 </div>
 
