@@ -30,7 +30,6 @@ body, html{
     padding: 10px 20px;/*パディング*/
     font-size: 16px;/*フォントサイズ*/
     cursor: pointer;/*カーソルをポインターに変更*/
-    display: flex;
     justify-content: center;
     align-items: center;
 }

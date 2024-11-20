@@ -102,7 +102,7 @@ try {
                 信頼度: <?php echo $user['trust_level']; ?><br>
                 技術力: <?php echo $user['technical_skill']; ?><br>
                 交渉力: <?php echo $user['negotiation_skill']; ?><br>
-                容姿: <?php echo $user['appearance']; ?><br>
+                容　姿: <?php echo $user['appearance']; ?><br>
                 好感度: <?php echo $user['popularity']; ?><br>
             </h3>
 
