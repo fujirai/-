@@ -33,6 +33,7 @@ try {
     $roles = $role_stmt->fetchAll();
 
     $new_role_id = $user['role_id'];  // 役職の初期化（デフォルトは現在の役職）
+    $previous_role_id = null;        // 1つ前の役職を格納
 
     foreach ($roles as $role) {
         if ($user['total_score'] >= $role['repuired_status'] &&
@@ -42,6 +43,7 @@ try {
             $user['appearance'] >= $role['repuired_appearance'] &&
             $user['popularity'] >= $role['repuired_popularity']
         ) {
+            $previous_role_id = $new_role_id;  // 現在の役職を1つ前の役職として保存
             $new_role_id = $role['role_id'];
             break;
         }
@@ -59,6 +61,30 @@ try {
 
     // ユーザーの役職を更新（必要な場合）
     if ($new_role_id != $user['role_id']) {
+        $previous_role_name = null;
+        if ($previous_role_id) {
+            $previous_role_query = "SELECT role_name FROM Role WHERE role_id = :role_id";
+            $previous_role_stmt = $conn->prepare($previous_role_query);
+            $previous_role_stmt->execute([':role_id' => $previous_role_id]);
+            $previous_role = $previous_role_stmt->fetch(PDO::FETCH_ASSOC);
+            $previous_role_name = $previous_role['role_name'] ?? null;
+        }
+
+        // Historyテーブルを更新（1つ前の役職名を使用）
+        $history_update_query = "
+            UPDATE History 
+            SET history_role = :history_role, 
+                history_term = :history_term, 
+                history_month = :history_month 
+            WHERE user_id = :user_id";
+        $history_update_stmt = $conn->prepare($history_update_query);
+        $history_update_stmt->execute([
+            ':history_role' => $previous_role_name,       // 1つ前の役職名を保存
+            ':history_term' => $career['current_term'],   // 現在のターム
+            ':history_month' => $career['current_months'], // 現在の月
+            ':user_id' => $user_id
+        ]);
+        
         $update_role_query = "UPDATE User SET role_id = :new_role_id WHERE user_id = :user_id";
         $update_role_stmt = $conn->prepare($update_role_query);
         $update_role_stmt->execute([

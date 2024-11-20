@@ -53,6 +53,16 @@ try {
     $isFinalMonth = ($current_month === 3);
     $nextTerm = $current_term + 1;
 
+    // Historyテーブルから最新の役職を取得
+    $history_query = "SELECT history_role FROM History WHERE user_id = :user_id ORDER BY history_id DESC LIMIT 1";
+    $history_stmt = $conn->prepare($history_query);
+    $history_stmt->execute([':user_id' => $user_id]);
+    $history = $history_stmt->fetch(PDO::FETCH_ASSOC);
+
+    // 前の役職があるか確認
+    $previous_role = $history['history_role'] ?? null;
+
+
 } catch (PDOException $e) {
     echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
@@ -82,7 +92,13 @@ try {
             </h2>
             <!-- ユーザー情報を表示 -->
             <h1><?php echo htmlspecialchars($user['user_name']); ?> のステータス</h1>
-            <p>役職: <strong><?php echo htmlspecialchars($current_role['role_name']); ?></strong></p>
+            <?php if ($previous_role && $previous_role !== $current_role['role_name']): ?>
+            <!-- 前の役職があり、現在の役職と異なる場合 -->
+            <p><strong><?php echo htmlspecialchars($previous_role); ?> → <?php echo htmlspecialchars($current_role['role_name']); ?></strong></p>
+            <?php else: ?>
+            <!-- 変更がない場合 -->
+            <p><strong><?php echo htmlspecialchars($current_role['role_name']); ?></strong></p>
+            <?php endif; ?>
             <h3>
                 信頼度: <?php echo $user['trust_level']; ?><br>
                 技術力: <?php echo $user['technical_skill']; ?><br>
