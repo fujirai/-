@@ -90,7 +90,12 @@ try {
 
         <!-- 選択肢詳細 -->
         <h2 id="choice-detail" style="display: <?php echo isset($choice_detail) ? 'block' : 'none'; ?>;">
-            <?php echo htmlspecialchars($choice_detail ?? '', ENT_QUOTES, 'UTF-8'); ?>
+            <?php 
+            if (isset($choice_detail)) {
+                echo htmlspecialchars($choice_detail, ENT_QUOTES, 'UTF-8');
+                unset($_SESSION['choice_detail']); 
+            } 
+            ?>
         </h2>
 
         <!-- 選択肢ボタン -->
@@ -148,13 +153,6 @@ try {
             if (choiceDescriptionText && !choiceDetailText) {
                 typeText(descriptionElement, choiceDescriptionText, () => {
                     document.querySelector(".options").style.opacity = "1"; // 選択肢を表示
-                });
-            }
-
-            // choice_detailを表示
-            if (choiceDetailText) {
-                typeText(detailElement, choiceDetailText, () => {
-                    modoElement.style.display = "flex"; // 戻るボタンを表示
                 });
             }
 
