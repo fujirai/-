@@ -26,6 +26,35 @@ try {
         throw new Exception("ユーザー情報が見つかりません。");
     }
 
+    // Current stats from the database
+$current_stats = [
+    'trust' => $user['trust_level'],
+    'technical' => $user['technical_skill'],
+    'negotiation' => $user['negotiation_skill'],
+    'appearance' => $user['appearance'],
+    'popularity' => $user['popularity']
+];
+
+// セッションから以前のステータスを取得（利用可能でない場合は現在のステータスで初期化）
+$previous_stats = $_SESSION['previous_stats'] ?? $current_stats;
+
+// ステイタス変動の計算
+$stat_changes = [];
+foreach ($current_stats as $key => $value) {
+    $change = $value - $previous_stats[$key];
+    if ($change > 0) {
+        $stat_changes[$key] = "<span class='stat-up'>▲{$change}</span>";
+    } elseif ($change < 0) {
+        $stat_changes[$key] = "<span class='stat-down'>▼" . abs($change) . "</span>";
+    } else {
+        $stat_changes[$key] = ""; // No change
+    }
+}
+
+// Update session with current stats for future reference
+$_SESSION['previous_stats'] = $current_stats;
+
+
     // 現在の役職を取得
     $current_role_query = "SELECT role_name FROM Role WHERE role_id = :role_id";
     $current_role_stmt = $conn->prepare($current_role_query);
@@ -146,7 +175,7 @@ try {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/randamu2.css">
+        <link rel="stylesheet" href="css/randamu.css">
         <title>ランダムイベント</title>
     </head>
 <body>
