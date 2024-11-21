@@ -179,24 +179,28 @@ $_SESSION['previous_stats'] = $current_stats;
         <title>ランダムイベント</title>
     </head>
 <body>
+    <!-- ステイタス表示と変動 -->
     <div id="popup" class="popup">
-        <h2><p><span class="rotate-text">ステータス</span></p></h2>
-        <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
-        <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
-        <p><h3>
-            信頼度：<span><?php echo $user['trust_level']; ?></span><br>
-            技術力：<span><?php echo $user['technical_skill']; ?></span><br>
-            交渉力：<span><?php echo $user['negotiation_skill']; ?></span><br>
-            容姿：<span><?php echo $user['appearance']; ?></span><br>
-            好感度：<span><?php echo $user['popularity']; ?></span><br>
-        </h3></p>
-    </div>
-    <div class="fixed-title">
-        <h1>イベント: <?php echo htmlspecialchars($event['event_name']); ?></h1>
-    </div>
-    <div class="footer-box">
-        <h2><?php echo htmlspecialchars($event['event_description']); ?></h2>
-    </div>
+    <h2><p><span class="rotate-text">ステータス</span></p></h2>
+    <p><h2><?php echo htmlspecialchars($current_role['role_name']); ?></h2></p>
+    <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
+    <p><h3>
+        信頼度：<span><?php echo $user['trust_level']; ?></span> 
+        <span><?php echo $stat_changes['trust']; ?></span><br>
+        
+        技術力：<span><?php echo $user['technical_skill']; ?></span> 
+        <span><?php echo $stat_changes['technical']; ?></span><br>
+        
+        交渉力：<span><?php echo $user['negotiation_skill']; ?></span> 
+        <span><?php echo $stat_changes['negotiation']; ?></span><br>
+        
+        容姿：<span><?php echo $user['appearance']; ?></span> 
+        <span><?php echo $stat_changes['appearance']; ?></span><br>
+        
+        好感度：<span><?php echo $user['popularity']; ?></span> 
+        <span><?php echo $stat_changes['popularity']; ?></span><br>
+    </h3></p>
+</div>
 
     <!-- 通常時の戻るボタン -->
     <?php if (!($current_term == 4 && $current_month == 3)): ?>
