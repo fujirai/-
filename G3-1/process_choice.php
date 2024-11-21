@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
 
         // 選択肢データを取得
         $point_query = "SELECT event_trust, event_technical, event_negotiation, 
-                               event_appearance, event_popularity
+                               event_appearance, event_popularity, choice_detail
                         FROM Point 
                         WHERE event_id = :event_id AND choice_key = :choice_key";
         $point_stmt = $conn->prepare($point_query);
@@ -92,8 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
             ':user_id' => $user_id
         ]);
 
-        // 次の画面にリダイレクト
-        header("Location: ../G2-1/home.php");
+        // 選択肢の詳細をセッションに保存
+        $_SESSION['choice_detail'] = $point['choice_detail'];
+
+        // choice.php にリダイレクト
+        header("Location: choice.php");
         exit;
 
     } catch (PDOException $e) {
