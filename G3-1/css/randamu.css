@@ -160,3 +160,26 @@ body {
 #modo, #nextTermButton {
     animation: fadeIn 1s ease-in-out;
 }
+
+/*ステイタス変動の矢印*/
+/*@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}*/
+
+.stat-up, .stat-down {
+    animation: blink 2s ease-in-out 3; /* Blink 3 times */
+    font-weight: bold;
+    display: inline-block;
+}
+
+.stat-up {
+    color: green;
+    margin-left: 5px;
+}
+
+.stat-down {
+    color: red;
+    margin-left: 5px;
+}
