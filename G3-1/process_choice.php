@@ -60,12 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
 
         // イベントの影響をStatusに反映
         $status_update = "UPDATE Status SET 
-                          trust_level = LEAST(trust_level + :event_trust, 100), 
-                          technical_skill = LEAST(technical_skill + :event_technical, 100), 
-                          negotiation_skill = LEAST(negotiation_skill + :event_negotiation, 100), 
-                          appearance = LEAST(appearance + :event_appearance, 100), 
-                          popularity = LEAST(popularity + :event_popularity, 100) 
-                          WHERE status_id = (SELECT status_id FROM User WHERE user_id = :user_id)";
+            trust_level = GREATEST(LEAST(trust_level + :event_trust, 100), -10), 
+            technical_skill = GREATEST(LEAST(technical_skill + :event_technical, 100), -10), 
+            negotiation_skill = GREATEST(LEAST(negotiation_skill + :event_negotiation, 100), -10), 
+            appearance = GREATEST(LEAST(appearance + :event_appearance, 100), -10), 
+            popularity = GREATEST(LEAST(popularity + :event_popularity, 100), -10) 
+            WHERE status_id = (SELECT status_id FROM User WHERE user_id = :user_id)";
         $status_stmt = $conn->prepare($status_update);
         $status_stmt->execute([
             ':event_trust' => $point['event_trust'],
