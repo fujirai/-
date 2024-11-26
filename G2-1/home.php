@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
         <div class="card">
             <div class="front">
                 <div class="company">
-                    <img src="logo.svg" alt="logo" class="logoimg">
+                    <img src="..\Image\logo.svg" alt="logo" class="logoimg">
                     <p class="companyname">Hell Company</p>
                 </div>
                 <div class="contener">
