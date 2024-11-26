@@ -1,0 +1,113 @@
+.card-container {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #f5f5f5;
+}
+
+.card {
+    position: relative;
+    width: 88vh;
+    height: 60vh;
+    margin: 20px;
+    transform-style: preserve-3d;
+    transform: rotateY(0);
+    transition: transform 0.8s;
+    box-sizing: border-box;
+}
+
+.front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.front {
+    background: linear-gradient(to bottom, #333, #872626);
+    color: white;
+    padding: 20px;
+}
+.contener{
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.character{
+    margin: 0;
+    width: 150px;
+    background-color: aquamarine;
+    display: flex;
+    align-items: flex-end;
+}
+.character-img{
+    width: 100%;
+}
+.company {
+    display: flex;
+    margin-bottom: 5px;
+}
+.logoimg{
+    height: 30px;
+}
+.companyname {
+    margin: 0;
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+}
+.status{
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+    width:auto;
+}
+.name{
+    font-size: 30px;
+}
+.top-section{
+    display: flex;
+}
+.back {
+    position: absolute;
+    background: linear-gradient(to bottom, #333, #872626);
+    transform: rotateY(180deg);
+    padding: 10px;
+    overflow: hidden;
+}
+.back-status{
+    display: flex;
+    align-items: flex-end;
+}
+.back-top-section{
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+.stats-graph{
+    position: relative;
+    box-sizing: border-box;
+    top: 0;
+    width: 100%;
+    height: 53vh;
+}
+canvas#radarChart {
+    width: 100%;
+    height: 100%; 
+    max-width: 100%; 
+    max-height: 100%; 
+}
+
+button{
+    margin: 5px;
+}
