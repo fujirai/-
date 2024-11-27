@@ -233,9 +233,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
                 </div>
             </div>
         </div>
-        <button id="toggleButton">裏を見る</button>
+        <button id="toggleButton" class="back-button">裏を見る</button>
         <form action="start_event.php" method="POST">
-            <button type="submit" name="start_event">イベント開始</button>
+            <button type="submit" name="start_event" class="start-button">ゲーム開始</button>
         </form>
     </div>
 
