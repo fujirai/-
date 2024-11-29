@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
             $new_month = $current_month + 1;  // 次の月へ進む
         }
 
+        // タームの進行を判定
         if ($new_month == 4) {  // 4月になった場合
             $new_term = $current_term + 1;  // 新しいタームに進む
         } else {
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
         $score_stmt = $conn->prepare($score_update);
         $score_stmt->execute([':user_id' => $user_id]);
 
-        // Careerテーブルのcurrent_termとcurrent_monthsを更新
+        // Careerテーブルを更新する
         $update_career_query = "UPDATE Career SET current_term = :new_term, current_months = :new_month WHERE user_id = :user_id";
         $update_career_stmt = $conn->prepare($update_career_query);
         $update_career_stmt->execute([

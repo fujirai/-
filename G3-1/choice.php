@@ -43,9 +43,18 @@ try {
     $stmt->execute([':user_id' => $user_id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$user) {
-        throw new Exception("ユーザー情報が見つかりません。");
+    // Careerテーブルから現在のタームと月を取得
+    $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
+    $career_stmt = $conn->prepare($career_query);
+    $career_stmt->execute([':user_id' => $user_id]);
+    $career = $career_stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$career) {
+        throw new Exception("Career情報が見つかりません。");
     }
+
+    $current_term = $career['current_term'];
+    $current_month = $career['current_months'];
 
 } catch (PDOException $e) {
     echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
@@ -109,16 +118,29 @@ try {
             </div>
         </form>
     </div>
-    <!-- 戻るボタン -->
+
+    <!-- 戻るボタンの表示ロジック -->
     <div id="modo" class="modo" style="display: <?php echo isset($choice_detail) ? 'block' : 'none'; ?>;">
-        <button id="backButton" class="game-button" onclick="window.location.href='../G2-1/home.php';">戻る</button>
+        <?php if ($current_term == 4 && $current_month == 3): ?>
+            <button id="endingButton" class="game-button" onclick="updateCareer('ending', '../G4-1/ending.php');">
+                <?php echo "エンディングへ"; ?>
+            </button>
+        <?php elseif ($current_term != 4 && $current_month == 3): ?>
+            <button id="nextYearButton" class="game-button" onclick="updateCareer('next_term', '../term.php');">
+                <?php echo "1年を終える"; ?>
+            </button>
+        <?php else: ?>
+            <button id="backButton" class="game-button" onclick="updateCareer('back', '../G2-1/home.php');">
+                <?php echo "戻る"; ?>
+            </button>
+        <?php endif; ?>
     </div>
 
     <script>
         var popup = document.getElementById("popup");
-        popup.addEventListener("click",function(){
+        popup.addEventListener("click", function () {
             popup.classList.toggle("show");
-        })
+        });
 
         document.addEventListener("DOMContentLoaded", function () {
             const detailElement = document.querySelector("#choice-detail");
@@ -149,6 +171,23 @@ try {
                 type();
             }
 
+            // ボタンのテキストを1文字ずつ表示
+            function typeButtonText(buttonId, text) {
+                const button = document.getElementById(buttonId);
+                if (button) {
+                    button.textContent = "";
+                    let i = 0;
+                    function type() {
+                        if (i < text.length) {
+                            button.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, 50); // 50msごとに文字を追加
+                        }
+                    }
+                    type();
+                }
+            }
+
             // choice_descriptionを表示
             if (choiceDescriptionText && !choiceDetailText) {
                 typeText(descriptionElement, choiceDescriptionText, () => {
@@ -162,13 +201,27 @@ try {
                 optionsElement.style.display = "none"; // 選択肢を非表示
                 typeText(detailElement, choiceDetailText, () => {
                     modoElement.style.display = "block"; // 戻るボタンを表示
+
+                    // 条件によるボタン表示
+                    const currentTerm = parseInt("<?php echo $current_term; ?>", 10);
+                    const currentMonth = parseInt("<?php echo $current_month; ?>", 10);
+
+                    if (currentTerm === 4 && currentMonth === 3) {
+                        typeButtonText("endingButton", "エンディングへ");
+                    } else if (currentTerm !== 4 && currentMonth === 3) {
+                        typeButtonText("nextYearButton", "1年を終える");
+                    } else {
+                        typeButtonText("backButton", "戻る");
+                    }
                 });
             }
 
             // 戻るボタンのクリックイベント
-            backButton.addEventListener("click", function () {
-                window.location.href = "../G2-1/home.php";
-            });
+            if (backButton) {
+                backButton.addEventListener("click", function () {
+                    window.location.href = "../G2-1/home.php";
+                });
+            }
 
             // 選択肢ボタンのクリックイベント
             const buttons = document.querySelectorAll(".option-button");
@@ -196,6 +249,30 @@ try {
                     form.submit(); // サーバーへ送信
                 });
             });
+
+            function updateCareer(action, redirectUrl) {
+                // サーバーにリクエストを送信
+                fetch("update_status.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: action })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Career updated successfully.");
+                        // サーバー側の更新が成功したらリダイレクト
+                        window.location.href = redirectUrl;
+                    } else {
+                        console.error("Error updating career:", data.message);
+                        alert("更新に失敗しました。もう一度お試しください。");
+                    }
+                })
+                .catch(error => {
+                    console.error("Fetch error:", error);
+                    alert("エラーが発生しました。");
+                });
+            }
         });
     </script>
 </body>
