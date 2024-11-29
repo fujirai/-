@@ -94,7 +94,7 @@ try {
     }
 
     // 現在の役職を取得
-    $current_role_query = "SELECT role_name, role_explanation FROM Role WHERE role_id = :role_id";
+    $current_role_query = "SELECT role_name, role_explanation, office_png FROM Role WHERE role_id = :role_id";
     $current_role_stmt = $conn->prepare($current_role_query);
     $current_role_stmt->execute([':role_id' => $new_role_id]);
     $current_role = $current_role_stmt->fetch(PDO::FETCH_ASSOC);
@@ -173,12 +173,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
         $redirect_url = "../G3-1/randamu.php";
     }
 }
-
-// デバッグ用: 値の確認
-echo "<pre>";
-var_dump($redirect_url);
-echo "</pre>";
-    
     
 } catch (PDOException $e) {
     echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
@@ -188,68 +182,83 @@ echo "</pre>";
     exit;
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ゲーム画面</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<div class="container">
-        <div class="top-section">
-            <div id="openModal" class="status-icon">
-                <img src="grapt.jpg" alt="ステータスアイコン">
+    <div class="card-container">
+        <div class="card">
+            <div class="front">
+                <div class="company">
+                    <img src="..\Image\logo.svg" alt="logo" class="logoimg">
+                    <p class="companyname">Hell Company</p>
+                </div>
+                <div class="contener">
+                    <div class="character">
+                        <img src="..\Image\<?= htmlspecialchars($current_role['office_png']) ?>" alt="キャラクター" class="character-img">
+                    </div>
+                    <div class="status">
+                        <div class="name"><?php echo htmlspecialchars($user['user_name']); ?></div>
+                        <div class="top-section">
+                            <div class="role"><?php echo htmlspecialchars($current_role['role_name']); ?></div>/
+                            <div class="year"><?php echo $career['current_term']; ?>年目の<?php echo $career['current_months']; ?>月</div>
+                        </div>
+                        <div class="stats-character">
+                            <div class="stats">
+                                <div class="stat" data-stat="trust">信頼度：<span><?php echo $user['trust_level']; ?></span></div>
+                                <div class="stat" data-stat="tech">技術力：<span><?php echo $user['technical_skill']; ?></span></div>
+                                <div class="stat" data-stat="negotiation">交渉力：<span><?php echo $user['negotiation_skill']; ?></span></div>
+                                <div class="stat" data-stat="appearance">容姿：<span><?php echo $user['appearance']; ?></span></div>
+                                <div class="stat" data-stat="likability">好感度：<span><?php echo $user['popularity']; ?></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="year">
-                <?php echo $career['current_term']; ?>年目の<?php echo $career['current_months']; ?>月
+            <div class="back">
+                <div class="back-status">
+                    <div class="back-top-section">
+                        <div class="back-name"><?php echo htmlspecialchars($user['user_name']); ?></div>/
+                        <div class="back-role"><?php echo htmlspecialchars($current_role['role_name']); ?></div>
+                    </div>
+                </div>
+                <div class="stats-graph">
+                    <canvas id="radarChart"></canvas>
+                </div>
             </div>
-            <div class="name"><?php echo htmlspecialchars($user['user_name']); ?></div>
-            <hr class="divider">
-            <div class="role"><?php echo htmlspecialchars($current_role['role_name']); ?></div>
         </div>
-
-        <div class="stats-character">
-            <div class="stats">
-                <div class="stat" data-stat="trust">信頼度：<span><?php echo $user['trust_level']; ?></span></div>
-                <div class="stat" data-stat="tech">技術力：<span><?php echo $user['technical_skill']; ?></span></div>
-                <div class="stat" data-stat="negotiation">交渉力：<span><?php echo $user['negotiation_skill']; ?></span></div>
-                <div class="stat" data-stat="appearance">容　姿：<span><?php echo $user['appearance']; ?></span></div>
-                <div class="stat" data-stat="likability">好感度：<span><?php echo $user['popularity']; ?></span></div>
-            </div>
-
-            <div class="character">
-                <img src="character.png" alt="キャラクター">
-            </div>
-        </div>
-
-        <div class="buttons">
-            <div class="button-wrapper">
-                <button onclick="location.href='../G1-0/index.html'">タイトルへ</button>
-                <hr class="button-divider">
-                <form action="start_event.php" method="POST">
-                    <button type="submit" name="start_event">イベント開始</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <canvas id="radarChart" style="width:500px; height: 500px;"></canvas>
-        </div>
+        <button id="toggleButton" class="back-button">裏を見る</button>
+        <form action="start_event.php" method="POST">
+            <button type="submit" name="start_event" class="start-button">ゲーム開始</button>
+        </form>
     </div>
 
     <script>
         const modal = document.getElementById('myModal');
         const btn = document.getElementById('openModal');
         const span = document.getElementsByClassName('close')[0];
+        const card = document.querySelector(".card");
+        const toggleButton = document.getElementById("toggleButton");
+
+        let isFront = true;
+
+        toggleButton.addEventListener("click", () => {
+            if (isFront) {
+                card.style.transform = "rotateY(180deg)"; // 裏面を表示
+                toggleButton.textContent = "表を見る"; // ボタンのテキストを変更
+                loadRadarChart();
+            } else {
+                card.style.transform = "rotateY(0deg)"; // 表面を表示
+                toggleButton.textContent = "裏を見る"; // ボタンのテキストを変更
+            }
+            isFront = !isFront; // 状態を切り替え
+        });
 
         btn.onclick = function () {
             modal.style.display = 'block';
@@ -272,13 +281,16 @@ echo "</pre>";
         }
 
         function loadRadarChart() {
-            const dataValues = getStatusValues();
+            const dataValues = [
+                <?php echo $user['trust_level']; ?>,
+                <?php echo $user['technical_skill']; ?>,
+                <?php echo $user['negotiation_skill']; ?>,
+                <?php echo $user['appearance']; ?>,
+                <?php echo $user['popularity']; ?>
+            ];
 
             const ctx = document.getElementById('radarChart').getContext('2d');
-            if (radarChart) {
-                radarChart.destroy();
-            }
-            radarChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'radar',
                 data: {
                     labels: ['信頼度', '技術力', '交渉力', '容姿', '好感度'],
@@ -287,7 +299,7 @@ echo "</pre>";
                         data: dataValues,
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 3,
+                        borderWidth: 2,
                         pointBackgroundColor: 'rgba(54, 162, 235, 1)',
                         pointBorderColor: '#fff',
                         pointRadius: 5,
@@ -297,47 +309,37 @@ echo "</pre>";
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff'
+                            }
+                        }
+                    },
                     scales: {
                         r: {
                             min: 0,
                             max: 100,
                             ticks: {
                                 beginAtZero: true,
-                                stepSize: 10,
-                                backdropColor: 'transparent',
-                                font: { 
-                                    size: 14, 
-                                    weight: 'bold' 
+                                stepSize: 20,
+                                color: '#fff',
+                                font: {
+                                    size: 14
                                 },
-                                color: '#333'
+                                backdropColor: 'transparent'
                             },
                             grid: {
-                                circular: false,
-                                lineWidth: 2,
-                                color: 'rgba(0, 0, 0, 0.1)'
+                                color: 'rgba(255, 255, 255, 0.5)'
                             },
                             angleLines: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.2)',
-                                lineWidth: 1.5
+                                color: 'rgba(255, 255, 255, 0.5)'
                             },
                             pointLabels: {
                                 font: {
-                                    size: 17,
-                                    weight: 'bold'
+                                    size: 16
                                 },
-                                color: '#000'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                font: {
-                                    size: 15,
-                                    weight: 'bold'
-                                },
-                                color: '#333'
+                                color: '#fff'
                             }
                         }
                     }
