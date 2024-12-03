@@ -244,108 +244,99 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
         const btn = document.getElementById('openModal');
         const span = document.getElementsByClassName('close')[0];
         const card = document.querySelector(".card");
-        const toggleButton = document.getElementById("toggleButton");
+const toggleButton = document.getElementById("toggleButton");
 
-        let isFront = true;
+let isFront = true;
+let radarChartInstance = null; // グローバル変数でチャートインスタンスを管理
 
-        toggleButton.addEventListener("click", () => {
-            if (isFront) {
-                card.style.transform = "rotateY(180deg)"; // 裏面を表示
-                toggleButton.textContent = "表を見る"; // ボタンのテキストを変更
-                loadRadarChart();
-            } else {
-                card.style.transform = "rotateY(0deg)"; // 表面を表示
-                toggleButton.textContent = "裏を見る"; // ボタンのテキストを変更
-            }
-            isFront = !isFront; // 状態を切り替え
-        });
-
-        btn.onclick = function () {
-            modal.style.display = 'block';
+toggleButton.addEventListener("click", () => {
+    if (isFront) {
+        card.style.transform = "rotateY(180deg)"; // 裏面を表示
+        toggleButton.textContent = "表を見る"; // ボタンのテキストを変更
+        if (!radarChartInstance) { // チャートが未生成の場合のみロード
             loadRadarChart();
-        };
-
-        span.onclick = function () {
-            modal.style.display = 'none';
-        };
-
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
-
-        function getStatusValues() {
-            const stats = document.querySelectorAll('.stat span');
-            return Array.from(stats).map(stat => parseInt(stat.textContent, 10));
         }
+    } else {
+        card.style.transform = "rotateY(0deg)"; // 表面を表示
+        toggleButton.textContent = "裏を見る"; // ボタンのテキストを変更
+    }
+    isFront = !isFront; // 状態を切り替え
+});
 
-        function loadRadarChart() {
-            const dataValues = [
-                <?php echo $user['trust_level']; ?>,
-                <?php echo $user['technical_skill']; ?>,
-                <?php echo $user['negotiation_skill']; ?>,
-                <?php echo $user['appearance']; ?>,
-                <?php echo $user['popularity']; ?>
-            ];
+function loadRadarChart() {
+    const dataValues = [
+        <?php echo $user['trust_level']; ?>,
+        <?php echo $user['technical_skill']; ?>,
+        <?php echo $user['negotiation_skill']; ?>,
+        <?php echo $user['appearance']; ?>,
+        <?php echo $user['popularity']; ?>
+    ];
 
-            const ctx = document.getElementById('radarChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['信頼度', '技術力', '交渉力', '容姿', '好感度'],
-                    datasets: [{
-                        label: 'ステータス',
-                        data: dataValues,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 2,
-                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                        pointBorderColor: '#fff',
-                        pointRadius: 5,
-                        pointHoverRadius: 7
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#fff'
-                            }
-                        }
-                    },
-                    scales: {
-                        r: {
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                beginAtZero: true,
-                                stepSize: 20,
-                                color: '#fff',
-                                font: {
-                                    size: 14
-                                },
-                                backdropColor: 'transparent'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.5)'
-                            },
-                            angleLines: {
-                                color: 'rgba(255, 255, 255, 0.5)'
-                            },
-                            pointLabels: {
-                                font: {
-                                    size: 16
-                                },
-                                color: '#fff'
-                            }
-                        }
+    const ctx = document.getElementById('radarChart').getContext('2d');
+
+    // 既存のチャートインスタンスがある場合は削除
+    if (radarChartInstance) {
+        radarChartInstance.destroy();
+    }
+
+    // 新しいチャートを作成
+    radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['信頼度', '技術力', '交渉力', '容姿', '好感度'],
+            datasets: [{
+                label: 'ステータス',
+                data: dataValues,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                pointBorderColor: '#fff',
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#fff'
                     }
                 }
-            });
+            },
+            scales: {
+                r: {
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 20,
+                        color: '#fff',
+                        font: {
+                            size: 14
+                        },
+                        backdropColor: 'transparent'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.5)'
+                    },
+                    angleLines: {
+                        color: 'rgba(255, 255, 255, 0.5)'
+                    },
+                    pointLabels: {
+                        font: {
+                            size: 16
+                        },
+                        color: '#fff'
+                    }
+                }
+            }
         }
+    });
+}
+
 
         let radarChart;
     </script>

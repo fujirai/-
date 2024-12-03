@@ -1,16 +1,33 @@
 html{
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
 }
 /* 全体 */
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f0f0f0;
+    overflow: hidden;
+}
+
+.scene-image{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.scene-img{
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-fit: cover;
 }
 
 /* ポップアップの基本スタイル */
@@ -37,6 +54,14 @@ body {
     color: #000;
     border: 1px solid #ccc;
     cursor: default;
+}
+
+.popup h2, 
+.popup p, 
+.popup h3 {
+    margin: 0; /* すべての余白を削除 */
+    padding: 0; /* パディングも削除 */
+    line-height: 1.2; /* 行間を詰める */
 }
 
 /*テキストを表示する場所*/
@@ -81,12 +106,18 @@ body {
 
 /* ノベルゲーム風ボックス */
 .footer-box {
-    background: rgba(0, 0, 0, 0.7); /* 半透明の黒 */
-    border: 2px solid #fff; /* 白い枠線 */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #fff;
     border-radius: 10px;
     padding: 20px;
-    margin: 10px;
+    box-sizing: border-box;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    text-align: center;
 }
 
 /* テキストのスタイル */
@@ -110,7 +141,15 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    margin: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white; /* 文字色は黒 */
+    border: 1.5px solid #fff;
+    text-align: center; /* 文字を中央揃え（横方向） */
+    font-size: 16px; /* 文字サイズ */
+    border-radius: 20px; /* 角を丸める */
+}
+.event-title{
+    margin: 10px 5px;
 }
 
 /* ゲーム風ボタンのスタイル */

@@ -77,6 +77,9 @@ try {
     </script>
 </head>
 <body>
+    <div class="scene-image">
+        <img src="..\Image\<?= htmlspecialchars($event['event_scene']) ?>" loading="eager" alt="背景" class="scene-img">
+    </div>
     <div id="popup" class="popup">
         <h2><span class="rotate-text">ステータス</span></h2>
         <p><h2><?php echo htmlspecialchars($user['user_name'], ENT_QUOTES, 'UTF-8'); ?></h2></p>

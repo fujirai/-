@@ -179,6 +179,9 @@ $_SESSION['previous_stats'] = $current_stats;
         <title>ランダムイベント</title>
     </head>
 <body>
+    <div class="scene-image">
+        <img src="..\Image\<?= htmlspecialchars($event['event_scene']) ?>" loading="eager" alt="背景" class="scene-img">
+    </div>
     <!-- ステイタス表示と変動 -->
     <div id="popup" class="popup">
         <h2><p><span class="rotate-text">ステータス</span></p></h2>
