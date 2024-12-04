@@ -43,11 +43,11 @@ try {
     $updateStmt->execute([':user_id' => $user_id]);
      // role_id に応じて動画ファイルを選択
      if (in_array($user['role_id'], [1, 8])) {
-        $videoFile = 'video/BADEND.mp4';
+        $videoFile = 'BADEND.mp4';
     } elseif (in_array($user['role_id'], [2, 3, 4])) {
-        $videoFile = 'video/NORMALEND.mp4';
+        $videoFile = 'NORMALEND.mp4';
     } elseif (in_array($user['role_id'], [5, 6, 7])) {
-        $videoFile = 'video/HAPPYEND.mp4';
+        $videoFile = 'HAPPYEND.mp4';
     } else {
         throw new Exception("適切なエンディング動画が見つかりません。");
     }
