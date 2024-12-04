@@ -1,37 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opening</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #000;
-        }
-        video {
-            max-width: 100%;
-            max-height: 100%;
-        }
-    </style>
-</head>
-<body>
-    <video id="opVideo" autoplay>
-        <source src="op.mp4" type="video/mp4">
-        お使いのブラウザは動画再生に対応していません。
-    </video>
-    <script>
-        const video = document.getElementById("opVideo");
-
-        video.addEventListener("ended", () => {
-            setTimeout(() => {
-                window.location.href = "../G1-1/register.php";
-            }, 1000); // 1秒後に画面遷移
-        });
-    </script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Style/opening.css" />
+        <title>オープニング画面</title>
+    </head>
+    <body>
+        <a href="../G1-1/register.php">ゲーム画面へ</a>
+    </body>
 </html>
