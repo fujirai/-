@@ -92,14 +92,14 @@ try {
     <!-- 4ターム目の3月用エンディングボタン -->
     <?php if ($current_term == 4 && $current_month == 3): ?>
         <div id="endingButton" class="endingButton" style="display: none;">
-            <button id="endButton" class="game-button" onclick="window.location.href='random_disposal.php';">エンディングへ</button>
+            <button id="endButton" class="game-button">エンディングへ</button>
         </div>
     <?php endif; ?>
 
     <!-- 次のタームへ進むボタン -->
     <?php if ($current_month == 3 && $current_term != 4): ?>
         <div id="nextTermButton" class="nextTermButton" style="display: none;">
-            <button id="next-term" class="game-button" onclick="window.location.href='random_disposal.php';">1年間を終える</button>
+            <button id="next-term" class="game-button" >1年間を終える</button>
         </div>
     <?php endif; ?>
 
@@ -139,17 +139,17 @@ try {
             // 戻るボタンの動作
             const backButton = document.getElementById("backButton");
             if (backButton) {
-        backButton.addEventListener("click", function () {
-            // random_disposal.php に処理を行い、その後 home.php にリダイレクトする
-            window.location.href = "random_disposal.php";  // random_disposal.phpにリダイレクト
-        });
-    }
+                backButton.addEventListener("click", function () {
+                    // random_disposal.php に処理を行い、その後 home.php にリダイレクトする
+                    window.location.href = "random_disposal.php";  // random_disposal.phpにリダイレクト
+                });
+            }
 
             // エンディングボタンの動作
             const endButton = document.getElementById("endButton");
             if (endButton) {
                 endButton.addEventListener("click", function () {
-                    window.location.href = '../G4-1/ending.php';
+                    window.location.href = "random_disposal.php";
                 });
             }
 
@@ -157,7 +157,7 @@ try {
             const nextTermButton = document.getElementById("next-term");
             if (nextTermButton) {
                 nextTermButton.addEventListener("click", function () {
-                    window.location.href = 'term.php';
+                    window.location.href = "random_disposal.php";
                 });
             }
         });
