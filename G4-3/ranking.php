@@ -7,15 +7,27 @@ $source = isset($_GET['from']) ? $_GET['from'] : null;
 
 // セッションが必要な処理（gameend.phpからのアクセス）と不要な処理（index.htmlからのアクセス）で分岐
 $userHighlight = null; // 現在のユーザー情報を保持する変数
+$userRank = null; // ユーザーの順位を保持する変数
+
 if ($source === 'gameend' && isset($_SESSION['user_id'])) {
     $userHighlight = [
+        'user_id' => $_SESSION['user_id'],
         'user_name' => $_SESSION['user_name'],
         'role_name' => $_SESSION['role_name'] ?? '役職なし',
         'total_score' => $_SESSION['trust_level'] + $_SESSION['technical_skill'] +
                          $_SESSION['negotiation_skill'] + $_SESSION['appearance'] +
                          $_SESSION['popularity'],
     ];
+
+    // ユーザーの順位を計算
+    foreach ($allRankResults as $index => $row) {
+        if ($row['user_id'] == $userHighlight['user_id']) {
+            $userRank = $index + 1; // 配列のインデックスは0から始まるため+1
+            break;
+        }
+    }
 }
+
 
 try {
     // データベースに接続
@@ -81,7 +93,7 @@ try {
                 // ユーザー情報を最上位に表示
                 if ($userHighlight) {
                     echo "<tr class='highlight-user'>";
-                    echo "<td>-</td>";
+                    echo "<td>" . htmlspecialchars($userRank ?? '-') . "</td>"; // ユーザーの順位を表示
                     echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($userHighlight['user_name']) . "</td>";
                     echo "<td>" . htmlspecialchars($userHighlight['role_name']) . "</td>";
                     echo "<td>" . htmlspecialchars($userHighlight['total_score']) . "</td>";

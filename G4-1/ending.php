@@ -41,6 +41,16 @@ try {
     $updateQuery = "UPDATE User SET game_situation = 'end' WHERE user_id = :user_id";
     $updateStmt = $pdo->prepare($updateQuery);
     $updateStmt->execute([':user_id' => $user_id]);
+     // role_id に応じて動画ファイルを選択
+     if (in_array($user['role_id'], [1, 8])) {
+        $videoFile = 'video/BADEND.mp4';
+    } elseif (in_array($user['role_id'], [2, 3, 4])) {
+        $videoFile = 'video/NORMALEND.mp4';
+    } elseif (in_array($user['role_id'], [5, 6, 7])) {
+        $videoFile = 'video/HAPPYEND.mp4';
+    } else {
+        throw new Exception("適切なエンディング動画が見つかりません。");
+    }
 } catch (PDOException $e) {
     echo "データベースエラー: " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
@@ -60,10 +70,12 @@ try {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const videoElement = document.querySelector("video");
-            const endButton = document.getElementById("endButton");
-
+            
+            // 動画終了後に1秒待って遷移
             videoElement.addEventListener("ended", function () {
-                endButton.style.display = "block"; // 動画終了時にボタンを表示
+                setTimeout(() => {
+                    window.location.href = '../G4-2/gameend.php';
+                }, 1000);
             });
         });
     </script>
@@ -79,14 +91,10 @@ try {
 <body>
     <div class="ending-container">
         <h1>エンディング</h1>
-        <video controls>
-            <source src="video/ending.mp4" type="video/mp4">
+        <video autoplay controls>
+            <source src="<?php echo htmlspecialchars($videoFile, ENT_QUOTES, 'UTF-8'); ?>" type="video/mp4">
             このブラウザでは動画が再生できません。
         </video>
-        <div class="buttons">
-            <!-- ボタンを最初から表示 -->
-            <button onclick="location.href='../G4-2/gameend.php'">ゲーム終了</button>
-        </div>
     </div>
 </body>
 </html>
