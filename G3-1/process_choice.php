@@ -32,32 +32,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
             throw new Exception("選択肢のデータが見つかりません。");
         }
 
-        // Careerテーブルから現在のタームと月を取得
-        $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
-        $career_stmt = $conn->prepare($career_query);
-        $career_stmt->execute([':user_id' => $user_id]);
-        $career = $career_stmt->fetch(PDO::FETCH_ASSOC);
+        // // Careerテーブルから現在のタームと月を取得
+        // $career_query = "SELECT current_term, current_months FROM Career WHERE user_id = :user_id";
+        // $career_stmt = $conn->prepare($career_query);
+        // $career_stmt->execute([':user_id' => $user_id]);
+        // $career = $career_stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$career) {
-            throw new Exception("Career情報が見つかりません。");
-        }
+        // if (!$career) {
+        //     throw new Exception("Career情報が見つかりません。");
+        // }
 
-        $current_term = $career['current_term'];
-        $current_month = $career['current_months'];
+        // $current_term = $career['current_term'];
+        // $current_month = $career['current_months'];
 
-        // 月の進行とタームの進行を分けて管理
-        if ($current_month == 12) {  // 12月が終わった場合
-            $new_month = 1;  // 1月に戻る
-        } else {
-            $new_month = $current_month + 1;  // 次の月へ進む
-        }
+        // // 月の進行とタームの進行を分けて管理
+        // if ($current_month == 12) {  // 12月が終わった場合
+        //     $new_month = 1;  // 1月に戻る
+        // } else {
+        //     $new_month = $current_month + 1;  // 次の月へ進む
+        // }
 
-        // タームの進行を判定
-        if ($new_month == 4) {  // 4月になった場合
-            $new_term = $current_term + 1;  // 新しいタームに進む
-        } else {
-            $new_term = $current_term;
-        }
+        // // タームの進行を判定
+        // if ($new_month == 4) {  // 4月になった場合
+        //     $new_term = $current_term + 1;  // 新しいタームに進む
+        // } else {
+        //     $new_term = $current_term;
+        // }
 
         // イベントの影響をStatusに反映
         $status_update = "UPDATE Status SET 
@@ -84,14 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
         $score_stmt = $conn->prepare($score_update);
         $score_stmt->execute([':user_id' => $user_id]);
 
-        // Careerテーブルを更新する
-        $update_career_query = "UPDATE Career SET current_term = :new_term, current_months = :new_month WHERE user_id = :user_id";
-        $update_career_stmt = $conn->prepare($update_career_query);
-        $update_career_stmt->execute([
-            ':new_term' => $new_term,
-            ':new_month' => $new_month,
-            ':user_id' => $user_id
-        ]);
+        // // Careerテーブルを更新する
+        // $update_career_query = "UPDATE Career SET current_term = :new_term, current_months = :new_month WHERE user_id = :user_id";
+        // $update_career_stmt = $conn->prepare($update_career_query);
+        // $update_career_stmt->execute([
+        //     ':new_term' => $new_term,
+        //     ':new_month' => $new_month,
+        //     ':user_id' => $user_id
+        // ]);
 
         // 選択肢の詳細をセッションに保存
         $_SESSION['choice_detail'] = $point['choice_detail'];
