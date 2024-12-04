@@ -104,6 +104,32 @@ try {
     <?php endif; ?>
 
     <script>
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey && e.key === 'r') || e.key === 'F5') {
+                e.preventDefault();
+                    // メッセージを表示する要素を作成
+                    let message = document.createElement('div');
+                    message.style.position = 'fixed';
+                    message.style.top = '50%';
+                    message.style.left = '50%';
+                    message.style.transform = 'translate(-50%, -50%)';
+                    message.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                    message.style.color = 'white';
+                    message.style.padding = '20px';
+                    message.style.borderRadius = '5px';
+                    message.style.fontSize = '20px';
+                    message.innerText = 'リロードはできません';
+
+                    // メッセージをページに追加
+                    document.body.appendChild(message);
+
+                    // 数秒後にメッセージを非表示にする
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 3000);
+
+            }
+        });
         document.addEventListener("DOMContentLoaded", function () {
             // ポップアップ表示/非表示機能
             const popup = document.getElementById("popup");
