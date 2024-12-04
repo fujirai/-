@@ -14,7 +14,7 @@ try {
     // ユーザー情報を取得
     $stmt = $pdo->prepare(
         'SELECT u.user_name, s.trust_level, s.technical_skill, s.negotiation_skill, 
-                s.appearance, s.popularity, r.role_name 
+                s.appearance, s.popularity, r.role_name , r.role_id
          FROM Status s
          JOIN User u ON s.status_id = u.status_id
          JOIN Role r ON u.role_id = r.role_id
@@ -42,11 +42,11 @@ try {
     $updateStmt = $pdo->prepare($updateQuery);
     $updateStmt->execute([':user_id' => $user_id]);
      // role_id に応じて動画ファイルを選択
-     if (in_array($user['role_id'], [1, 8])) {
+     if (isset($user['role_id']) && in_array($user['role_id'], [1, 8])) {
         $videoFile = 'BADEND.mp4';
-    } elseif (in_array($user['role_id'], [2, 3, 4])) {
+    } elseif (isset($user['role_id']) && in_array($user['role_id'], [2, 3, 4])) {
         $videoFile = 'NORMALEND.mp4';
-    } elseif (in_array($user['role_id'], [5, 6, 7])) {
+    } elseif (isset($user['role_id']) && in_array($user['role_id'], [5, 6, 7])) {
         $videoFile = 'HAPPYEND.mp4';
     } else {
         throw new Exception("適切なエンディング動画が見つかりません。");

@@ -5,29 +5,8 @@ require_once '../db.php';
 // アクセス元を確認
 $source = isset($_GET['from']) ? $_GET['from'] : null;
 
-// セッションが必要な処理（gameend.phpからのアクセス）と不要な処理（index.htmlからのアクセス）で分岐
-$userHighlight = null; // 現在のユーザー情報を保持する変数
-$userRank = null; // ユーザーの順位を保持する変数
-
-if ($source === 'gameend' && isset($_SESSION['user_id'])) {
-    $userHighlight = [
-        'user_id' => $_SESSION['user_id'],
-        'user_name' => $_SESSION['user_name'],
-        'role_name' => $_SESSION['role_name'] ?? '役職なし',
-        'total_score' => $_SESSION['trust_level'] + $_SESSION['technical_skill'] +
-                         $_SESSION['negotiation_skill'] + $_SESSION['appearance'] +
-                         $_SESSION['popularity'],
-    ];
-
-    // ユーザーの順位を計算
-    foreach ($allRankResults as $index => $row) {
-        if ($row['user_id'] == $userHighlight['user_id']) {
-            $userRank = $index + 1; // 配列のインデックスは0から始まるため+1
-            break;
-        }
-    }
-}
-
+// $allRankResults を初期化
+$allRankResults = []; // 空配列で初期化
 
 try {
     // データベースに接続
@@ -58,6 +37,26 @@ try {
     echo "接続エラー: " . $e->getMessage();
     exit;
 }
+
+if ($source === 'gameend' && isset($_SESSION['user_id'])) {
+    $userHighlight = [
+        'user_id' => $_SESSION['user_id'],
+        'user_name' => $_SESSION['user_name'],
+        'role_name' => $_SESSION['role_name'] ?? '役職なし',
+        'total_score' => $_SESSION['trust_level'] + $_SESSION['technical_skill'] +
+                         $_SESSION['negotiation_skill'] + $_SESSION['appearance'] +
+                         $_SESSION['popularity'],
+    ];
+
+    // ユーザーの順位を計算
+    foreach ($allRankResults as $index => $row) {
+        if ($row['user_id'] == $userHighlight['user_id']) {
+            $userRank = $index + 1; // 配列のインデックスは0から始まるため+1
+            break;
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
