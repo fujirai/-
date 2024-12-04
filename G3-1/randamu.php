@@ -104,6 +104,12 @@ try {
     <?php endif; ?>
 
     <script>
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey && e.key === 'r') || (e.metaKey && e.key === 'r') || e.key === 'F5') {
+                e.preventDefault();
+            }
+        });
+        
         document.addEventListener("DOMContentLoaded", function () {
             // ポップアップ表示/非表示機能
             const popup = document.getElementById("popup");
