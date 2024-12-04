@@ -113,6 +113,19 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['event'])) {
             ':user_id' => $user_id
         ]);
 
+        // 現在の月が3月で、タームが4ではない場合
+        if ($current_month == 3 && $current_term != 4): 
+            header("Location: term.php");
+            exit;
+        endif;
+
+        // 現在のタームが4、かつ月が3月の場合
+        if ($current_term == 4 && $current_month == 3): 
+            header("Location: ../G4-1/ending.php");
+            exit;
+        endif;
+
+        // 上記以外の場合
         header("Location: ../G2-1/home.php");
         exit;
 
