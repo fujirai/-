@@ -126,62 +126,103 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="register.php" method="post">
             <div class="inputform">
                 <p class="name">名前<br>
-                        <input
-                            id="name-input" 
-                            class="name-input" 
-                            type="text" 
-                            placeholder="名前を入力してください(10文字以内)" 
-                            name="name" 
-                            maxlength="10" 
-                            required
-                            >
-                    </p>
-                    <p class="number">社畜番号<br>
-                        <input 
-                            id="number-input" 
-                            class="number-input" 
-                            type="password" 
-                            placeholder="６桁の社畜番号を入力してください" 
-                            name="number" 
-                            pattern="\d{6}" 
-                            required
-                        >
-                    </p>
-                    <p class="numberconfirm">確認<br>
-                        <input 
-                            id="numberconfirm-input"
-                            class="numberconfirm-input" 
-                            type="password" 
-                            placeholder="社畜番号を確認してください(6桁)" 
-                            name="numberconfirm" 
-                            pattern="\d{6}" 
-                            required
-                        >
-                    </p>
-                </div>
-                <div class="button">
-                    <button class="register-ok" type="submit">入社</button>
-                    <button onclick="location.href='../G1-0/index.html'">戻る</button>
-                </div>
-            </form>
+                    <input
+                        id="name-input" 
+                        class="name-input" 
+                        type="text" 
+                        placeholder="名前を入力してください(10文字以内)" 
+                        name="name" 
+                        maxlength="10" 
+                        required
+                        oninput="validateName()"
+                    >
+                </p>
+                <p class="number">社畜番号<br>
+                    <input 
+                        id="number-input" 
+                        class="number-input" 
+                        type="password" 
+                        maxlength="6"
+                        placeholder="６桁の社畜番号を入力してください" 
+                        name="number"  
+                        required
+                        oninput="validatePassword()"
+                    >
+                </p>
+                <p class="numberconfirm">確認<br>
+                    <input 
+                        id="numberconfirm-input"
+                        class="numberconfirm-input" 
+                        type="password" 
+                        maxlength="6"
+                        placeholder="社畜番号を確認してください(6桁)" 
+                        name="numberconfirm"  
+                        required
+                        oninput="validateCheckPassword()"
+                    >
+                </p>
+            </div>
+            <div class="button">
+                <button class="register-ok" type="submit">入社</button>
+                <button onclick="location.href='../G1-0/index.html'">戻る</button>
+            </div>
+        </form>
             <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
             <a href="../G1-2/login.php">ログインされている方はこちら</a>
         </div>
-        <script>
-        // 入力中の制約（リアルタイム）
-        document.getElementById('name-input').addEventListener('input', function() {
-            if (this.value.length > 10) {
-                this.value = this.value.slice(0, 10); // 10文字以上を切り捨て
+    <script>
+        function validateName() {
+            const nameField = document.getElementById('name');
+            // 名前は10文字以内、全ての文字が有効
+            if (nameField.value.length > 10) {
+                nameField.value = nameField.value.slice(0, 10); // 11文字目以降を削除
             }
-        });
+        }
 
-        document.getElementById('number-input').addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6); // 数字以外を削除し6桁まで制限
-        });
 
-        document.getElementById('numberconfirm-input').addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6); // 数字以外を削除し6桁まで制限
-        });
+        // パスワードフィールドのリアルタイムバリデーション
+        function validatePassword() {
+            const passwordField = document.getElementById('number-input');
+            // 入力値をフィルタリングして数字のみ保持
+            passwordField.value = passwordField.value.replace(/[^0-9]/g, '');
+
+            // typeを変更して表示非表示ボタンを消す
+            passwordField.type = 'text';
+            passwordField.type = 'password';
+
+            // 6桁目が入力されたら表示
+            if (passwordField.value.length === 6) {
+                // パスワードフィールドを表示状態に変更
+                passwordField.type = 'text';
+
+                // 3秒後にパスワードを非表示に戻す
+                setTimeout(() => {
+                    passwordField.type = 'password';
+                }, 1500); // 3000ミリ秒 = 3秒
+            }
+        }
+
+        // パスワードフィールドのリアルタイムバリデーション
+        function validateCheckPassword() {
+            const passwordField = document.getElementById('numberconfirm-input');
+            // 入力値をフィルタリングして数字のみ保持
+            passwordField.value = passwordField.value.replace(/[^0-9]/g, '');
+
+            // typeを変更して表示非表示ボタンを消す
+            passwordField.type = 'text';
+            passwordField.type = 'password';
+
+            // 6桁目が入力されたら表示
+            if (passwordField.value.length === 6) {
+                // パスワードフィールドを表示状態に変更
+                passwordField.type = 'text';
+
+                // 3秒後にパスワードを非表示に戻す
+                setTimeout(() => {
+                    passwordField.type = 'password';
+                }, 1500); // 3000ミリ秒 = 3秒
+            }
+        }
     </script>
 </body>
 </html>
