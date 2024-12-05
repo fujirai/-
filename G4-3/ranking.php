@@ -38,6 +38,9 @@ try {
     exit;
 }
 
+// 初期化
+$userHighlight = null;
+
 if ($source === 'gameend' && isset($_SESSION['user_id'])) {
     $userHighlight = [
         'user_id' => $_SESSION['user_id'],
