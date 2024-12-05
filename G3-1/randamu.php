@@ -126,7 +126,7 @@ try {
                     // 数秒後にメッセージを非表示にする
                     setTimeout(function() {
                         message.style.display = 'none';
-                    }, 3000);
+                    }, 1000);
 
             }
         });
