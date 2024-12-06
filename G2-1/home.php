@@ -195,8 +195,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
     <div class="card-container">
         <div class="card">
             <div class="front">
-                        <!-- ボタン -->
-                        <button id="openPopupBtn">ポップアップを表示</button>
+                <!-- ボタン -->
+                <button id="openPopupBtn">ゲーム説明</button>
 
                 <!-- オーバーレイ -->
                 <div class="overlay" id="overlay"></div>
