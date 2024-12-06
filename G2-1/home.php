@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
                 <!-- ポップアップ -->
                 <div class="popup" id="popup">
                     <span class="close-btn" id="closeBtn">&times;</span>
-                    <p>これはポップアップの内容です。</p>
+                    <p></p>
                 </div>
                 <div class="company">
                     <img src="..\Image\logo.svg" alt="logo" class="logoimg">
