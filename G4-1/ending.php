@@ -36,13 +36,13 @@ try {
     $_SESSION['appearance'] = $user['appearance'];
     $_SESSION['popularity'] = $user['popularity'];
 
-
     // ゲーム終了時に game_situation を 'end' に更新
     $updateQuery = "UPDATE User SET game_situation = 'end' WHERE user_id = :user_id";
     $updateStmt = $pdo->prepare($updateQuery);
     $updateStmt->execute([':user_id' => $user_id]);
-     // role_id に応じて動画ファイルを選択
-     if (isset($user['role_id']) && in_array($user['role_id'], [1, 8])) {
+
+    // role_id に応じて動画ファイルを選択
+    if (isset($user['role_id']) && in_array($user['role_id'], [1, 8])) {
         $videoFile = 'BADEND.mp4';
     } elseif (isset($user['role_id']) && in_array($user['role_id'], [2, 3, 4])) {
         $videoFile = 'NORMALEND.mp4';
@@ -65,35 +65,66 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/ending.css">
     <title>エンディング</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            position: relative;
+            overflow: hidden; /* 画面スクロールを無効化 */
+        }
+        video {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .skip-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .skip-button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const videoElement = document.querySelector("video");
-            
+            const skipButton = document.createElement("button");
+
+            // スキップボタンを作成
+            skipButton.textContent = "スキップ";
+            skipButton.className = "skip-button";
+            document.body.appendChild(skipButton);
+
             // 動画終了後に1秒待って遷移
             videoElement.addEventListener("ended", function () {
                 setTimeout(() => {
                     window.location.href = '../G4-2/gameend.php';
                 }, 1000);
             });
+
+            // スキップボタンをクリックした場合の処理
+            skipButton.addEventListener("click", () => {
+                window.location.href = '../G4-2/gameend.php'; // すぐに遷移
+            });
         });
     </script>
 </head>
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/ending.css">
-    <title>エンディング</title>
-</head>
 <body>
     <div class="ending-container">
-        <h1>エンディング</h1>
-        <video autoplay controls>
+        <video autoplay>
             <source src="<?php echo htmlspecialchars($videoFile, ENT_QUOTES, 'UTF-8'); ?>" type="video/mp4">
-            このブラウザでは動画が再生できません。
+            お使いのブラウザでは動画再生に対応していません。
         </video>
     </div>
 </body>
