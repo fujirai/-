@@ -193,19 +193,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
 </head>
 <body>
     <div class="card-container">
+        <!-- ボタン -->
+        <button id="openPopupBtn" class="start-button">ゲーム説明</button>
+
+        <!-- オーバーレイ -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- ポップアップ -->
+        <div class="popup" id="popup">
+            <p>ここにゲームの説明が表示されます。ゲームの目的は、スコアを上げることです！</p>
+            <button class="close-btn" id="closeBtn">戻る</button>
+        </div>
         <div class="card">
             <div class="front">
-                <!-- ボタン -->
-                <button id="openPopupBtn">ゲーム説明</button>
-
-                <!-- オーバーレイ -->
-                <div class="overlay" id="overlay"></div>
-
-                <!-- ポップアップ -->
-                <div class="popup" id="popup">
-                    <span class="close-btn" id="closeBtn">&times;</span>
-                    <p></p>
-                </div>
                 <div class="company">
                     <img src="..\Image\logo.svg" alt="logo" class="logoimg">
                     <p class="companyname">Hell Company</p>
@@ -245,6 +245,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
             </div>
         </div>
         <button id="toggleButton" class="back-button">裏を見る</button>
+        <form action="../G1-0/index.html" method="POST">
+            <button type="submit" name="start_event" class="start-button">タイトルに戻る</button>
+        </form>
         <form action="start_event.php" method="POST">
             <button type="submit" name="start_event" class="start-button">ゲーム開始</button>
         </form>
@@ -351,23 +354,31 @@ function loadRadarChart() {
 
         let radarChart;
 
-                // ボタンを押したときにポップアップを表示する
-                document.getElementById('openPopupBtn').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        });
+// ボタンと要素の取得
+const openPopupBtn = document.getElementById('openPopupBtn');
+const closeBtn = document.getElementById('closeBtn');
+const overlay = document.getElementById('overlay');
+const popup = document.getElementById('popup');
 
-        // ×ボタンを押したときにポップアップを閉じる
-        document.getElementById('closeBtn').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        });
+// ボタンがクリックされた時の動作
+openPopupBtn.addEventListener('click', () => {
+    overlay.style.display = 'block'; // オーバーレイを表示
+    overlay.style.pointerEvents = 'auto'; // オーバーレイを有効にする（背景が押せないように）
+    popup.style.display = 'block';   // ポップアップを表示
+    setTimeout(() => {
+        popup.classList.add('show'); // ポップアップをアニメーションで表示
+    }, 10);
+});
 
-        // オーバーレイ部分をクリックしたらポップアップを閉じる
-        document.getElementById('overlay').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        });
+// 戻るボタンがクリックされた時の動作
+closeBtn.addEventListener('click', () => {
+    popup.classList.remove('show'); // ポップアップをアニメーションで非表示
+    setTimeout(() => {
+        overlay.style.display = 'none';  // オーバーレイを非表示
+        overlay.style.pointerEvents = 'none'; // オーバーレイを無効にする（背景が押せるように）
+        popup.style.display = 'none';    // ポップアップを非表示
+    }, 500); // アニメーションの時間が終わるまで待機
+});
     </script>
 </body>
 </html>
