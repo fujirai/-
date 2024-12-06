@@ -121,3 +121,39 @@ canvas#radarChart {
     margin: 10px;
     border-bottom: 5px solid #868686;
 }
+
+        /* ポップアップのスタイル */
+        .popup {
+            display: none; /* 初期状態で非表示 */
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to bottom, #333, #872626); /* グラデーション背景 */
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 300px;
+            color: #fff; /* 文字色を白に変更 */
+        }
+        /* ×ボタンのスタイル */
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 20px;
+            color: #fff; /* ボタンの色を白に変更 */
+            cursor: pointer;
+        }
+        /* オーバーレイ背景 */
+        .overlay {
+            display: none; /* 初期状態で非表示 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
+            z-index: 999;
+        }

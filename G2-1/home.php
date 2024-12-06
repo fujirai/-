@@ -195,6 +195,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
     <div class="card-container">
         <div class="card">
             <div class="front">
+                        <!-- ボタン -->
+                        <button id="openPopupBtn">ポップアップを表示</button>
+
+                <!-- オーバーレイ -->
+                <div class="overlay" id="overlay"></div>
+
+                <!-- ポップアップ -->
+                <div class="popup" id="popup">
+                    <span class="close-btn" id="closeBtn">&times;</span>
+                    <p>これはポップアップの内容です。</p>
+                </div>
                 <div class="company">
                     <img src="..\Image\logo.svg" alt="logo" class="logoimg">
                     <p class="companyname">Hell Company</p>
@@ -339,6 +350,24 @@ function loadRadarChart() {
 
 
         let radarChart;
+
+                // ボタンを押したときにポップアップを表示する
+                document.getElementById('openPopupBtn').addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        });
+
+        // ×ボタンを押したときにポップアップを閉じる
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        });
+
+        // オーバーレイ部分をクリックしたらポップアップを閉じる
+        document.getElementById('overlay').addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        });
     </script>
 </body>
 </html>
