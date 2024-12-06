@@ -201,8 +201,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
 
         <!-- ポップアップ -->
         <div class="popup" id="popup">
-            <p>ここにゲームの説明が表示されます。ゲームの目的は、スコアを上げることです！</p>
-            <button class="close-btn" id="closeBtn">戻る</button>
+            <p>このゲームは、ランダムイベントか選択肢イベントで進行していきます。<br>
+            役職は、「ニート、一般社員、主任、課長、部長、常務取締役、専務取締役、代表取締役社長」があります。<br>
+            役職が変更されるのは「信頼度・技術力・交渉力・容姿・好感度」の数値が上下し、ある一定の数値に到達したときに変更されます。</p>
+            <h2><p>操作説明</p></h2>
+            <p style="color: red;"><重要>イベント発生中に、更新ボタンを押さないでください。</p>
+            <button class="close-btn" id="closeBtn">戻る</button><p></p>
         </div>
         <div class="card">
             <div class="front">
