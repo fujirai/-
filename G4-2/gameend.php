@@ -8,7 +8,7 @@ try {
 
     // ユーザーのステータス情報を取得
     $stmt = $pdo->prepare(
-        'SELECT u.user_name, s.trust_level, s.technical_skill, s.negotiation_skill, 
+        'SELECT u.user_name, u.role_id, s.trust_level, s.technical_skill, s.negotiation_skill, 
                 s.appearance, s.popularity, s.total_score
          FROM Status s
          JOIN User u ON s.status_id = u.status_id
@@ -22,28 +22,39 @@ try {
     }
 
     // Roleテーブルから役職情報を取得
-    $stmt = $pdo->prepare(
-        'SELECT role_name 
-         FROM Role 
-         WHERE repuired_trust <= :trust 
-         AND repuired_technical <= :technical 
-         AND repuired_negotiation <= :negotiation 
-         AND repuired_appearance <= :appearance 
-         AND repuired_popularity <= :popularity 
-         ORDER BY repuired_status DESC 
-         LIMIT 1'
-    );
-    $stmt->execute([
-        ':trust' => $status['trust_level'],
-        ':technical' => $status['technical_skill'],
-        ':negotiation' => $status['negotiation_skill'],
-        ':appearance' => $status['appearance'],
-        ':popularity' => $status['popularity']
-    ]);
-    $role = $stmt->fetchColumn();
+    $role_query = "SELECT * FROM Role ORDER BY repuired_status DESC";
+    $role_stmt = $pdo->query($role_query);
+    $roles = $role_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if (!$role) {
-        $role = '役職なし';
+    if (!$roles) {
+        throw new Exception("役職情報が取得できません。");
+    }
+
+    $new_role_id = $status['role_id'];
+    foreach ($roles as $role) {
+        if ($status['total_score'] >= $role['repuired_status'] &&
+            $status['trust_level'] >= $role['repuired_trust'] &&
+            $status['technical_skill'] >= $role['repuired_technical'] &&
+            $status['negotiation_skill'] >= $role['repuired_negotiation'] &&
+            $status['appearance'] >= $role['repuired_appearance'] &&
+            $status['popularity'] >= $role['repuired_popularity']
+        ) {
+            $new_role_id = $role['role_id'];
+            break;
+        }
+    }
+
+    // 現在の役職情報を取得
+    $current_role = null;
+    foreach ($roles as $role) {
+        if ($role['role_id'] === $new_role_id) {
+            $current_role = $role;
+            break;
+        }
+    }
+
+    if (!$current_role) {
+        throw new Exception("適切な役職が見つかりません。");
     }
 
 } catch (PDOException $e) {
@@ -69,7 +80,7 @@ try {
     </div>
     <div class="nobr">
         <p class="user_name"><?= htmlspecialchars($status['user_name'], ENT_QUOTES, 'UTF-8') ?></p>
-        <p class="role_name"><?= htmlspecialchars($role, ENT_QUOTES, 'UTF-8') ?></p>
+        <p class="role_name"><?= htmlspecialchars($current_role['role_name'], ENT_QUOTES, 'UTF-8') ?></p>
     </div>
     <div class="status">
         <p class="trust_level">信頼度：<?= htmlspecialchars($status['trust_level'], ENT_QUOTES, 'UTF-8') ?></p>
