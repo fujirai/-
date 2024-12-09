@@ -147,10 +147,10 @@ html, body {
 
 /* ゲームボタン */
 .game-button {
-    background-color: #e0f7fa;
-    border: 4px solid #1f7a1f;
+    background-color: rgba(0,0,0,0.7);
+    border: 1.5px solid #ffff;
     border-radius: 12px;
-    color: black;
+    color: white;
     font-size: 18px;
     padding: 15px 30px;
     cursor: pointer;
@@ -159,9 +159,9 @@ html, body {
 }
 
 .game-button:hover {
-    background-color: #45a049;
-    transform: scale(1.1);
-    box-shadow: 0px 0px 15px 5px rgba(0, 255, 0, 0.7);
+    background-color: rgba(86, 159, 215, 0.7);
+    color: #000;
+    border: 1.5px solid #ffff;
 }
 
 .game-button:active {
