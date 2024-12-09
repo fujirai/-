@@ -66,7 +66,7 @@ if ($source === 'gameend' && isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelCompany - 社長ランキング</title>
+    <title>HelCompany ランキング</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -86,7 +86,6 @@ if ($source === 'gameend' && isset($_SESSION['user_id'])) {
                 <tr>
                     <th>順位</th>
                     <th>名前</th>
-                    <th>役職</th>
                     <th>スコア</th>
                 </tr>
             </thead>
@@ -97,7 +96,6 @@ if ($source === 'gameend' && isset($_SESSION['user_id'])) {
                     echo "<tr class='highlight-user'>";
                     echo "<td>" . htmlspecialchars($userRank ?? '-') . "</td>"; // ユーザーの順位を表示
                     echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($userHighlight['user_name']) . "</td>";
-                    echo "<td>" . htmlspecialchars($userHighlight['role_name']) . "</td>";
                     echo "<td>" . htmlspecialchars($userHighlight['total_score']) . "</td>";
                     echo "</tr>";
                 }
@@ -108,7 +106,6 @@ if ($source === 'gameend' && isset($_SESSION['user_id'])) {
                     echo "<tr class='highlight-row'>";
                     echo "<td>" . $rank++ . "</td>";
                     echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($row['user_name']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['role_name'] ?? '役職なし') . "</td>";
                     echo "<td>" . htmlspecialchars($row['total_score']) . "</td>";
                     echo "</tr>";
                 }
@@ -124,7 +121,6 @@ if ($source === 'gameend' && isset($_SESSION['user_id'])) {
                     <tr>
                         <th>順位</th>
                         <th>名前</th>
-                        <th>役職</th>
                         <th>スコア</th>
                     </tr>
                 </thead>
@@ -135,7 +131,6 @@ if ($source === 'gameend' && isset($_SESSION['user_id'])) {
                         echo "<tr class='highlight-row'>";
                         echo "<td>" . $actualRank . "</td>";
                         echo "<td><i class='fas fa-user avatar'></i> " . htmlspecialchars($row['user_name']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['role_name'] ?? '役職なし') . "</td>";
                         echo "<td>" . htmlspecialchars($row['total_score']) . "</td>";
                         echo "</tr>";
                     }
