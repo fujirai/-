@@ -409,6 +409,7 @@ closeBtn.addEventListener('click', () => {
     setTimeout(() => {
         overlay.style.display = 'none';  // オーバーレイを非表示
         overlay.style.pointerEvents = 'none'; // オーバーレイを無効にする（背景が押せるように）
+        popup.scrollTop = 0; // スクロール位置を一番上に設定
         popup.style.display = 'none';    // ポップアップを非表示
     }, 500); // アニメーションの時間が終わるまで待機
 });
