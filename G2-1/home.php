@@ -6,6 +6,8 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../G1-0/index.html");
     exit;
 }
+// 動画ファイルのパス
+$videoFile = '82667-580050745.mp4';
 
 try {
     $conn = connectDB();
@@ -192,6 +194,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+        <!-- 動画を背景として表示 -->
+        <video class="video-background" autoplay loop muted>
+        <source src="<?php echo $videoFile; ?>" type="video/mp4">
+        お使いのブラウザは動画の再生に対応していません。
+    </video>
     <div class="card-container">
             <!-- ボタン -->
         <button id="openPopupBtn" class="start-button">ゲーム説明</button>
@@ -223,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
                             4ターム（社会人10年目）<br>
                             12ラウンド(4月~3月)<br>
         <h1>役職</h1>
-        <sapn>0点：ニート</span><br>
+        <span>0点：ニート</span><br>
         <sapn>25点：一般社員</span><br>
         <sapn>100点：主任</span><br>
         <sapn>170点：課長</span><br>

@@ -1,6 +1,7 @@
 body{
     background-color: black;
     overflow: hidden;
+    z-index: 1; /* 動画の上にコンテンツが表示される */
 }
 .card-container {
     font-family: Arial, sans-serif;
@@ -12,6 +13,17 @@ body{
     height: 100vh;
     margin: 0;
 }
+
+        /* 背景動画のスタイル */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* ビデオが全画面に収まるように */
+            z-index: -1; /* コンテンツが動画の上に表示されるように */
+        }
 
 .card {
     position: relative;
