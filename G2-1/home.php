@@ -193,9 +193,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
 </head>
 <body>
     <div class="card-container">
-        <!-- ボタン -->
+            <!-- ボタン -->
         <button id="openPopupBtn" class="start-button">ゲーム説明</button>
-
+        <form action="../G1-0/index.html" method="POST">
+            <button type="submit" name="start_event" class="modo">タイトルに戻る</button>
+        </form>
         <!-- オーバーレイ -->
         <div class="overlay" id="overlay"></div>
 
@@ -278,9 +280,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
             </div>
         </div>
         <button id="toggleButton" class="back-button">裏を見る</button>
-        <form action="../G1-0/index.html" method="POST">
-            <button type="submit" name="start_event" class="start-button">タイトルに戻る</button>
-        </form>
         <form action="start_event.php" method="POST">
             <button type="submit" name="start_event" class="start-button">ゲーム開始</button>
         </form>

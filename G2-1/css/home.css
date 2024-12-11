@@ -115,11 +115,26 @@ canvas#radarChart {
     margin: 10px;
     background-color: #9a2f2f;
     border-bottom: 5px solid #652222;
+    color: white;
 }
 
 .start-button{
+    padding: 10px 20px;
     margin: 10px;
+    font-size: 16px;
     border-bottom: 5px solid #868686;
+    cursor: pointer;
+}
+
+.modo {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    border-bottom: 5px solid #868686;
+    cursor: pointer;
 }
 
 /* ボタンのスタイル */
