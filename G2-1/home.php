@@ -236,7 +236,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
                     ・ニート、一般社員・・・・？<br>
                     ・主任、課長、部長 ・・・・？<br>
                     ・取締役、社長・・・・・・？<br>
-            <p style="color: red;"><重要>イベント発生中に、更新ボタンを押さないでください。</p>
+
+                <p><p style="color: red;"><ーーーーー重要ーーーーー></p>・イベント発生中に、更新ボタンを押さないでください。</p>
             <button class="close-btn" id="closeBtn">戻る</button><p></p>
         </div>
         <div class="card">
