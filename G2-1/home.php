@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
         お使いのブラウザは動画の再生に対応していません。
     </video>
     <div class="face">
-        <img src="..\Image\<?= htmlspecialchars($current_role['office_png']) ?>" alt="キャラクター" class="character-img">
+        <img src="..\Image\<?= htmlspecialchars($current_role['office_png']) ?>" alt="キャラクター" class="face">
     </div>
     <div class="card-container">
             <!-- ボタン -->

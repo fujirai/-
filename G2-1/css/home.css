@@ -77,6 +77,16 @@ body{
 .character-img{
     width: 100%;
 }
+.face{
+    position: absolute; /* 絶対位置に設定 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 中央に配置するための調整 */
+    /* width: 100px; 必要に応じて幅を設定 */
+    height: 100px; /* 必要に応じて高さを設定 */
+    margin: 10px;
+    top: 100px;
+    right: 660px;
+}
 .company {
     display: flex;
     margin-bottom: 5px;
@@ -177,13 +187,6 @@ canvas#radarChart {
     cursor: pointer;
 }
 
-.face{
-    margin: 10px;
-    position: absolute;
-    top: 60px;
-    right: 660px;
-    /* margin: 10px; */
-}
 
 /* ボタンのスタイル */
 #openPopupBtn {
