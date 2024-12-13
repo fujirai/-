@@ -199,9 +199,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
         <source src="<?php echo $videoFile; ?>" type="video/mp4">
         お使いのブラウザは動画の再生に対応していません。
     </video>
+    <div class="face">
+        <img src="..\Image\<?= htmlspecialchars($current_role['office_png']) ?>" alt="キャラクター" class="character-img">
+    </div>
     <div class="card-container">
             <!-- ボタン -->
-        <button id="openPopupBtn" class="start-button">ゲーム説明</button>
+        <button id="openPopupBtn" class="explanation">ゲーム説明</button>
         <form action="../G1-0/index.html" method="POST">
             <button type="submit" name="start_event" class="modo">タイトルに戻る</button>
         </form>
@@ -260,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
                     <div class="status">
                         <div class="name"><?php echo htmlspecialchars($user['user_name']); ?></div>
                         <div class="top-section">
-                            <div class="role"><?php echo htmlspecialchars($current_role['role_name']); ?></div>/
+                            <div class="role"><?php echo htmlspecialchars($current_role['role_name']); ?>/</div>
                             <div class="year"><?php echo $career['current_term']; ?>年目の<?php echo $career['current_months']; ?>月</div>
                         </div>
                         <div class="stats-character">

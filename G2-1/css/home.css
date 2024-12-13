@@ -14,21 +14,27 @@ body{
     margin: 0;
 }
 
-        /* 背景動画のスタイル */
-        .video-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* ビデオが全画面に収まるように */
-            z-index: -1; /* コンテンツが動画の上に表示されるように */
-        }
+.role, .year,.stats{
+    font-size: 20px;
+}
+
+/* 背景動画のスタイル */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ビデオが全画面に収まるように */
+    z-index: -1; /* コンテンツが動画の上に表示されるように */
+}
 
 .card {
-    position: relative;
-    width: 88vh;
-    height: 60vh;
+    position: absolute; /* 絶対位置に設定 */
+    left: 0; /* 左端に配置 */
+    transform: translateY(-50%); /* 上下中央に配置するための調整 */
+    width: 80vh;
+    height: 65vh;
     margin: 20px;
     transform-style: preserve-3d;
     transform: rotateY(0);
@@ -38,8 +44,8 @@ body{
 
 .front, .back {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     padding: 0;
     margin: 0;
     backface-visibility: hidden;
@@ -80,7 +86,7 @@ body{
 }
 .companyname {
     margin: 0;
-    font-size: 30px;
+    font-size: 35px;
     font-family: 'Franklin Gothic Medium', Arial, sans-serif;
 }
 .status{
@@ -128,9 +134,31 @@ canvas#radarChart {
     background-color: #9a2f2f;
     border-bottom: 5px solid #652222;
     color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 600px;
+    left: 300px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
 }
 
 .start-button{
+    position: absolute;
+    top: 300px;
+    right: 300px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    border-bottom: 5px solid #868686;
+    cursor: pointer;
+}
+
+/* 説明 */
+.explanation{
+    position: absolute;
+    top: 100px;
+    right: 300px;
     padding: 10px 20px;
     margin: 10px;
     font-size: 16px;
@@ -140,13 +168,21 @@ canvas#radarChart {
 
 .modo {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 500px;
+    right: 300px;
     padding: 10px 20px;
     margin: 10px;
     font-size: 16px;
     border-bottom: 5px solid #868686;
     cursor: pointer;
+}
+
+.face{
+    margin: 10px;
+    position: absolute;
+    top: 60px;
+    right: 660px;
+    /* margin: 10px; */
 }
 
 /* ボタンのスタイル */
