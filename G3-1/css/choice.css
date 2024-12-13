@@ -109,24 +109,39 @@ html, body {
     z-index: 9999;
 }
 
-.options button {
-    width: 200px auto;
-    margin: 8px 0;
-    padding: 8px 10px;
-    font-size: 18px;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: 1.5px solid #fff;
-    border-radius: 20px;
+/* ボタンの共通スタイル */
+button.option-button {
+    overflow: hidden;
+    padding: 1.5rem 6rem;
+    color: #fff;
+    background: #000;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.options button:hover {
-    background-color: rgba(86, 159, 215, 0.7);
-    color: #000;
-}
+    position: relative;
+    margin:2px;
+  }
+  
+  button.option-button span {
+    position: relative;
+    z-index: 1; /* 背景より上に表示するため */
+  }
+  
+  button.option-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #e47979;
+    z-index: 0; /* テキストの下に配置 */
+    transition: all 0.5s ease-in-out;
+    transform: translateX(-96%);
+  }
+  
+  button.option-button:hover:before {
+    transform: translateX(0%);
+  }
+  
 
 /* イベントタイトル */
 .fixed-title {
@@ -146,28 +161,67 @@ html, body {
 }
 
 /* ゲームボタン */
-.game-button {
-    background-color: rgba(0,0,0,0.7);
-    border: 1.5px solid #ffff;
-    border-radius: 12px;
-    color: white;
-    font-size: 18px;
-    padding: 15px 30px;
+/* ボタン全体のスタイル */
+button.game-button {
+    position: relative; /* 擬似要素の基準として必要 */
+    overflow: hidden;
+    padding: 1.5rem 6rem;
+    color: #fff;
+    background: #000;
+    border: none; /* デフォルトのボーダーを削除 */
+    border-radius: 0;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 10px;
-}
-
-.game-button:hover {
-    background-color: rgba(86, 159, 215, 0.7);
-    color: #000;
-    border: 1.5px solid #ffff;
-}
-
-.game-button:active {
-    transform: scale(0.95);
-    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.5);
-}
+    z-index: 0;
+    text-align: center;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* テキスト部分のスタイル */
+  button.game-button span {
+    position: relative;
+    z-index: 1; /* 擬似要素より上に表示 */
+    pointer-events: none; /* テキストをクリック不可にして干渉を防ぐ */
+  }
+  
+  /* ホバーエフェクトのスタイル（左から右） */
+  button.game-button:before {
+    position: absolute;
+    top: 0;
+    left: calc(-100% + 10px);
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: #094;
+    transition: all 0.5s ease-in-out;
+    transform: translateX(0) translateY(0);
+    z-index: 1;
+  }
+  
+  /* ホバーエフェクトのスタイル（右から左） */
+  button.game-button:after {
+    position: absolute;
+    top: 0;
+    right: calc(-100% + 10px);
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: #094;
+    transition: all 0.5s ease-in-out;
+    transform: translateX(0) translateY(0);
+    z-index: 1;
+  }
+  
+  /* ホバー時の効果 */
+  button.game-button:hover:before {
+    transform: translateX(50%) translateY(0);
+  }
+  
+  button.game-button:hover:after {
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  
 
 /* ボタンコンテナ */
 .modo, .nextTermButton {

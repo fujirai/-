@@ -119,7 +119,7 @@ try {
                 <div class="options">
                     <?php foreach ($choices as $choice): ?>
                         <button class="option-button" type="submit" name="choice_key" value="<?php echo htmlspecialchars($choice['choice_key'], ENT_QUOTES, 'UTF-8'); ?>">
-                            <?php echo htmlspecialchars($choice['choice_script'], ENT_QUOTES, 'UTF-8'); ?>
+                            <span><?php echo htmlspecialchars($choice['choice_script'], ENT_QUOTES, 'UTF-8'); ?></span>
                         </button>
                     <?php endforeach; ?>
                 </div>
@@ -130,15 +130,15 @@ try {
     <div id="modo" class="modo" style="display: <?php echo isset($choice_detail) ? 'block' : 'none'; ?>;">
         <?php if ($current_term == 4 && $current_month == 3): ?>
             <button id="endingButton" class="game-button" onclick="updateCareer('ending', '../G4-1/ending.php');">
-                <?php echo "エンディングへ"; ?>
+                <span><?php echo "エンディングへ"; ?></span>
             </button>
         <?php elseif ($current_term != 4 && $current_month == 3): ?>
             <button id="nextYearButton" class="game-button" onclick="updateCareer('next_term', 'term.php');">
-                <?php echo "1年を終える"; ?>
+                <span><?php echo "1年を終える"; ?></span>
             </button>
         <?php else: ?>
             <button id="backButton" class="game-button" onclick="updateCareer('back', '../G2-1/home.php');">
-                <?php echo "戻る"; ?>
+                <span><?php echo "戻る"; ?></span>
             </button>
         <?php endif; ?>
     </div>
