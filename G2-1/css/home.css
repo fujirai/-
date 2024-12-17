@@ -171,7 +171,7 @@ canvas#radarChart {
 /* タイトルへ戻る */
 .modo {
     position: absolute;
-    top: 100px;
+    top: 500px;
     right: 300px;
     padding: 10px 20px;
     margin: 10px;
@@ -185,7 +185,7 @@ canvas#radarChart {
 /* ゲーム説明 */
 .explanation{
     position: absolute;
-    top: 500px;
+    top: 100px;
     right: 300px;
     padding: 10px 20px;
     margin: 10px;
@@ -195,6 +195,7 @@ canvas#radarChart {
     background-color: #9a2f2f;
     color: white;
 }
+
 
 /* オーバーレイのスタイル */
 .overlay {
