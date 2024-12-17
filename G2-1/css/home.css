@@ -162,6 +162,8 @@ canvas#radarChart {
     font-size: 16px;
     border-bottom: 5px solid #868686;
     cursor: pointer;
+    background-color: #9a2f2f;
+    color: white;
 }
 
 /* 説明 */
@@ -174,6 +176,8 @@ canvas#radarChart {
     font-size: 16px;
     border-bottom: 5px solid #868686;
     cursor: pointer;
+    background-color: #9a2f2f;
+    color: white;
 }
 
 .modo {
@@ -185,6 +189,8 @@ canvas#radarChart {
     font-size: 16px;
     border-bottom: 5px solid #868686;
     cursor: pointer;
+    background-color: #9a2f2f;
+    color: white;
 }
 
 

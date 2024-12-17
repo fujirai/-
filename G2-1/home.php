@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
         <sapn>250点：部長</span><br>
         <sapn>400点：常務取締役</span><br>
         <sapn>420点：専務取締役</span><br>
-        <sapn>450点：代表取締役社長</span> 
+        <sapn>450点：代表取締役社長</span> <br>
                             （課長から条件あり） 
         <h1>エンディング</h1>
                     ・ニート、一般社員・・・・？<br>
