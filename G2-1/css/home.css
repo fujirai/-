@@ -139,6 +139,7 @@ canvas#radarChart {
     max-height: 100%; 
 }
 
+/* カードの裏・表を見るボタン */
 .back-button{
     margin: 10px;
     background-color: #9a2f2f;
@@ -153,6 +154,7 @@ canvas#radarChart {
     font-size: 16px;
 }
 
+/* ゲーム開始 */
 .start-button{
     position: absolute;
     top: 300px;
@@ -166,8 +168,8 @@ canvas#radarChart {
     color: white;
 }
 
-/* 説明 */
-.explanation{
+/* タイトルへ戻る */
+.modo {
     position: absolute;
     top: 100px;
     right: 300px;
@@ -180,7 +182,8 @@ canvas#radarChart {
     color: white;
 }
 
-.modo {
+/* ゲーム説明 */
+.explanation{
     position: absolute;
     top: 500px;
     right: 300px;
@@ -193,14 +196,6 @@ canvas#radarChart {
     color: white;
 }
 
-
-/* ボタンのスタイル */
-#openPopupBtn {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
 /* オーバーレイのスタイル */
 .overlay {
     display: none; /* 初期状態では隠しておく */
@@ -209,7 +204,7 @@ canvas#radarChart {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 1); /* 完全な黒 */
+    background-color: rgb(0, 0, 0); /* 完全な黒 */
     z-index: 1;
 }
 
@@ -231,14 +226,13 @@ canvas#radarChart {
     transform: translate(-50%, -60%) scale(0.8); /* 初期状態では縮小・少し上に */
     transition: all 0.5s ease-out; /* アニメーション */
 }
-
 /* ポップアップが表示されるときの状態 */
 .popup.show {
     opacity: 1; /* 不透明 */
     transform: translate(-50%, -50%) scale(1); /* 中央に戻し、サイズも正常に */
 }
 
-/* 戻るボタン */
+/* 戻るボタン(ゲーム説明) */
 .close-btn {
     padding: 10px 20px;
     font-size: 16px;
