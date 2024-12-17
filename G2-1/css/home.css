@@ -155,17 +155,27 @@ canvas#radarChart {
 }
 
 /* ゲーム開始 */
-.start-button{
+.start-button {
     position: absolute;
     top: 300px;
     right: 300px;
     padding: 10px 20px;
     margin: 10px;
-    font-size: 16px;
-    border-bottom: 5px solid #868686;
+    font-size: 18px;
+    background: linear-gradient(to right, #D3D3D3 50%, #9a2f2f 50%); /* 初期状態は赤 */
+    background-size: 200% 100%;
+    background-position: left bottom;
+    transition: background-position 0.5s ease, background-color 0.5s ease;
+    border: none;
+    color: black;
     cursor: pointer;
-    background-color: #9a2f2f;
+    border-bottom: 5px solid #868686;
+}
+
+.start-button:hover {
+    background-position: right bottom;
     color: white;
+    background-color: #0000ff; /* ホバー時に青に変わる */
 }
 
 /* タイトルへ戻る */
@@ -175,11 +185,20 @@ canvas#radarChart {
     right: 300px;
     padding: 10px 20px;
     margin: 10px;
-    font-size: 16px;
-    border-bottom: 5px solid #868686;
+    font-size: 18px;
+    background: linear-gradient(to right, #D3D3D3 50%, #9a2f2f 50%); /* 初期状態は赤 */
+    background-size: 200% 100%;
+    background-position: left bottom;
+    transition: background-position 0.5s ease, background-color 0.5s ease;
+    border: none;
+    color: black;
     cursor: pointer;
-    background-color: #9a2f2f;
+    border-bottom: 5px solid #868686;
+}
+.modo:hover {
+    background-position: right bottom;
     color: white;
+    background-color: #0000ff; /* ホバー時に青に変わる */
 }
 
 /* ゲーム説明 */
@@ -189,11 +208,20 @@ canvas#radarChart {
     right: 300px;
     padding: 10px 20px;
     margin: 10px;
-    font-size: 16px;
-    border-bottom: 5px solid #868686;
+    font-size: 18px;
+    background: linear-gradient(to right, #D3D3D3 50%, #9a2f2f 50%); /* 初期状態は赤 */
+    background-size: 200% 100%;
+    background-position: left bottom;
+    transition: background-position 0.5s ease, background-color 0.5s ease;
+    border: none;
+    color: black;
     cursor: pointer;
-    background-color: #9a2f2f;
+    border-bottom: 5px solid #868686;
+}
+.explanation:hover {
+    background-position: right bottom;
     color: white;
+    background-color: #0000ff; 
 }
 
 
