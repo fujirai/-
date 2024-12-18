@@ -423,6 +423,12 @@ closeBtn.addEventListener('click', () => {
         popup.style.display = 'none';    // ポップアップを非表示
     }, 500); // アニメーションの時間が終わるまで待機
 });
+    // ポイントリセット
+    unset($_SESSION['trust']);
+    unset($_SESSION['technical']);
+    unset($_SESSION['negotiation']);
+    unset($_SESSION['appearance']);
+    unset($_SESSION['popularity']);
     </script>
 </body>
 </html>
