@@ -96,6 +96,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choice_key'])) {
         // 選択肢の詳細をセッションに保存
         $_SESSION['choice_detail'] = $point['choice_detail'];
 
+        // ポイント取得
+        $_SESSION['trust'] = $point['event_trust'];
+        $_SESSION['technical'] = $point['event_technical'];
+        $_SESSION['negotiation'] = $point['event_negotiation'];
+        $_SESSION['appearance'] = $point['event_appearance'];
+        $_SESSION['popularity'] = $point['event_popularity'];
+
         // choice.php にリダイレクト
         header("Location: choice.php");
         exit;

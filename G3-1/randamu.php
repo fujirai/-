@@ -17,6 +17,20 @@ try {
         throw new Exception("イベント情報が見つかりません。");
     }
     $event = $_SESSION['event'];
+    $event_id = $event['event_id'];
+
+    // イベントポイント取得処理
+    $event_query = "SELECT event_trust, event_technical, event_negotiation,
+                    event_appearance, event_popularity
+                    FROM Point p
+                    WHERE p.event_id = :event_id";
+    $event_stmt = $conn->prepare($event_query);
+    $event_stmt->execute([':event_id' => $event_id]);
+
+    // 結果を取得
+    $event_status = $event_stmt->fetch(PDO::FETCH_ASSOC);
+
+
     // ユーザーデータとステータスを取得
     $query = "SELECT User.user_name, Status.trust_level, Status.technical_skill, 
                      Status.negotiation_skill, Status.appearance, Status.popularity 
@@ -61,17 +75,93 @@ try {
     <div class="scene-image">
         <img src="..\Image\<?= htmlspecialchars($event['event_scene']) ?>" loading="eager" alt="背景" class="scene-img">
     </div>
-    <!-- ステイタス表示と変動 -->
+    <!-- ステータス表示 -->
     <div id="popup" class="popup">
         <h2><p><span class="rotate-text">ステータス</span></p></h2>
         <p><h1><?php echo htmlspecialchars($user['user_name']); ?></h1></p>
-        <p><h3>
-            信頼度：<span><?php echo $user['trust_level']; ?></span> <br>
-            技術力：<span><?php echo $user['technical_skill']; ?></span> <br>
-            交渉力：<span><?php echo $user['negotiation_skill']; ?></span> <br>
-            容姿：<span><?php echo $user['appearance']; ?></span> <br>
-            好感度：<span><?php echo $user['popularity']; ?></span> <br>
-        </h3></p>
+        <p>
+        <h3>
+            信頼度：<span><?php echo $user['trust_level']; ?></span>
+            <?php
+            if($event_status['event_trust']>0){
+                echo '<span style = "color : #b22222;">▲</span>';
+                echo '<span style = "color : #b22222;">',$event_status['event_trust'],'</span>','<br>';
+            }
+            else if($event_status['event_trust']==0){
+                echo '▲';
+                echo $event_status['event_trust'],'<br>';
+            }
+            else{
+                echo '<span style = "color : #4682b4;">▼</span>';
+                echo '<span style = "color : #4682b4;">',$event_status['event_trust'],'</span>','<br>';
+            }
+            ?>
+
+            技術力：<span><?php echo $user['technical_skill']; ?></span>
+            <?php
+            if($event_status['event_technical']>0){
+                echo '<span style = "color : #b22222;">▲</span>';
+                echo '<span style = "color : #b22222;">',$event_status['event_technical'],'</span>','<br>';
+            }
+            else if($event_status['event_technical']==0){
+                echo '▲';
+                echo $event_status['event_technical'],'<br>';
+            }
+            else{
+                echo '<span style = "color : #4682b4;">▼</span>';
+                echo '<span style = "color : #4682b4;">',$event_status['event_technical'],'</span>','<br>';
+            }
+            ?>
+
+            交渉力：<span><?php echo $user['negotiation_skill']; ?></span>
+            <?php
+            if($event_status['event_negotiation']>0){
+                echo '<span style = "color : #b22222;">▲</span>';
+                echo '<span style = "color : #b22222;">',$event_status['event_negotiation'],'</span>','<br>';
+            }
+            else if($event_status['event_negotiation']==0){
+                echo '▲';
+                echo $event_status['event_negotiation'],'<br>';
+            }
+            else{
+                echo '<span style = "color : #4682b4;">▼</span>';
+                echo '<span style = "color : #4682b4;">',$event_status['event_negotiation'],'</span>','<br>';
+            }
+            ?>
+
+            容姿：<span><?php echo $user['appearance']; ?></span>
+            <?php
+            if($event_status['event_appearance']>0){
+                echo '<span style = "color : #b22222;">▲</span>';
+                echo '<span style = "color : #b22222;">',$event_status['event_appearance'],'</span>','<br>';
+            }
+            else if($event_status['event_appearance']==0){
+                echo '▲';
+                echo $event_status['event_appearance'],'<br>';
+            }
+            else{
+                echo '<span style = "color : #4682b4;">▼</span>';
+                echo '<span style = "color : #4682b4;">',$event_status['event_appearance'],'</span>','<br>';
+            }
+            ?>
+
+            好感度：<span><?php echo $user['popularity']; ?></span>
+            <?php
+            if($event_status['event_popularity']>0){
+                echo '<span style = "color : #b22222;">▲</span>';
+                echo '<span style = "color : #b22222;">',$event_status['event_popularity'],'</span>','<br>';
+            }
+            else if($event_status['event_popularity']==0){
+                echo '▲';
+                echo $event_status['event_popularity'],'<br>';
+            }
+            else{
+                echo '<span style = "color : #4682b4;">▼</span>';
+                echo '<span style = "color : #4682b4;">',$event_status['event_popularity'],'</span>','<br>';
+            }
+            ?>
+        </h3>
+        </p>
     </div>
     <div class="fixed-title">
             <h1>イベント:<?php echo htmlspecialchars($event['event_name'], ENT_QUOTES, 'UTF-8'); ?></h1>
@@ -82,12 +172,12 @@ try {
         </h2>
     </div>
 
-<!-- 通常時の戻るボタン -->
-<?php if (!($current_term == 4 && $current_month == 3)): ?>
-    <div id="modo" class="modo" style="display: none;">
-        <button id="backButton" class="game-button">戻る</button>
-    </div>
-<?php endif; ?>
+    <!-- 通常時の戻るボタン -->
+    <?php if (!($current_term == 4 && $current_month == 3)): ?>
+        <div id="modo" class="modo" style="display: none;">
+            <button id="backButton" class="game-button">戻る</button>
+        </div>
+    <?php endif; ?>
 
     <!-- 4ターム目の3月用エンディングボタン -->
     <?php if ($current_term == 4 && $current_month == 3): ?>

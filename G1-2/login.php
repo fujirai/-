@@ -105,7 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <!-- 既にログインしていた場合のメッセージ -->
         <div id="loginMessage" style="display:none; color:red; font-size: 14px; margin-top: 10px;">
-            既にログインしています。
+            既にログインしています。</br>
+            再度ログインしたい場合はログアウトしてください。</br>
         </div>
 
         <?php if ($errorMessage): ?>

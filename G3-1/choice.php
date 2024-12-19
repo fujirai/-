@@ -85,13 +85,101 @@ try {
     <div id="popup" class="popup">
         <h2><span class="rotate-text">ステータス</span></h2>
         <p><h2><?php echo htmlspecialchars($user['user_name'], ENT_QUOTES, 'UTF-8'); ?></h2></p>
-        <p><h3>
+        <p>
+        <h3>
+            <!-- 選択前のステータス表示 -->
+            <?php if(!isset($_SESSION['trust'])){ ?>
             信頼度：<?php echo $user['trust_level']; ?><br>
             技術力：<?php echo $user['technical_skill']; ?><br>
             交渉力：<?php echo $user['negotiation_skill']; ?><br>
             容姿：<?php echo $user['appearance']; ?><br>
             好感度：<?php echo $user['popularity']; ?><br>
-        </h3></p>
+            <?php } ?>
+
+            <!-- 選択後のステータス表示 -->
+            <?php if(isset($_SESSION['trust'])){ ?>
+            信頼度：<?php echo $user['trust_level']; ?>
+            <?php
+                if($_SESSION['trust']>0){
+                    echo '<span style = "color : #b22222;">▲</span>';
+                    echo '<span style = "color : #b22222;">',$_SESSION['trust'],'</span>','<br>';
+                }
+                else if($_SESSION['trust']==0){
+                    echo '▲';
+                    echo $_SESSION['trust'],'<br>';
+                }
+                else{
+                    echo '<span style = "color : #4682b4;">▼</span>';
+                    echo '<span style = "color : #4682b4;">',$_SESSION['trust'],'</span>','<br>';
+                }
+            ?>
+
+            技術力：<?php echo $user['technical_skill']; ?>
+            <?php
+                if($_SESSION['technical']>0){
+                    echo '<span style = "color : #b22222;">▲</span>';
+                    echo '<span style = "color : #b22222;">',$_SESSION['technical'],'</span>','<br>';
+                }
+                else if($_SESSION['technical']==0){
+                    echo '▲';
+                    echo $_SESSION['technical'],'<br>';
+                }
+                else{
+                    echo '<span style = "color : #4682b4;">▼</span>';
+                    echo '<span style = "color : #4682b4;">',$_SESSION['technical'],'</span>','<br>';
+                }
+            ?>
+
+            交渉力：<?php echo $user['negotiation_skill']; ?>
+            <?php
+                if($_SESSION['negotiation']>0){
+                    echo '<span style = "color : #b22222;">▲</span>';
+                    echo '<span style = "color : #b22222;">',$_SESSION['negotiation'],'</span>','<br>';
+                }
+                else if($_SESSION['negotiation']==0){
+                    echo '▲';
+                    echo $_SESSION['negotiation'],'<br>';
+                }
+                else{
+                    echo '<span style = "color : #4682b4;">▼</span>';
+                    echo '<span style = "color : #4682b4;">',$_SESSION['negotiation'],'</span>','<br>';
+                }
+            ?>
+
+            容姿：<?php echo $user['appearance']; ?>
+            <?php
+                if($_SESSION['appearance']>0){
+                    echo '<span style = "color : #b22222;">▲</span>';
+                    echo '<span style = "color : #b22222;">',$_SESSION['appearance'],'</span>','<br>';
+                }
+                else if($_SESSION['appearance']==0){
+                    echo '▲';
+                    echo $_SESSION['appearance'],'<br>';
+                }
+                else{
+                    echo '<span style = "color : #4682b4;">▼</span>';
+                    echo '<span style = "color : #4682b4;">',$_SESSION['appearance'],'</span>','<br>';
+                }
+            ?>
+
+            好感度：<?php echo $user['popularity']; ?>
+            <?php
+                if($_SESSION['popularity']>0){
+                    echo '<span style = "color : #b22222;">▲</span>';
+                    echo '<span style = "color : #b22222;">',$_SESSION['popularity'],'</span>','<br>';
+                }
+                else if($_SESSION['popularity']==0){
+                    echo '▲';
+                    echo $_SESSION['popularity'],'<br>';
+                }
+                else{
+                    echo '<span style = "color : #4682b4;">▼</span>';
+                    echo '<span style = "color : #4682b4;">',$_SESSION['popularity'],'</span>','<br>';
+                }
+            ?>
+            <?php } ?>
+        </h3>
+        </p>
         </div>
 
         <div class="fixed-title">
@@ -119,7 +207,7 @@ try {
                 <div class="options">
                     <?php foreach ($choices as $choice): ?>
                         <button class="option-button" type="submit" name="choice_key" value="<?php echo htmlspecialchars($choice['choice_key'], ENT_QUOTES, 'UTF-8'); ?>">
-                            <span><?php echo htmlspecialchars($choice['choice_script'], ENT_QUOTES, 'UTF-8'); ?></span>
+                            <?php echo htmlspecialchars($choice['choice_script'], ENT_QUOTES, 'UTF-8'); ?>
                         </button>
                     <?php endforeach; ?>
                 </div>
@@ -130,15 +218,15 @@ try {
     <div id="modo" class="modo" style="display: <?php echo isset($choice_detail) ? 'block' : 'none'; ?>;">
         <?php if ($current_term == 4 && $current_month == 3): ?>
             <button id="endingButton" class="game-button" onclick="updateCareer('ending', '../G4-1/ending.php');">
-                <span><?php echo "エンディングへ"; ?></span>
+                <?php echo "エンディングへ"; ?>
             </button>
         <?php elseif ($current_term != 4 && $current_month == 3): ?>
             <button id="nextYearButton" class="game-button" onclick="updateCareer('next_term', 'term.php');">
-                <span><?php echo "1年を終える"; ?></span>
+                <?php echo "1年を終える"; ?>
             </button>
         <?php else: ?>
             <button id="backButton" class="game-button" onclick="updateCareer('back', '../G2-1/home.php');">
-                <span><?php echo "戻る"; ?></span>
+                <?php echo "戻る"; ?>
             </button>
         <?php endif; ?>
     </div>
