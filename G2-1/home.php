@@ -140,6 +140,12 @@ try {
 
     // デフォルト値を設定
 $redirect_url = null;
+    // ポイントリセット
+    unset($_SESSION['trust']);
+    unset($_SESSION['technical']);
+    unset($_SESSION['negotiation']);
+    unset($_SESSION['appearance']);
+    unset($_SESSION['popularity']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_event'])) {
     $current_term = $career['current_term'];
@@ -423,12 +429,7 @@ closeBtn.addEventListener('click', () => {
         popup.style.display = 'none';    // ポップアップを非表示
     }, 500); // アニメーションの時間が終わるまで待機
 });
-    // ポイントリセット
-    unset($_SESSION['trust']);
-    unset($_SESSION['technical']);
-    unset($_SESSION['negotiation']);
-    unset($_SESSION['appearance']);
-    unset($_SESSION['popularity']);
+
     </script>
 </body>
 </html>
